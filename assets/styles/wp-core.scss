@@ -1,0 +1,196 @@
+/* =WordPress Core
+-------------------------------------------------------------- */
+
+/* TODO: see what we want to change in these
+ * cannot delete - theme validation looks for these classes
+ */
+
+.alignnone {
+    // margin: 5px 20px 20px 0;
+}
+
+.alignleft {
+  display: inline;
+  float: left;
+  margin-right: $global-padding*1.5;
+}
+.alignright {
+  display: inline;
+  float: right;
+  margin-left: $global-padding*1.5;
+}
+.aligncenter, div.aligncenter {
+  clear: both;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+a img.alignleft,
+a img.alignright,
+a img.aligncenter,
+a img.alignnone {
+  margin-bottom: $global-padding*1.5;
+  float: none;
+}
+
+
+p img,
+.wp-caption {
+  margin-top: 0.4em;
+  max-width: 100%;
+}
+.wp-caption {
+  margin-bottom: $global-padding*1.5;
+}
+.wp-caption img {
+  display: block;
+  margin: 0;
+  max-width: 100%;
+}
+.wp-caption .wp-caption-text {
+  color: $dark-gray;
+  // font-family: $uw-serif-font;
+  font-size: 1rem;
+  line-height: 1.4;
+  padding: 0;
+  margin: .5rem 0 0;
+}
+
+.wp-caption.alignnone {
+    // margin: 5px 20px 20px 0;
+}
+
+.wp-caption.alignleft {
+  float: none;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+.wp-caption.alignright {
+  float: none;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+@include breakpoint(rem-calc(500)) {
+  a img.alignleft {
+    float: left;
+  }
+  a img.alignright {
+    float: right;
+  }
+  .wp-caption.alignleft {
+    float: left;
+    margin-right: $global-padding*1.5;
+    display: inline;
+  }
+  .wp-caption.alignright {
+    float: right;
+    margin-left: $global-padding*1.5;
+    display: inline;
+  }
+}
+
+
+/* Text meant only for screen readers. */
+.screen-reader-text {
+	clip: rect(1px, 1px, 1px, 1px);
+	position: absolute !important;
+	height: 1px;
+	width: 1px;
+	overflow: hidden;
+}
+
+.screen-reader-text:focus {
+	background-color: #f1f1f1;
+	border-radius: 3px;
+	box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
+	clip: auto !important;
+	color: #21759b;
+	display: block;
+	font-size: 14px;
+	font-size: 0.875rem;
+	font-weight: bold;
+	height: auto;
+	left: 5px;
+	line-height: normal;
+	padding: 15px 23px 14px;
+	text-decoration: none;
+	top: 5px;
+	width: auto;
+	z-index: 100000; /* Above WP toolbar. */
+}
+
+// Recommended to add per: https://codex.wordpress.org/Content_Width
+.size-auto,
+.size-full,
+.size-large,
+.size-medium,
+.size-thumbnail {
+  max-width: 100%;
+  height: auto;
+}
+
+// these are all used in files. re-visit later to see if we need to do
+// any cleanup here
+.content-area {
+
+}
+.page-header {
+
+}
+.page-title {
+
+}
+.no-results {
+
+}
+.not-found {
+
+}
+.error-404 {
+
+}
+.entry-header {
+
+}
+.entry-title {
+
+}
+.entry-content {
+
+}
+.entry-footer {
+
+}
+.edit-link {
+
+}
+.site-header-main {
+
+}
+.site-main {
+
+}
+.taxonomy-description {
+
+}
+.site-footer {
+
+}
+.site {
+
+}
+.site-inner {
+
+}
+.meta-nav {
+
+}
+
+// added per theme check run by Nick on 10/13/16
+.gallery-caption, .bypostauthor {
+  font-family: $uw-sans-serif-font;
+}

@@ -1,0 +1,47 @@
+// responsive embeds
+ 
+.uw-oembed {
+  text-align: center;
+}
+.uw-oembed iframe {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.uw-oembed-video { 
+  position: relative; 
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  max-width: 100%;
+  height: auto;
+  &.uw-oembed-video-4x3 {
+    padding-bottom: 75%;
+  }
+}
+
+.uw-oembed-video iframe,
+.uw-oembed-video object,
+.uw-oembed-video embed { 
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.uw-oembed-soundcloud { 
+  position: relative; 
+  padding-bottom: 80%;
+  height: 0;
+  overflow: hidden;
+  max-width: 100%;
+  height: auto;
+}
+.uw-oembed-soundcloud iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}

@@ -1,0 +1,46 @@
+.uw-content-box {
+  background-color: $body-background;
+  padding: $global-padding*2.5 $global-padding*4;
+  border-bottom: 4px solid $primary-color;
+  &.uw-content-box-bleed { // need an visual example for bleed
+    padding: 0 0 1.5rem 0;
+    > * {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+    > .bleed {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+  + .uw-content-box { // stacked content boxed have vertical spacing
+    margin-top: 3rem;
+  }
+  p:last-child() {
+    margin-bottom: 0;
+  }
+  // @include breakpoint(medium) {
+  //   border-right: 1px solid $light-gray;
+  // }
+}
+.uw-column {
+  &.narrow-column, &.three-column {
+    .uw-content-box {
+      padding: $global-padding*2 $global-padding*2.5;
+    }
+  }
+}
+
+.uw-content-box-header {
+//   font-size: 1.2rem;
+  margin-top: 0;
+  color: $dark-gray;
+  &.uw-mini-bar {
+    margin-top: 1rem;
+  }
+}
+
+// if the body bg color is light gray, set the box bg color to white
+body.uw-light-gray-bg .uw-content-box {
+  background-color: $white;
+}

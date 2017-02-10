@@ -1,0 +1,333 @@
+{
+    "key": "group_5743582783e2a",
+    "title": "Hero Content Area",
+    "fields": [
+        {
+            "key": "field_574358326cf6f",
+            "label": "Hero Content Area",
+            "name": "hero_content_area",
+            "type": "flexible_content",
+            "instructions": "Hero carousel Instructions, describe this content area",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "button_label": "Add Hero Content",
+            "min": "",
+            "max": 1,
+            "layouts": [
+                {
+                    "key": "57435e6f48f3a",
+                    "name": "image_carousel",
+                    "label": "Image Carousel",
+                    "display": "block",
+                    "sub_fields": [
+                        {
+                            "key": "field_57435e8448f3b",
+                            "label": "Carousel Creation",
+                            "name": "carousel_creation",
+                            "type": "repeater",
+                            "instructions": "carousel instructions, point out image best practices etc.",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "collapsed": "field_5743679337298",
+                            "min": 1,
+                            "max": "",
+                            "layout": "table",
+                            "button_label": "Add Image",
+                            "sub_fields": [
+                                {
+                                    "key": "field_5743679337298",
+                                    "label": "Carousel Images",
+                                    "name": "carousel_images",
+                                    "type": "image",
+                                    "instructions": "",
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "return_format": "id",
+                                    "preview_size": "large",
+                                    "library": "all",
+                                    "min_width": "",
+                                    "min_height": "",
+                                    "min_size": "",
+                                    "max_width": "",
+                                    "max_height": "",
+                                    "max_size": "",
+                                    "mime_types": ""
+                                }
+                            ]
+                        }
+                    ],
+                    "min": "",
+                    "max": ""
+                },
+                {
+                    "key": "5744992b3aa3d",
+                    "name": "single_image",
+                    "label": "Single Image",
+                    "display": "block",
+                    "sub_fields": [
+                        {
+                            "key": "field_5762b276aedd4",
+                            "label": "Single Image Options",
+                            "name": "add_inset_content",
+                            "type": "radio",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": "single-image-options"
+                            },
+                            "choices": {
+                                "Single Image": "Single Image",
+                                "Single Image with Featured Content Inset": "Single Image with Featured Content Inset"
+                            },
+                            "other_choice": 0,
+                            "save_other_choice": 0,
+                            "default_value": "",
+                            "layout": "horizontal",
+                            "allow_null": 0,
+                            "return_format": "value"
+                        },
+                        {
+                            "key": "field_574499333aa3e",
+                            "label": "The Image",
+                            "name": "the_image",
+                            "type": "image",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "return_format": "id",
+                            "preview_size": "large",
+                            "library": "all",
+                            "min_width": "",
+                            "min_height": "",
+                            "min_size": "",
+                            "max_width": "",
+                            "max_height": "",
+                            "max_size": "",
+                            "mime_types": ""
+                        },
+                        {
+                            "key": "field_5762c08c8f53c",
+                            "label": "Inset Options",
+                            "name": "",
+                            "type": "message",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": [
+                                [
+                                    {
+                                        "field": "field_5762b276aedd4",
+                                        "operator": "==",
+                                        "value": "Single Image with Featured Content Inset"
+                                    }
+                                ]
+                            ],
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "message": "The inset creates an overlay that consists of an image and text and can link to an external URL. Rather than adding the content yourself, you can link this area to an existing page or post, however you will need to fill in the excerpt for any post\/page being displayed. Also remember that space is limited and text will be truncated if too much is entered.",
+                            "new_lines": "wpautop",
+                            "esc_html": 0
+                        },
+                        {
+                            "key": "field_576009f0f9cc2",
+                            "label": "Auto-fill inset with details from an existing page or post?",
+                            "name": "use_post_object",
+                            "type": "true_false",
+                            "instructions": "This will only pull in the title and excerpt from a page or post and link to it.",
+                            "required": 0,
+                            "conditional_logic": [
+                                [
+                                    {
+                                        "field": "field_5762b276aedd4",
+                                        "operator": "==",
+                                        "value": "Single Image with Featured Content Inset"
+                                    }
+                                ]
+                            ],
+                            "wrapper": {
+                                "width": 50,
+                                "class": "",
+                                "id": ""
+                            },
+                            "message": "Auto-fill from site",
+                            "default_value": 0
+                        },
+                        {
+                            "key": "field_57600a6bf9cc3",
+                            "label": "Inset Image",
+                            "name": "inset_image",
+                            "type": "image",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": [
+                                [
+                                    {
+                                        "field": "field_5762b276aedd4",
+                                        "operator": "==",
+                                        "value": "Single Image with Featured Content Inset"
+                                    }
+                                ]
+                            ],
+                            "wrapper": {
+                                "width": 50,
+                                "class": "",
+                                "id": ""
+                            },
+                            "return_format": "id",
+                            "preview_size": "uw-hero-inset",
+                            "library": "all",
+                            "min_width": "",
+                            "min_height": "",
+                            "min_size": "",
+                            "max_width": "",
+                            "max_height": "",
+                            "max_size": "",
+                            "mime_types": ""
+                        },
+                        {
+                            "key": "field_57600c47f9cc6",
+                            "label": "Post or Page to Show",
+                            "name": "inset_post_object",
+                            "type": "post_object",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": [
+                                [
+                                    {
+                                        "field": "field_5762b276aedd4",
+                                        "operator": "==",
+                                        "value": "Single Image with Featured Content Inset"
+                                    },
+                                    {
+                                        "field": "field_576009f0f9cc2",
+                                        "operator": "==",
+                                        "value": "1"
+                                    }
+                                ]
+                            ],
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "post_type": [],
+                            "taxonomy": [],
+                            "allow_null": 0,
+                            "multiple": 0,
+                            "return_format": "object",
+                            "ui": 1
+                        },
+                        {
+                            "key": "field_57600acaf9cc4",
+                            "label": "Inset Text (Limited to 155 characters)",
+                            "name": "inset_text",
+                            "type": "textarea",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": [
+                                [
+                                    {
+                                        "field": "field_5762b276aedd4",
+                                        "operator": "==",
+                                        "value": "Single Image with Featured Content Inset"
+                                    },
+                                    {
+                                        "field": "field_576009f0f9cc2",
+                                        "operator": "!=",
+                                        "value": "1"
+                                    }
+                                ]
+                            ],
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "placeholder": "",
+                            "maxlength": 155,
+                            "rows": "",
+                            "new_lines": "wpautop",
+                            "readonly": 0,
+                            "disabled": 0
+                        },
+                        {
+                            "key": "field_57600c08f9cc5",
+                            "label": "Inset Link External URL",
+                            "name": "inset_link",
+                            "type": "url",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": [
+                                [
+                                    {
+                                        "field": "field_5762b276aedd4",
+                                        "operator": "==",
+                                        "value": "Single Image with Featured Content Inset"
+                                    },
+                                    {
+                                        "field": "field_576009f0f9cc2",
+                                        "operator": "!=",
+                                        "value": "1"
+                                    }
+                                ]
+                            ],
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "placeholder": ""
+                        }
+                    ],
+                    "min": "",
+                    "max": ""
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "page"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "acf_after_title",
+    "style": "seamless",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": 1,
+    "description": "",
+    "modified": 1481679848
+}

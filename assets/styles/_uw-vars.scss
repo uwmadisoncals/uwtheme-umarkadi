@@ -1,0 +1,31 @@
+// colors
+$uw-red: #c5050c !default;
+$uw-red-dark: #9b0000 !default;
+$uw-gray-lightest: #e4e4e4 !default;
+$uw-gray-light: #cfcfcf !default;
+$uw-gray-medium: #646569 !default;
+$uw-gray-darker: #494949 !default;
+$uw-gray-darkest: #282728 !default;
+$uw-white: #fff !default;
+$uw-black: #000 !default;
+
+//background colors
+$uw-page-bg: #f7f7f7 !default;
+$uw-background-gray: #f7f7f7 !default;
+$uw-background-blue-gray: #dadfe1 !default;
+
+//text
+$uw-text: #494949 !default;
+
+// link/anchor color
+$uw-anchor-color: #0479a8 !default;
+
+// fonts
+$uw-sans-serif-font: "Verlag", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$uw-display-font: "Vitesse", Georgia,"Times New Roman",Times,serif !default;
+$uw-serif-font: Georgia,Times New Roman,Times,serif !default;
+
+// added variables: UW-Madison-specific colors
+$lightest-gray: $uw-background-gray !default;
+$darkest-gray: $uw-gray-darkest !default;
+$blue-gray: $uw-background-blue-gray !default;

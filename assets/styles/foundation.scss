@@ -1,0 +1,102 @@
+
+$global-flexbox: true;
+
+//Reset
+@import 'uw-components/uw_reset';
+
+// Sass utilities
+@import '../../node_modules/foundation-sites/scss/util/util';
+
+// UW varaibles
+@import 'uw-vars';
+
+// Custom Settings file
+@import 'settings';
+
+// Child theme settings file
+@import 'settings-child';
+
+@import '../../node_modules/foundation-sites/scss/foundation';
+
+// Comment out any unused modules then remove the .js include as well in manifest.js
+@include foundation-global-styles;
+@include foundation-flex-grid;
+
+@include foundation-typography;
+@include foundation-forms;
+@include foundation-button;
+@include foundation-accordion;
+@include foundation-accordion-menu;
+//@include foundation-badge;
+@include foundation-breadcrumbs;
+@include foundation-button-group;
+@include foundation-callout;
+@include foundation-close-button;
+@include foundation-menu;
+@include foundation-menu-icon;
+@include foundation-drilldown-menu;
+@include foundation-dropdown;
+@include foundation-dropdown-menu;
+@include foundation-flex-video;
+@include foundation-label;
+@include foundation-media-object;
+@include foundation-off-canvas;
+//@include foundation-orbit;
+@include foundation-pagination;
+//@include foundation-progress-bar;
+//@include foundation-slider;
+//@include foundation-sticky;
+@include foundation-reveal;
+//@include foundation-switch;
+@include foundation-table;
+@include foundation-tabs;
+//@include foundation-thumbnail;
+//@include foundation-title-bar;
+//@include foundation-tooltip;
+//@include foundation-top-bar;
+@include foundation-visibility-classes;
+//@include foundation-float-classes;
+
+@include foundation-flex-classes;
+
+// UW colors helper styles
+@import 'uw-colors';
+
+// All custom styles that couldn't be edited in the settings file
+@import 'uw-components/uw_accordion';
+@import 'uw-components/uw_alternating_content_box';
+@import 'uw-components/uw_button';
+@import 'uw-components/uw_carousel';
+@import 'uw-components/uw_content_box';
+@import 'uw-components/uw_faculty_staff';
+@import 'uw-components/uw_featured-content';
+@import 'uw-components/uw_footer';
+@import 'uw-components/uw_form';
+@import 'uw-components/uw_global_bar';
+@import 'uw-components/uw_header';
+@import 'uw-components/uw_hero';
+@import 'uw-components/uw_image_gallery';
+@import 'uw-components/uw_link-list';
+@import 'uw-components/uw_mini_bar';
+@import 'uw-components/uw_nav_menu';
+@import 'uw-components/uw_oembed.scss';
+@import 'uw-components/uw_pagination';
+@import 'uw-components/uw_search_input';
+@import 'uw-components/uw_tabbed_content';
+@import 'uw-components/uw_typography';
+@import 'uw-components/uw_events';
+@import 'uw-components/uw_utils';
+@import 'custom';
+
+// Customized Slick slider include to add to CSS bundle.
+@import 'slick';
+// @import 'slick-theme';
+
+// Magnific Popup
+@import 'magnific-popup';
+
+
+// Base WordPress styles mainly for passing theme validator
+@import 'wp-core';
+@import 'wp-posts';
+@import 'wp-comments';

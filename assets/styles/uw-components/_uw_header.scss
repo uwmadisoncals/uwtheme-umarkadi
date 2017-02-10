@@ -1,0 +1,124 @@
+.uw-header {
+  display: flex;
+  justify-content: center;
+  background-color: white;
+  &.uw-has-search {
+    .uw-header-crest-title {
+      width: auto;
+      width: 100%;
+      padding-left: 1rem;
+      @include breakpoint(medium) {
+        width: 74%;
+        padding-right: 5%;
+      }
+    }
+    .uw-header-search {
+      padding-right: 1rem;
+      @include breakpoint(medium) {
+        width: 21%;
+      }
+    }
+  }
+}
+
+.uw-header-container {
+  padding: 1rem 0 .5rem;
+  flex: 0 0 100%;
+  max-width: 100%;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  @include breakpoint(medium) {
+    max-width: $global-width;
+  }
+}
+
+.uw-header-crest-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.uw-header-crest {
+  flex-basis: auto;
+  margin-right: .5rem;
+}
+.uw-crest-svg,
+.uw-header-crest svg {
+  width: 2.5rem;
+  height: 3.878125rem;
+}
+.uw-title-tagline {
+  flex-basis: 100%;
+}
+.uw-site-title {
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 1.25rem;
+  line-height: 1.1;
+  margin-top: 0;
+  margin-bottom: .1rem;
+  a {
+    color: $uw-red;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+  &.uw-red-title a {
+    color: $uw-red;
+  }
+  &.uw-dark-gray-title a {
+    color: $dark-gray;
+  }
+  &.uw-white-title a {
+    color: $white;
+  }
+}
+.uw-site-tagline {
+  font-size: .95rem;
+  font-weight: 700;
+  color: $dark-gray;
+  text-transform: none;
+  margin: .2rem 0 0 .1rem;
+  line-height: 1.2;
+}
+@include breakpoint(27.5em) {
+  .uw-site-title {
+    font-size: 1.5rem;
+  }
+}
+@include breakpoint(40em) {
+  .uw-header-crest {
+    margin-right: .8rem;
+    img {
+      width: 2.6rem;
+    }
+  }
+  .uw-site-title {
+    font-size: 1.7rem;
+  }
+  .uw-site-tagline {
+    margin: -.1rem 0 0 .2rem;
+  }
+}
+@include breakpoint(64em) {
+  .uw-header-crest {
+    img {
+      width: 2.8rem;
+    }
+  }
+  .uw-site-title {
+    font-size: 1.8rem;
+  }
+}
+@include breakpoint(75em) {
+  .uw-header-crest {
+    img {
+      width: 3rem;
+    }
+  }
+  .uw-site-title {
+    font-size: 2rem;
+  }
+}

@@ -1,0 +1,64 @@
+.uw-events {
+  list-style: none;
+  margin-left: 0;
+  margin-top: 0;
+}
+.uw-event-month {
+  color: $primary-color;
+  text-transform: uppercase;
+  font-weight: 800;
+  font-size: 1rem;
+  font-family: $body-font-family;
+  margin-bottom: .5rem;
+  display: block;
+}
+.row-dark-background .uw-event-month {
+  color: $white;
+}
+.uw-event {
+  display: flex;
+  margin-bottom: 1rem;
+  .uw-event-date {
+    font-family: $uw-serif-font;
+    -webkit-font-smoothing: auto;
+    font-size: 2rem;
+    line-height: 0.9;
+    text-align: right;
+    color: $primary-color;
+    min-width: 3rem;
+    padding-right: 1rem;
+  }
+  .uw-event-listing {
+    @include flex-grid-column(null,0);
+    font-family: $body-font-family;
+    line-height: 1.3;
+    span {
+      display: block;
+    }
+    .uw-event-title {
+      font-weight: 700;
+    }
+    .uw-event-time {
+      text-transform: lowercase;
+      font-size: .9em;
+      color: $dark-gray;
+      display: inline;
+    }
+    .uw-event-location {
+      font-size: .9em;
+      color: $dark-gray;
+      display: inline;
+    }
+  }
+}
+.row-dark-background .uw-event {
+  .uw-event-date {
+    color: $white;
+  }
+  .uw-event-location {
+    color: $white;
+  }
+  .uw-event-time {
+    color: $white;
+  }
+}

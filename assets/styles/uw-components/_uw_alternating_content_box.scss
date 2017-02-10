@@ -1,0 +1,87 @@
+.alternating-content {
+  background-color: $white;
+  @include flex-grid-row();
+  &:first-of-type {
+    margin-top: $global-margin*2;
+  }
+  .alternating-content-box {
+    @include flex-grid-column(12, 0);
+    @include flex-order(1);
+    &:last-of-type {
+      @include flex-order(0);
+    }
+    @include breakpoint(small only) {
+      @include flex-grid-column(12, 0);
+    }
+    > div {
+      padding: $global-padding*1 $global-padding*1.5 $global-padding*3;
+    }
+
+    h3 {
+      color: $primary-color;
+    }
+    p + .uw-link-list {
+      margin-top: 0;
+
+    }
+    p{
+        color: $uw-text !important;
+    }
+    a {
+      color: $anchor-color !important;
+      text-decoration: none !important;
+    }
+  }
+  @include breakpoint(medium) {
+    &:nth-of-type(even) {
+      background: darken($body-background,2%);
+    }
+    .alternating-content-box {
+      @include flex-grid-column(8,0);
+      @include flex-order(2);
+      &:last-of-type {
+        @include flex-grid-column(4,0);
+      }
+      p + .uw-link-list {
+        margin-top: 2rem;
+      }
+    }
+  }
+  @include breakpoint(rem-calc(900)) {
+    &:nth-of-type(even) {
+      background: $white;
+    }
+    .alternating-content-box {
+      @include flex-grid-column(6,0);
+      @include flex-order(1);
+      &:last-of-type {
+        @include flex-grid-column(6,0);
+      }
+      > div {
+        padding: $global-padding;
+      }
+    }
+
+    // target even-numbered rows to alternate image(column) alignment
+    &:nth-of-type(odd) {
+      .alternating-content-box {
+        &:first-of-type {
+          @include flex-order(0);
+        }
+      }
+    }
+  }
+  @include breakpoint(large) {
+    .alternating-content-box {
+      > div {
+        padding: $global-padding*2 $global-padding*4;
+      }
+    }
+  }
+}
+
+// if the body bg color is white, set the box bg color to light gray
+body.uw-white-bg .alternating-content {
+  background-color: $body-background;
+}
+

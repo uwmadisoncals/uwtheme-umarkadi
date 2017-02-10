@@ -1,0 +1,72 @@
+.uw-button {
+  background-color: $anchor-color;
+  color: white;
+  display: inline-block;
+  line-height: 1;
+  cursor: pointer;
+  transition: all .2s ease-out;
+  border: 1px solid rgba(0, 0, 0, 0) !important;
+  border-radius: 0;
+  position: relative;
+  // box-shadow: 0 1.5px 4px rgba(0,0,0,.24),0 1.5px 6px rgba(0,0,0,.12);
+  padding: .6rem;
+  font-family: $body-font-family;
+  font-size: .775rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  text-decoration: none !important;
+  &:hover {
+    background-color: scale-color($anchor-color, $lightness: -15%);
+    // box-shadow: 0 1.5px 4px rgba(0,0,0,.34),0 1.5px 6px rgba(0,0,0,.22);
+  }
+  &.uw-button-inverse {
+    background-color: white;
+    color: $anchor-color;
+    border-color: $anchor-color !important;
+  }
+}
+a.uw-button:hover, a.uw-button:focus {
+  color: $white;
+  text-decoration: none;
+}
+a.uw-button-inverse:hover, a.uw-button-inverse:focus {
+  color: $white;
+  text-decoration: none;
+  color: $anchor-color;
+}
+
+// ***********************
+// Call to action buttons
+// ***********************
+.button-cta {
+  font-weight: 800;
+  margin-top: 1rem;
+  margin-right: 0;
+  margin-bottom: 0;
+  box-shadow: 0 1.5px 4px rgba(0,0,0,.24),0 1.5px 6px rgba(0,0,0,.12);
+  position: relative;
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.25s ease-in-out;
+    box-shadow: 0 6px 12px rgba(0,0,0,.23),0 10px 40px rgba(0,0,0,.19);
+  }
+  &:hover {
+    // transform: scale(1.05, 1.05);
+    &:after {
+      opacity: 1;
+    }
+  }
+}
+.button-cta-reverse {
+  background-color: white;
+  color: $primary-color !important;
+  &:hover {
+    background-color: white;
+  }
+}

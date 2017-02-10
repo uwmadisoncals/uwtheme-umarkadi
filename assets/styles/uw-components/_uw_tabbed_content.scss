@@ -1,0 +1,31 @@
+.tabs-title {
+  > a {
+    color: $anchor-color !important;
+    font-weight: 800;
+    font-family: $body-font-family;
+    text-decoration: none !important;
+    &:focus, a[aria-selected='true'] {
+      color: $white !important;
+    }
+  }
+  &.is-active {
+    > a {
+      color: $white !important;
+    }
+  }
+}
+.tabs-panel {
+  color: $body-font-color;
+  a {
+    color: $anchor-color !important;
+  }
+  > p:last-child, > li:last-child {
+    margin-bottom: 0;
+  }
+}
+@include breakpoint(medium up) {
+  .tabs-title > a {
+    font-size: rem-calc(18);
+    padding: 1.25rem 1.5rem;
+  }
+}
