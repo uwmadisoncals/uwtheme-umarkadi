@@ -19,7 +19,7 @@ function custom_breadcrumbs() {
 	if ( !is_front_page() ) {
 
 		// Build the breadcrums
-		echo '<ul aria-hidden="true" id="' . $breadcrums_id . '" class="' . $breadcrums_class . '">';
+		echo '<nav aria-hidden="true" id="' . $breadcrums_id . '" class="' . $breadcrums_class . '">';
 
 		// Home page
 		echo '<li class="item-home"><a class="bread-link bread-home" href="' . get_home_url() . '" title="' . $home_title . '">' . $home_title . '</a></li>';
@@ -231,7 +231,7 @@ function custom_breadcrumbs() {
 			echo '<li>' . 'Error 404' . '</li>';
 		}
 
-		echo '</ul>';
+		echo '</nav>';
 
 	}
 

@@ -94,23 +94,8 @@ function my_acf_admin_head() {
 		display: inline-block;
 		text-align: center;
 	}
-	#two-column-width-radio,
-	#single-image-options,
-	#group-links-options,
-	.layout[data-layout="image_carousel"] .acf-field-message,
-	.acf-field-577d30c78b0e2,
-	.acf-field-577d1ee185a4a,
-	.acf-field-577d30d38b0e3,
-	.acf-field-577d1f0785a4b,
-	.acf-field-577d1da785a49,
-	.acf-field-577d30a18b0e1,
-	.acf-field-589c9a754b7a0,
-	.acf-field-589c9a9d4b7a1,
-	.acf-field-2589c9a754b7a0,
-	.acf-field-2589c9a9d4b7a1,
-	.acf-field-3589c9a754b7a0,
-	.acf-field-3589c9a9d4b7a1
-	{
+	#two-column-width-radio, #single-image-options, #group-links-options, .layout[data-layout="image_carousel"] .acf-field-message, .acf-field-577d30c78b0e2,
+	.acf-field-577d1ee185a4a, .acf-field-577d30d38b0e3, .acf-field-577d1f0785a4b, .acf-field-577d1da785a49, .acf-field-577d30a18b0e1 {
 		background-color: #f9f9f9;
 	}
 	.settings-gear {
@@ -127,18 +112,15 @@ function my_acf_admin_head() {
 	.settings-gear:hover {
 		color: #b4b9be;
 	}
-	.acf-flexible-content .layout .acf-fc-show-on-hover {
-    display: block;
-}
 	</style>
 	<script type="text/javascript">
 	(function($) {
 
-		settings_button = '<li><a href="#" class="settings-gear acf-icon" data-event="settings" title="Settings"><span class="dashicons dashicons-admin-generic"></span></a></li>';
-		function toggleSettings(e) {
+		settings_button = '<li class="acf-fc-show-on-hover"><a href="#" class="settings-gear acf-icon" data-event="settings" title="Settings"><span class="dashicons dashicons-admin-generic"></span></a></li>';
+		function toggleSettings(e) { 
 			// Layout Settings customizations
-			// To add new fields to the gear icon toggle first create a field and add the class of 'hidden-by-conditional-logic'. This will hide the field on load.
-			// Next provide the unique field class the the proper 'settings_fields' variable.
+			// To add new fields to the gear icon toggle first create a field and add the class of 'hidden-by-conditional-logic'. This will hide the field on load. 
+			// Next provide the unique field class the the proper 'settings_fields' variable. 
 
 			var eventTarget = $(e.target),
 				current_layout = eventTarget.parent().parent().parent().parent(),
@@ -159,20 +141,14 @@ function my_acf_admin_head() {
 			// Determine the settings fields for a specific layout
 			if ( layout_type == "one_column_content_layout" ) {
 				settings_fields = ['.acf-field-577d30a18b0e1',
-								   '.acf-field-577d1da785a49',
-								   '.acf-field-589c9a754b7a0',
-								   '.acf-field-589c9a9d4b7a1' ];
+								   '.acf-field-577d1da785a49' ];
 			} else if ( layout_type == "two_column_content_layout" ) {
 				settings_fields = ['.acf-field-577d30c78b0e2',
-								   '.acf-field-577d1ee185a4a',
-								   '.acf-field-576022303fead',
-								   '.acf-field-2589c9a754b7a0',
-								   '.acf-field-2589c9a9d4b7a1' ];
+								   '.acf-field-577d1ee185a4a', 
+								   '.acf-field-576022303fead' ];
 			} else {
 				settings_fields = ['.acf-field-577d30d38b0e3',
-								   '.acf-field-577d1f0785a4b',
-								   '.acf-field-3589c9a754b7a0',
-								   '.acf-field-3589c9a9d4b7a1' ];
+								   '.acf-field-577d1f0785a4b' ];
 			}
 
 			// Select all settings fields
@@ -215,7 +191,7 @@ function my_acf_admin_head() {
 			$('.settings-gear').off('click.settings').on('click.settings', function(e) { toggleSettings(e) });
 
 		});
-
+		
 	})(jQuery);
 	</script>
 	<?php
@@ -235,7 +211,7 @@ add_action('edit_form_after_title', function() {
 });
 
 function page_layouts_meta_box_markup() {
-	$img_path = get_template_directory_uri() . '/dist/images/';
+	$img_path = get_template_directory_uri() . '/dist/images/'; 
 	?>
 	<div class="page-layout"><a href="#" class="default-layout"><img src="<?php echo $img_path .'1col-default.png' ?>"/><br />One Column Default Layout</a></div>
 	<div class="page-layout"><a href="#" class="two-col-60-40"><img src="<?php echo $img_path .'2col60-40.png' ?>"/><br/>Two Column Layout (60-40)</a></div>
@@ -272,7 +248,7 @@ function page_layouts_meta_box_markup() {
 		 */
 		function addColumnContentLayout(columns) {
 			var dfd = new jQuery.Deferred();
-			setTimeout(function() {
+			setTimeout(function() { 
 				acf.fields.flexible_content.add(columns + '_column_content_layout');
 			dfd.resolve();
 			}, 300);
@@ -299,7 +275,7 @@ function page_layouts_meta_box_markup() {
 		jQuery('.default-layout').on('click', function() {
 			// Always clear the layout before creating a new one.
 			clearLayout();
-			// Default layout
+			// Default layout 
 			var promise = addColumnContentLayout('one');
 			promise.done(function() {
 				addPageElement('acf-field-56a8d83a184a9', 'text_block');
@@ -310,14 +286,14 @@ function page_layouts_meta_box_markup() {
 		// 		Two Column Content Layout (50-50)
 		jQuery('.two-col').on('click', function() {
 			clearLayout();
-			// Two Column layout
+			// Two Column layout 
 			addColumnContentLayout('two');
 		});
 		// Two Column Layout:
 		// 		Two Column Content Layout (60-40)
 		jQuery('.two-col-60-40').on('click', function() {
 			clearLayout();
-			// Two Column layout
+			// Two Column layout 
 			var promise = addColumnContentLayout('two');
 			promise.done(function() {
 				jQuery("#two-column-width-radio input[value='Left 60%  Right 40%']").trigger('click');
@@ -325,14 +301,14 @@ function page_layouts_meta_box_markup() {
 		});
 		jQuery('.two-col-40-60').on('click', function() {
 			clearLayout();
-			// Two Column layout
+			// Two Column layout 
 			var promise = addColumnContentLayout('two');
 			promise.done(function() {
 				jQuery("#two-column-width-radio input[value='Left 40%  Right 60%']").trigger('click');
 			});
 		});
 		</script>
-    <?php
+    <?php  
 }
 
 

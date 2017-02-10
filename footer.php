@@ -43,7 +43,7 @@
     <?php get_template_part('content-parts/page-elements/footer', 'content'); ?>
 
 		<div class="uw-copyright">
-			<p>&copy; <?php echo date('Y'); ?> Board of Regents of the <a href="http://www.wisconsin.edu">University of Wisconsin System</a></p>
+			<p>&copy; <?php echo date('Y'); ?> Board of Regents of the <a href="http://www.wisconsin.edu" title = "University of Wisconsin System" >University of Wisconsin System</a></p>
 		</div>
 	</footer>
 

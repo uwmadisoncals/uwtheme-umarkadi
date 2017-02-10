@@ -21,17 +21,17 @@ class Aria_Walker_Nav_Menu extends Walker_Nav_Menu {
    *
    */
   public function start_lvl( &$output, $depth = 0, $args = array() ) {
-    $aria_label = '';
+    $aria_labelled_by = '';
     $indent = str_repeat("\t", $depth);
 
     // $output includes the menu output so far
-    // We want last menu item name for our aria-label 
+    // We want the menu-item-id of the last menu item rendered
     // which will be returned by array_pop
-    preg_match_all('/aria-expanded="false">([\w\s\p{P}]+)<svg/', $output, $matches);
+    preg_match_all('/id="(menu-item-\d+)"/', $output, $matches);
     if (!empty($matches[1])) {
-      $aria_label = ' aria-label="' . esc_attr(array_pop($matches[1])) . ' submenu" ';
+      $aria_labelled_by = ' aria-labelled-by="' . array_pop($matches[1]) . '" ';
     }
-    $output .= "\n$indent<ul aria-hidden=\"true\" $aria_label class=\"sub-menu uw-child-menu\">\n";
+    $output .= "\n$indent<ul aria-hidden=\"true\" $aria_labelled_by class=\"sub-menu uw-child-menu\">\n";
 
   }
 
@@ -80,10 +80,11 @@ class Aria_Walker_Nav_Menu extends Walker_Nav_Menu {
     $id = apply_filters( 'nav_menu_item_id', 'menu-item-'. $item->ID, $item, $args, $depth );
     $id = $id ? ' id="' . esc_attr( $id ) . '"' : '';
 
-    $output .= sprintf( '%s<li%s%s>',
+    $output .= sprintf( '%s<li%s%s%s>',
       $indent,
       $id,
-      $class_names
+      $class_names,
+      in_array( 'menu-item-has-children', $item->classes ) ? ' aria-haspopup="true" aria-expanded="false"' : ''
     );
 
     $atts = array();
@@ -91,13 +92,6 @@ class Aria_Walker_Nav_Menu extends Walker_Nav_Menu {
     $atts['target'] = ! empty( $item->target )     ? $item->target     : '';
     $atts['rel']    = ! empty( $item->xfn )        ? $item->xfn        : '';
     $atts['href']   = ! empty( $item->url )        ? $item->url        : '';
-    if ( in_array( 'menu-item-has-children', $item->classes ) ) {
-      $atts['aria-haspopup'] = "true";
-      $atts['aria-expanded'] = "false";
-    }
-    if ( in_array( 'current-menu-item', $item->classes ) ) {
-      $atts['aria-current'] = "page";
-    }
 
     /**
      * Filter the HTML attributes applied to a menu item's anchor element.

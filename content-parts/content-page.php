@@ -119,20 +119,10 @@ function elements_as_classes($row) {
 					}else {
 						$bg_color = 'default-background';
 					}
-				$row_custom_id = get_sub_field('row_custom_id');
-				$row_custom_class = get_sub_field('row_custom_class');
 
-				echo '<div ';
-				if($row_custom_id) {
-					echo 'id="' . $row_custom_id . '"';
-				}
-				echo 'class="uw-outer-row row-' . get_row_index() . elements_as_classes( get_row()) . ' ' . $bg_color;
-				if ($row_custom_class) {
-					echo ' ' . $row_custom_class;
-				}
-				echo '"';
+				echo '<div class="uw-outer-row row-' . get_row_index() . elements_as_classes( get_row()) . ' ' . $bg_color . '" ';
 				if($background_image) {
-					echo ' style="background-image: url(' . $background_image['url'] . '); background-repeat: no-repeat; background-size: cover;"';
+					echo 'style="background-image: url(' . $background_image['url'] . '); background-repeat: no-repeat; background-size: cover;"';
 				}
 				echo '>';
 
