@@ -36,13 +36,10 @@ if (!empty($event_feed->data)) {
 				foreach ($events as $event) {
 					echo '<li class="uw-event">';
 
-						// Windows doesn't have the strftime variable %e.
-						// For more information see: http://php.net/manual/en/function.strftime.php
-						if (preg_match('/^win/i', PHP_OS)) {
-							echo '<div class="uw-event-date">' . strftime("<span class=\"show-for-sr\">%B</span> %#d",$event->start_timestamp) . '</div>';
-						} else {
-							echo '<div class="uw-event-date">' . strftime("<span class=\"show-for-sr\">%B</span> %e",$event->start_timestamp) . '</div>';
-						}
+						echo '<div class="uw-event-date">';
+							echo '<span class="show-for-sr">' . date('F', $event->start_timestamp) . '</span>';
+							echo ' ' . date('j', $event->start_timestamp);
+						echo '</div>';
 
 						echo '<div class="uw-event-listing">';
 							echo '<span class="uw-event-title"><a href="' . $event->link . '">' . $event->title . '</a></span>';
@@ -50,7 +47,7 @@ if (!empty($event_feed->data)) {
 							if ( !empty($event->subtitle) )
 								echo '<span class="uw-event-subtitle">' . $event->subtitle . '</span>';
 
-							echo '<span class="uw-event-time">' . strftime("%l:%M %p",$event->start_timestamp) . '</span>';
+							echo '<span class="uw-event-time">' . date('g:i A', $event->start_timestamp) . '</span>';
 
 							if ( !empty($event->location) ) {
 								echo ', <span class="uw-event-location">';
@@ -74,7 +71,7 @@ if (!empty($event_feed->data)) {
 		}
 	}
 	echo '</ul>';
-	echo '<div><a class="uw-more-link" href="' . $today_url . '">More events ' . get_svg('uw-symbol-more') . '</a></div>';
+	echo '<div><a class="uw-more-link" href="' . $today_url . '">More events ' . get_svg('uw-symbol-more', array("aria-hidden" => "true")) . '</a></div>';
 } else {
 	echo '<p>No events returned.</p>';
 }

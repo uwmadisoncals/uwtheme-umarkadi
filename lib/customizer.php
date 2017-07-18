@@ -21,6 +21,7 @@ function uwmadison_customize_register( $wp_customize ) {
   $wp_customize->get_setting( 'blogname' )->transport = 'postMessage';
   $wp_customize->get_setting( 'blogdescription' )->transport = 'postMessage';
 
+
   // Add settings sections
   $wp_customize->add_section( 'uwmadison_colors', array(
     'title'    => __( 'Colors', 'uw-theme' ),
@@ -47,7 +48,10 @@ function uwmadison_customize_register( $wp_customize ) {
     'title'    => __( 'Breadcrumbs', 'uw-theme' ),
     'priority' => 155,
   ) );
-
+	$wp_customize->add_section( 'uwmadison_404_page' , array(
+		'title'       => __( 'Custom 404 Page', 'uw-theme' ),
+		'priority'    => 165
+  ) );
 
 
   // Add colors and typography settings and controls
@@ -89,6 +93,7 @@ function uwmadison_customize_register( $wp_customize ) {
     'choices'    => uwmadison_get_settings_choices( 'header_styles' ),
     'capability'        => 'edit_theme_options',
   ) );
+
 
   // Add search settings and controls
   $wp_customize->add_setting( 'uwmadison_use_search', array(
@@ -139,8 +144,6 @@ function uwmadison_customize_register( $wp_customize ) {
       'rows' => '4'
     )
   ) );
-
-  // add footer contact and social
   $wp_customize->add_setting( 'uwmadison_map_url', array(
     'sanitize_callback' => 'sanitize_url',
   ) );
@@ -241,6 +244,24 @@ function uwmadison_customize_register( $wp_customize ) {
       'priority' => 100
   ) ) );
 
+  // Adds site contact for questions, reporting issues, accessibility
+  $default_admin_email = get_option( 'admin_email' );
+  $wp_customize->add_setting( 'website_issues_email', array(
+    'sanitize_callback' => 'sanitize_email',
+  ) );
+  $wp_customize->get_setting( 'website_issues_email' )->transport = 'postMessage';
+  $wp_customize->add_control( 'website_issues_email', array(
+    'section'    => 'uwmadison_footer',
+    'priority' => 100,
+    'label' => __('Website issues contact'),
+    'description' => __('Used for feedback, questions or accessibility issues. Default is the site admin email from Settings -> General. <a href="https://it.wisc.edu/services/email-lists-wisclist/" title="Email lists (WiscList)">Learn about options for group email lists (WiscList)</a>.'),
+    'input_attrs' => array(
+      'placeholder' => __( $default_admin_email ),
+    ),
+  ) );
+
+
+  // adds google analytics section
   $wp_customize->add_setting( 'uwmadison_ga_tracking_id', array(
     'sanitize_callback' => 'sanitize_text_field',
   ) );
@@ -249,6 +270,7 @@ function uwmadison_customize_register( $wp_customize ) {
     'label' => 'Google Analytics Tracking ID'
   ) );
 
+  // adds breadcrumbs section
   $wp_customize->add_setting( 'uwmadison_breadcrumbs', array(
     'default'           => $defaults['uwmadison_breadcrumbs'],
     'sanitize_callback' => 'sanitize_key',
@@ -258,6 +280,17 @@ function uwmadison_customize_register( $wp_customize ) {
     'label'      => 'Use breadcrumbs on this site',
     'type'       => 'checkbox'
   ) );
+	
+	// add custom 404 page options
+	$wp_customize->add_setting( 'uwmadison_404_page_id' );
+	$wp_customize->add_control( 'uwmadison_404_page_id', array(
+			'label'    => __( 'Custom 404 Page', 'uw-theme' ),
+			'section'  => 'uwmadison_404_page',
+			'settings' => 'uwmadison_404_page_id',
+			'description' => 'Leave blank to display default 404 page.',
+			'type'     => 'dropdown-pages'
+	) );
+
 
 }
 add_action( 'customize_register', 'uwmadison_customize_register' );

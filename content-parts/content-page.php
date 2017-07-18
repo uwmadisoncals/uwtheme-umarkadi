@@ -35,8 +35,8 @@ function output_page_elements() {
 		case 'group_of_links':
 			get_template_part( 'content-parts/page-elements/content', 'links' );
 			break;
-		case 'latest_posts':
-			get_template_part( 'content-parts/page-elements/latest', 'posts' );
+		case 'latest_posts': // 'latest_posts' is a legacy ACF field value still used here
+			get_template_part( 'content-parts/page-elements/posts', 'listing' );
 			break;
 		case 'featured_content':
 			get_template_part( 'content-parts/page-elements/featured', 'content' );
@@ -119,10 +119,20 @@ function elements_as_classes($row) {
 					}else {
 						$bg_color = 'default-background';
 					}
+				$row_custom_id = get_sub_field('row_custom_id');
+				$row_custom_class = get_sub_field('row_custom_class');
 
-				echo '<div class="uw-outer-row row-' . get_row_index() . elements_as_classes( get_row()) . ' ' . $bg_color . '" ';
+				echo '<div ';
+				if($row_custom_id) {
+					echo 'id="' . $row_custom_id . '"';
+				}
+				echo 'class="uw-outer-row row-' . get_row_index() . elements_as_classes( get_row()) . ' ' . $bg_color;
+				if ($row_custom_class) {
+					echo ' ' . $row_custom_class;
+				}
+				echo '"';
 				if($background_image) {
-					echo 'style="background-image: url(' . $background_image['url'] . '); background-repeat: no-repeat; background-size: cover;"';
+					echo ' style="background-image: url(' . $background_image['url'] . '); background-repeat: no-repeat; background-size: cover;"';
 				}
 				echo '>';
 
@@ -215,17 +225,5 @@ function elements_as_classes($row) {
 		) );
 		?>
 	</div>
-
-	<?php
-		edit_post_link(
-			sprintf(
-				/* translators: %s: Name of current post */
-				__( 'Edit<span class="screen-reader-text"> "%s"</span>', 'uw-theme' ),
-				get_the_title()
-			),
-			'<footer class="entry-footer"><span class="edit-link">',
-			'</span></footer>'
-		);
-	?>
 
 </article>

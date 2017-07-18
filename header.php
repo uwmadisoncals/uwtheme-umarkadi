@@ -9,12 +9,13 @@
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?> class="no-js">
 <head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"> 
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="profile" href="http://gmpg.org/xfn/11">
-	<?php wp_head(); ?>
-	
 	<script>(function(H){H.className=H.className.replace(/\bno-js\b/,'')})(document.documentElement)</script>
+
+	<?php wp_head(); ?>
 
 	<?php
 		// get theme mods
@@ -24,7 +25,23 @@
 </head>
 
 <body <?php body_class(); ?>>
-	<a class="show-on-focus" href="#main" id="skip-link">Skip to main content</a>
+
+<a class="show-on-focus" href="#main" id="skip-link">Skip to main content</a>
+
+	<?php
+	/* Hook for adding custom code after the <body> tag.
+	 * In a child theme, add a function like this:
+	 *
+	 *     function your_custom_code() {
+	 * 	    // your custom code here
+	 *      }
+	 *      add_action('uw_after_body_open_tag', 'your_custom_code');
+	 *
+	 * More about hooks: https://developer.wordpress.org/reference/functions/do_action/
+	*/
+	do_action('uw_after_body_open_tag');
+	?>
+
 	<div class="uw-global-bar <?php echo ($uwmadison_header_style == "uw-white-top-bar") ? "uw-global-bar-inverse" : "" ?>">
 		<a class="uw-global-name-link" href="http://www.wisc.edu">U<span>niversity <span class="uw-of">of</span> </span>W<span>isconsin</span>–Madison</a>
 	</div>
@@ -51,6 +68,20 @@
 			<?php } ?>
 		</div>
 	</header><!-- #branding -->
+
+	<?php
+	/* Hook for adding custom code after the <header>.
+	 * In a child theme, add a function like this:
+	 *
+	 *     function your_custom_code() {
+	 * 	    // your custom code here
+	 *      }
+	 *      add_action('uw_after_header', 'your_custom_code');
+	 *
+	 * More about hooks: https://developer.wordpress.org/reference/functions/do_action/
+	*/
+	do_action('uw_after_header');
+	?>
 
 	<?php if (has_any_menus()) { ?>
 		<button class="uw-mobile-menu-button-bar <?php echo ($uwmadison_header_style == "uw-white-top-bar") ? "" : "uw-mobile-menu-button-bar-reversed" ?>" aria-label="Open menu" aria-expanded="false" aria-controls="uw-top-menus"><span>Menu</span><?php echo get_svg('uw-symbol-menu'); echo get_svg('uw-symbol-close'); ?></button>
@@ -101,7 +132,40 @@
 							?>
 						</nav>
 				</div>
-			<?php } ?>
+			<?php
+			}
+
+			/* Hook for adding custom code after all menus.
+			 * This is inside of the .uw-top-menus wrapper, so anything
+			 * added here will go inside the collapsed/hamburger/mobile menu
+			 * In a child theme, add a function like this:
+			 *
+			 *     function your_custom_code() {
+			 * 	    // your custom code here
+			 *      }
+			 *      add_action('uw_after_menus_inside', 'your_custom_code');
+			 *
+			 * More about hooks: https://developer.wordpress.org/reference/functions/do_action/
+			*/
+			do_action('uw_after_menus_inside');
+			?>
+
 		</div>
 	<?php } ?>
+
+	<?php
+	/* Hook for adding custom code after all menus.
+	 * This is outside of the .uw-top-menus wrapper, so it will add
+	 * your custom code outside of the collapsed/hamburger/mobile menu
+	 * In a child theme, add a function like this:
+	 *
+	 *     function your_custom_code() {
+	 * 	    // your custom code here
+	 *      }
+	 *      add_action('uw_after_menus_outside', 'your_custom_code');
+	 *
+	 * More about hooks: https://developer.wordpress.org/reference/functions/do_action/
+	*/
+	do_action('uw_after_menus_outside');
+	?>
 

@@ -6,6 +6,20 @@
  */
 ?>
 
+  <?php
+  /* Hook for adding custom code before the <footer>
+   * In a child theme, add a function like this:
+   *
+   *     function your_custom_code() {
+   *      // your custom code here
+   *      }
+   *      add_action('uw_before_footer', 'your_custom_code');
+   *
+   * More about hooks: https://developer.wordpress.org/reference/functions/do_action/
+  */
+  do_action('uw_before_footer');
+  ?>
+
 	<footer id="colophon" class="uw-footer">
 		<div class="uw-footer-content">
 			<div class="uw-logo">
@@ -40,12 +54,62 @@
 			<?php echo uwmadison_footer_contact(); ?>
 		</div>
 
-    <?php get_template_part('content-parts/page-elements/footer', 'content'); ?>
+    <?php
+    /* Adding custom content to the footer
+     *
+     * There are two ways to add your own custom content inside
+     * the footer.
+     *
+     * Option 1: Use a hook (recommended)
+     *    In a child theme, add a function like this:
+     *
+     *     function your_custom_code() {
+     *      // your custom code here
+     *      }
+     *      add_action('uw_inside_footer', 'your_custom_code');
+     *
+     *    More about hooks: https://developer.wordpress.org/reference/functions/do_action/
+    */
+    do_action('uw_inside_footer');
+
+    /* Option 2: Template partial
+     *    This option works just as well as the hook, but for consistency,
+     *    we recommend using option 1 whenever possible.
+     *    To use the template partial, make a copy in your child theme of the
+     *    blank file found here: content-parts/page-elements/footer-content.php
+     */
+    get_template_part('content-parts/page-elements/footer', 'content');
+
+    ?>
 
 		<div class="uw-copyright">
-			<p>&copy; <?php echo date('Y'); ?> Board of Regents of the <a href="http://www.wisconsin.edu" title = "University of Wisconsin System" >University of Wisconsin System</a></p>
-		</div>
+      <p>
+        <?php echo uwmadison_website_issues_contact(); ?>
+        &nbsp; &bull; &nbsp; This website was built using the <a href="https://uwtheme.wordpress.wisc.edu/">UW Theme</a>.
+      </p>
+
+      <p>
+        &copy; <?php echo date('Y'); ?> Board of Regents of the
+        <a href="http://www.wisconsin.edu">University of Wisconsin System</a>
+      </p>
+
+    </div>
+
 	</footer>
+
+  <?php
+  /* Hook for adding custom code after the <footer>
+   * In a child theme, add a function like this:
+   *
+   *     function your_custom_code() {
+   *      // your custom code here
+   *      }
+   *      add_action('uw_after_footer', 'your_custom_code');
+   *
+   * More about hooks: https://developer.wordpress.org/reference/functions/do_action/
+  */
+  do_action('uw_after_footer');
+  ?>
 
   <?php wp_footer(); ?>
 </body>

@@ -31,7 +31,7 @@ endif;
 	<?php if('uw_staff' != get_post_type()) : ?>
 		<?php if($news_url && $title): ?>
       <header>
-        <h1 class="page-title uw-mini-bar"><?php echo $title; ?></h2>
+        <h1 class="page-title uw-mini-bar"><?php echo $title; ?></h1>
         <div><?php get_template_part('templates/entry-meta'); ?></div>
       </header>
 		<?php else: ?>

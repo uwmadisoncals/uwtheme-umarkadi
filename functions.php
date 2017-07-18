@@ -79,6 +79,39 @@ add_filter('acf/settings/load_json', function($paths) {
 	return $paths;
 });
 
+
+/**
+ * ACF filter to conditionally render the legacy hero field group
+ * depending on if it has content or not.
+ *
+ * @return Array $options ACF options or false to not render field group
+ **/
+function acf_location_screen_options( $options, $field_group ) {
+	global $pagenow; // the current wp-admin view
+
+	// only check for the legacy hero field group (key = group_5743582783e2a)
+	if ( "group_5743582783e2a" != $field_group['key'])
+		return $options;
+
+	// don't load the legacy hero field group for new pages
+	if ( "post-new.php" == $pagenow )
+		return false;
+
+	// if it's a post edit view, check for legacy hero content
+	if ( "post.php" == $pagenow ) {
+		$legacy_hero_content = get_post_meta( $_GET['post'], "hero_content_area", true );
+
+		// if no logecy hero content, don't render the legacy field group
+		if ( empty($legacy_hero_content) )
+			return false;
+	}
+
+	return $options;
+
+}
+add_filter('acf/location/screen', 'acf_location_screen_options', 10, 2);
+
+
 /**
  * File includes
  *
@@ -416,37 +449,37 @@ if ( ! function_exists( 'uwmadison_scripts' ) ) :
 	 */
 	function uwmadison_scripts() {
 		// enqueue UW fonts
-		wp_register_style( 'uwmadison-fonts', get_template_directory_uri() . '/dist/fonts/uw160/fonts.css', false, '1.0.0-beta.3' );
+		wp_register_style( 'uwmadison-fonts', get_template_directory_uri() . '/dist/fonts/uw160/fonts.css', false, '1.0.0' );
 		wp_enqueue_style( 'uwmadison-fonts' );
 
 		// Add custom fonts, used in the main stylesheet.
-		wp_register_style( 'uwmadison-google-fonts', uwmadison_add_google_fonts(), false, '1.0.0-beta.3' );
+		wp_register_style( 'uwmadison-google-fonts', uwmadison_add_google_fonts(), false, '1.0.0' );
 		wp_enqueue_style( 'uwmadison-google-fonts' );
 
 
-		wp_register_script( 'uwmadison-ie', get_template_directory_uri() . '/dist/js/polyfills/classList.js', false, '1.0.0-beta.3', true );
+		wp_register_script( 'uwmadison-ie', get_template_directory_uri() . '/dist/js/polyfills/classList.js', false, '1.0.0', true );
 		wp_enqueue_script( 'uwmadison-ie' );
 		wp_script_add_data( 'uwmadison-ie', 'conditional', 'lt IE 10' );
 
 		// deregister WP's jQuery; register jQuery 2 for Foundation dependency
 		wp_deregister_script( 'jquery' );
-		wp_register_script( 'jquery', get_template_directory_uri() . '/dist/js/jquery/jquery.min.js' , false, '2.2.4', true );
+		wp_register_script( 'jquery', get_template_directory_uri() . '/dist/js/jquery/jquery.min.js' , false, '1.0.0', true );
 
 		// Theme assets.
 		if ( !WP_DEBUG ) {
-			wp_register_style( 'uwmadison-style', get_template_directory_uri() . '/dist/main.min.css' , false, '1.0.0-beta.3' );
+			wp_register_style( 'uwmadison-style', get_template_directory_uri() . '/dist/main.min.css' , false, '1.0.0' );
 			wp_enqueue_style( 'uwmadison-style' );
-			wp_register_script( 'uwmadison-script', get_template_directory_uri() . '/dist/main.min.js', array('jquery'), '1.0.0-beta.3', true );
+			wp_register_script( 'uwmadison-script', get_template_directory_uri() . '/dist/main.min.js', array('jquery'), '1.0.0', true );
 			wp_enqueue_script( 'uwmadison-script' );
 		} else {
-			wp_register_style( 'uwmadison-style', get_template_directory_uri() . '/dist/main.css' , false, '1.0.0-beta.3' );
+			wp_register_style( 'uwmadison-style', get_template_directory_uri() . '/dist/main.css' , false, '1.0.0' );
 			wp_enqueue_style( 'uwmadison-style' );
-			wp_register_script( 'uwmadison-script', get_template_directory_uri() . '/dist/main.js', array('jquery'), '1.0.0-beta.3', true );
+			wp_register_script( 'uwmadison-script', get_template_directory_uri() . '/dist/main.js', array('jquery'), '1.0.0', true );
 			wp_enqueue_script( 'uwmadison-script' );
 		}
 
 		// Load the Internet Explorer specific stylesheet.
-		wp_register_style( 'uwmadison-ie', get_template_directory_uri() . '/dist/css/ie.css', array( 'uwmadison-style' ), '1.0.0-beta.3' );
+		wp_register_style( 'uwmadison-ie', get_template_directory_uri() . '/dist/css/ie.css', array( 'uwmadison-style' ), '1.0.0' );
 		wp_enqueue_style( 'uwmadison-ie' );
 		wp_style_add_data( 'uwmadison-ie', 'conditional', 'lt IE 10' );
 
@@ -653,7 +686,7 @@ if ( ! function_exists( 'add_google_analytics' ) ) :
 	<?php }
 
 endif;
-add_action('wp_footer', 'add_google_analytics');
+add_action('wp_head', 'add_google_analytics');
 
 /**
  * return whether the site is using breadcrumbs or not
@@ -678,6 +711,7 @@ function get_svg($symbol_id, array $args = array()) {
 	// Then function parameters override attributes in SVG file.
 	// Some examples of $args array keys are: title, role, width, length, class, and addclasses
 	// Two array keys are special and are added to the SVG as child nodes (or override existing nodes): title and desc
+	// The args key, no_title_id, will return an SVG with an id on the title element or any aria-describedby or aria-labelledby attrs (for when you can't call get_svg uniquely; see link list walker_menu)
 	// global $oSVGXML;
 	// Set up defaults
 	$aDefault = array(
@@ -722,7 +756,7 @@ function get_svg($symbol_id, array $args = array()) {
 		if (isset($oXML->title['id'])) {
 			$oXML['aria-labelledby'] = (string)$oXML->title['id'];
 		} else {
-			$sGeneratedID = uniqid('dynid');
+			$sGeneratedID = uniqid('dynid', true);
 			$oXML->title['id'] = $sGeneratedID;
 			$oXML['aria-labelledby'] = $sGeneratedID;
 		}
@@ -736,6 +770,13 @@ function get_svg($symbol_id, array $args = array()) {
 			$oXML->desc['id'] = $sGeneratedID;
 			$oXML['aria-describedby'] = $sGeneratedID;
 		}
+	}
+	// If no_title_id, remove the title id attribute
+	if (array_key_exists('no_title_id', $aDefaultSymbolParms)) {
+		unset($oXML['no_title_id']);
+		unset($oXML->title['id']);
+		unset($oXML['aria-labelledby']);
+		unset($oXML['aria-describedby']);
 	}
 	// Return svg result for embedding in html
 	return(str_ireplace(' id="'.$symbol_id.'"','',str_ireplace('</symbol>','</svg>',str_ireplace('<symbol ','<svg ',$oXML->asXML()))));
@@ -751,21 +792,21 @@ if ( ! function_exists( 'news_oembed_filter' ) ) :
 	 **/
 	function news_oembed_filter($html, $url, $attr, $post_ID) {
 		if ( strpos($url, "soundcloud") ) {
-			$css_classes = "uw-oembed-soundcloud";
+			$css_classes = "uw-oembed uw-oembed-soundcloud";
 		} elseif ( strpos($url, "youtube") ) {
-			$css_classes = " uw-oembed-video uw-oembed-video-youtube";
+			$css_classes = " responsive-embed widescreen uw-oembed-video-youtube";
 		} elseif ( strpos($url, "vimeo") ) {
-			$css_classes = " uw-oembed-video uw-oembed-video-vimeo";
+			$css_classes = " responsive-embed widescreen uw-oembed-video-vimeo";
 		} elseif ( strpos($url, "twitter") ) {
-			$css_classes = " uw-oembed-twitter";
+			$css_classes = " uw-oembed uw-oembed-twitter";
 		} elseif ( strpos($url, "instagram") ) {
-			$css_classes = " uw-oembed-instagram";
+			$css_classes = " uw-oembed uw-oembed-instagram";
 		} elseif ( strpos($url, "vine") ) {
-			$css_classes = " uw-oembed-vine";
+			$css_classes = " uw-oembed uw-oembed-vine";
 		} else {
 			$css_classes = "";
 		}
-		$return = '<div class="uw-oembed'. $css_classes . '">'.$html.'</div>';
+		$return = '<div class="'. $css_classes . '">'.$html.'</div>';
 		return $return;
 	}
 
@@ -971,3 +1012,141 @@ function load_custom_posts( $field ) {
 //filter by field's name
 add_filter('acf/load_field/name=custom_post_type', 'load_custom_posts');
 
+
+/** Adds support for Kaltura oEmbed videos using the
+ *  code developed by Tony Block for the
+ *  UW-Madison Kaltura Enable oEmbed plugin
+ *  more info at: https://kb.wisc.edu/page.php?id=56746
+ **/
+add_action( 'init', 'uwmad_kaltura_add_oembed_handlers');
+function uwmad_kaltura_add_oembed_handlers(){
+    wp_oembed_add_provider( 'https://mediaspace.wisc.edu/id/*', 'https://mediaspace.wisc.edu/oembed/', false );
+}
+
+
+/** Gravity Forms is initalized in the header before
+ *  our jQuery loads, so forms with conditional logic
+ *  do not display. This fix is a filter that initializes
+ *  GF scripts in the footer: https://goo.gl/kXv3iA
+ **/
+add_filter('gform_init_scripts_footer', '__return_true');
+
+
+/** Adds a website issues contact email line.
+ *  Uses the admin email as set in Settings -> General unless
+ *  a user provides a different email in the Customizer.
+ **/
+if ( ! function_exists( 'website_issues_contact') ) :
+
+function uwmadison_website_issues_contact() {
+  $uwmadison_website_issues_email = get_theme_mod( 'website_issues_email');
+  if (empty($uwmadison_website_issues_email)) {
+  	$uwmadison_website_issues_email = get_option( 'admin_email' );
+  }
+  $output = sprintf('Feedback, questions or accessibility issues: <a href="mailto:%s">%s</a>', $uwmadison_website_issues_email, $uwmadison_website_issues_email);
+
+  return $output;
+}
+
+endif;
+
+/**
+ * Allow custom 404 pages 
+ *
+ **/
+function uw_custom_404() {
+	global $post;
+	
+	// Add edit page link to admin bar on custom 404 pages
+	add_action( 'wp_before_admin_bar_render', function() {
+    global $wp_admin_bar, $post;
+    if ( !is_admin_bar_showing() ) return;
+    $wp_admin_bar->add_menu( array(
+        'id' => 'edit',
+        'parent' => false,
+        'title' => __( 'Edit Page'),
+				'class' => 'ab-item',
+        'href' => get_edit_post_link($post->id)
+    ) );
+	}, 8 );
+	
+	// Add error404 class to body
+	add_filter( 'body_class', function($classes) {
+        $classes[] = 'error404';
+        return $classes;
+	});
+	
+	// Construct page
+	$post = get_post( get_theme_mod( 'uwmadison_404_page_id' ) );
+	query_posts( array( 'page_id' => $post->ID ) );
+	get_template_part('page');
+}
+
+
+/**
+*
+*	Generate page builder page excerpt from ACF content
+* 
+* Performs recursive search of ACF Page Builder to find  
+* 'text_block_content' fields and uses them to construct 
+* an excerpt in the event that the excerpt field was left
+* blank
+*
+*/
+
+// construct ACF excerpt
+function uw_acf_excerpt( $post_id ) {
+	global $post;
+	$post = get_post( $post_id );
+
+	$primary_content_area = get_post_meta($post_id, "primary_content_area");
+	$uses_page_builder = empty( $primary_content_area ) ? false : true;
+
+	if (!$uses_page_builder)
+		return;
+
+	$excerpt = trim(get_the_excerpt( $post_id ));
+	if ( $excerpt === '' ) {
+		ob_start();
+		uw_recursive_search( 
+			array( 
+				'array' => get_fields( $post_id ), 
+				'key' => 'text_block_content' 
+			) 
+		); 
+		$content = ob_get_clean();
+		remove_action( 'save_post', 'uw_acf_excerpt' );
+		wp_update_post( 
+			array(
+				'ID'          	 => $post_id,
+				'post_excerpt'   => wp_trim_words( $content, 55 ),
+			)
+		);
+		add_action( 'save_post', 'uw_acf_excerpt' );
+	}
+}
+add_action( 'save_post', 'uw_acf_excerpt' );
+
+// perform recursive array search of ACF fields
+function uw_recursive_search( $fields ) {	
+	if ( !empty( $fields ) ) {
+		$array = $fields['array'];
+		$key = $fields['key'];
+		if ( is_array( $array ) ) {
+			if( array_key_exists( $key, $array ) ) {
+				echo strip_tags( $array[$key] );
+			} else if( !array_key_exists( $key, $array ) ) {
+				foreach ( $array as $index   =>  $subarray ) {
+					if( is_array( $subarray ) ) {
+						uw_recursive_search( 
+							array( 
+								'array' => $subarray, 
+								'key' 	=> $key 
+							) 
+						);
+					}
+				}
+			}	
+		}
+	}
+}	

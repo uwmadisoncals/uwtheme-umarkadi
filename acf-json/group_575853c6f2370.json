@@ -150,6 +150,22 @@
             "disabled": 0
         },
         {
+            "key": "field_58cff212b1b1b",
+            "label": "Linkedin",
+            "name": "linkedin",
+            "type": "url",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": ""
+        },
+        {
             "key": "field_57587b0623439",
             "label": "Biography",
             "name": "biography",
@@ -165,7 +181,83 @@
             "default_value": "",
             "tabs": "all",
             "toolbar": "full",
-            "media_upload": 0
+            "media_upload": 0,
+            "delay": 0
+        },
+        {
+            "key": "field_5908a112a4a44",
+            "label": "Extra fields",
+            "name": "extra_fields",
+            "type": "repeater",
+            "instructions": "Add additional data elements by adding rows that each include a label, a value and an optional URL that will link from the value if set.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "collapsed": "field_5908a170a4a45",
+            "min": 0,
+            "max": 0,
+            "layout": "row",
+            "button_label": "Add extra data",
+            "sub_fields": [
+                {
+                    "key": "field_5908a170a4a45",
+                    "label": "Label",
+                    "name": "extra_label",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "maxlength": 120
+                },
+                {
+                    "key": "field_5908a19ca4a46",
+                    "label": "Value",
+                    "name": "extra_value",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "maxlength": ""
+                },
+                {
+                    "key": "field_5908a1aaa4a47",
+                    "label": "URL",
+                    "name": "extra_url",
+                    "type": "url",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": ""
+                }
+            ]
         }
     ],
     "location": [
@@ -187,5 +279,5 @@
     ],
     "active": 1,
     "description": "",
-    "modified": 1465909731
+    "modified": 1493737978
 }

@@ -26,14 +26,13 @@ if ( $use_menu != 'Yes' ) {
 
         <li>
           <a href="<?php echo $link_location; ?>">
-            <?php echo $link_name . ' ' . get_svg('uw-symbol-more'); ?>
+            <?php echo $link_name . ' ' . get_svg('uw-symbol-more', array("aria-hidden" => "true")); ?>
           </a>
         </li>
       <?php endwhile; ?>
     </ul>
   <?php endif;
 } else {
-
   //Filtering a Class in Navigation Menu Item
   // add_filter('nav_menu_css_class' , 'special_nav_class' , 10 , 2);
   // function special_nav_class($classes, $item){
@@ -42,7 +41,7 @@ if ( $use_menu != 'Yes' ) {
   // }
 
   $menu = get_sub_field('select_menu');
-  $arrows = ' ' . get_svg('uw-symbol-more');
+  $arrows = ' ' . get_svg('uw-symbol-more', array("aria-hidden" => "true", "no_title_id" => true));
   wp_nav_menu(
     array(
       'menu' => $menu->name,

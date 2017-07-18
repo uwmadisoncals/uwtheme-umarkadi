@@ -86,7 +86,8 @@ function uwmadison_posted_on() {
     '<span class="author vcard"><a class="url fn n" href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '">' . esc_html( get_the_author() ) . '</a></span>'
   );
 
-  echo '<span class="posted-on">' . $posted_on . '</span><span class="byline"> ' . $byline . '</span>'; // WPCS: XSS OK.
+  // echo '<span class="posted-on">' . $posted_on . '</span><span class="byline"> ' . $byline . '</span>'; 
+  echo '<span class="posted-on">' . $posted_on . '</span>';
 
 }
 endif;
@@ -302,7 +303,7 @@ function uwmadison_social_links() {
 
   foreach ($uwmadison_social as $key => $value) {
     if ( !empty($value) ) {
-      $output .= "<li id=\"uw-icon-$key\" class=\"uw-social-icon\"><a aria-label=\"$key\" href=\"$value\">" . get_svg('uw-symbol-' . $key) . "</a></li>";
+      $output .= "<li id=\"uw-icon-$key\" class=\"uw-social-icon\"><a aria-label=\"$key\" href=\"$value\">" . get_svg('uw-symbol-' . $key, array("aria-hidden" => "true")) . "</a></li>";
     }
   }
 

@@ -6,14 +6,14 @@ add_action( 'init', 'all_custom_post_types' );
 
 //create a new custom post type and define settings
 function all_custom_post_types() {
-	post_type_settings('uw_documents', 'Documents Page', 'Document', 'documents', 'dashicons-media-default', array( 'title', 'editor', 'excerpt', 'thumbnail', 'help' ) );
-	post_type_settings('uw_staff', 'Faculty/Staff Members', 'Faculty/Staff Member', 'staff',  'dashicons-groups', array( 'title', 'editor', 'excerpt', 'help' ));
+	post_type_settings('uw_documents', 'Documents Page', 'Document', 'documents', 'dashicons-media-default', array( 'title', 'editor', 'excerpt', 'thumbnail', 'help' ), true );
+	post_type_settings('uw_staff', 'Faculty/Staff Members', 'Faculty/Staff Member', 'staff',  'dashicons-groups', array( 'title', 'editor', 'excerpt', 'help' ), false );
 }
 
 // universal function for custom post type settings
 // do not modify or duplicate this function... to create a new
 // post type and define settings, add a line to all_custom_post_types()
-function post_type_settings( $key_name, $name, $singular_name, $url_slug, $icon = true, $supports ) {
+function post_type_settings( $key_name, $name, $singular_name, $url_slug, $icon = true, $supports, $has_archive ) {
 	$labels = array(
 		'name'					=> $name,
 		'singular_name'			=> $singular_name,
@@ -45,7 +45,7 @@ function post_type_settings( $key_name, $name, $singular_name, $url_slug, $icon 
 		'capability_type'		=> 'post',
 		'hierarchical'			=> false,
 		'menu_position'			=> '5',
-		'has_archive'			=> true,
+		'has_archive'			=> $has_archive,
 		'exclude_from_search'	=> false,
 		'supports'				=> $supports,
 		'taxonomies'			=> array('category', 'post_tags')

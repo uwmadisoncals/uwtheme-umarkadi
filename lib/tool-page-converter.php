@@ -50,7 +50,7 @@ function convert_pages_page() {
   if ( empty($classic_pages) ) :
     echo '<p>This site does not have any classic Wordpress pages to convert.</p>';
   else:
-    echo '<form action="tools.php?page=uw-page-converter" method="get" id="classic_pages_to_convert">';
+    echo '<form action="themes.php?page=uw-page-converter" method="get" id="classic_pages_to_convert">';
     echo '<input type="hidden" name="action" value="convert">';
     echo '<input type="hidden" name="page" value="uw-page-converter">';
     wp_nonce_field( 'convert-pages' );
@@ -100,16 +100,27 @@ function classic_wp_pages() {
 
 
 /**
- * Tests if page is classic or not
+ * Tests if page is "classic" or not
  * (i.e. , with content in post_content and without any custom fields)
  *
  * @param Object $page A WP post object
  * @return boolean
  **/
 function is_classic_page($page){
+
+  // first verify the page is not using a custom template
+  $page_template = get_post_meta( $page->ID, '_wp_page_template', true );
+  if ( !empty( $page_template ) && "default" != $page_template)
+    return false;
+
+  // does the post have post_content?
   $has_post_content = empty( $page->post_content ) ? false : true;
+
+  // does the post use UW Theme's Page Build? (i.e. does it have a non-empty meta value for 'primary_content_area')
   $primary_content_area = get_post_meta($page->ID, "primary_content_area");
   $uses_page_builder = empty( $primary_content_area ) ? false : true;
+
+  // it's a "classic" page if it has post content but does not use the page builder
   return $has_post_content && !$uses_page_builder;
 }
 

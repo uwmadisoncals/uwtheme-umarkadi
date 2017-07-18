@@ -71,7 +71,7 @@ endif;
         else:
           echo '<a href="' . get_permalink($post_object->ID) . '">';
         endif;
-          echo get_the_title($post_object->ID) . ' ' . get_svg('uw-symbol-more');
+          echo get_the_title($post_object->ID) . ' ' . get_svg('uw-symbol-more', array("aria-hidden" => "true"));
           echo '</a>';
 
         if(get_sub_field('include_summary')) :

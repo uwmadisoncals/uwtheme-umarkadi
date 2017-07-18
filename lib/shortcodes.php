@@ -29,3 +29,18 @@ function uwmadison_contact_shortcode( $atts ) {
   return uwmadison_contact_info($include_social = false);
 }
 add_shortcode( 'uwmadison_contact', 'uwmadison_contact_shortcode' );
+
+
+/**
+ * Shortcode for including search form in content
+ *
+ * @return String markup for search form
+ **/
+function uwmadison_search_form_shortcode() {
+	// filter markup to eliminate duplicate IDs
+	add_filter( 'get_search_form', function( $form ) {
+		return preg_replace('/id="([^"]+)"/i', 'id="$1-2"', $form);
+	}, 10, 1 ); 
+  return get_search_form(false);
+}
+add_shortcode( 'uw-search-input', 'uwmadison_search_form_shortcode' );

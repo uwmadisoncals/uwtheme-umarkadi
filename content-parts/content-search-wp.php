@@ -10,10 +10,14 @@
 
     /**
      * Run the loop for the search to output the results.
-     * If you want to overload this in a child theme then include a file
-     * called content-search.php and that will be used instead.
+     * To customize how a post type is displayed in the search results, include
+     * a file named `content-search-POST_TYPE.php`.
      */
-    get_template_part( 'content-parts/content', get_post_format() );
+    if (locate_template( 'content-parts/content-search-' . get_post_type() . '.php' ) != '') {
+      get_template_part( 'content-parts/content-search', get_post_type() );
+    } else {
+      get_template_part( 'content-parts/content', get_post_format() );
+    }
 
   // End the loop.
   endwhile;

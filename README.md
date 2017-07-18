@@ -15,7 +15,7 @@ There are a number of ways to do this. WordPress requires: PHP, MySQL, and a ser
 * VVV (Varying Vagrant Vagrants) - [https://github.com/Varying-Vagrant-Vagrants/VVV](https://github.com/Varying-Vagrant-Vagrants/VVV)
 * Other tool of your choosing
 
-If you don't know which one to choose, we recommend starting with option #1. This will give you a better idea of how all the various parts are working together. The other two options create virtual workspaces to abstract these pieces and may require additional know-how to work with them.
+If you don't know which one to choose, we recommend starting with the first option. This will give you a better idea of how all the various parts are working together. The other two options create virtual workspaces to abstract these pieces and may require additional know-how to work with them.
 
 #### Setting it up
 
@@ -48,11 +48,13 @@ Edit the `/.bin/dev-url` file and replace the url in the file with your local Wo
 Then run `npm run dev` which will watch the sass files for changes and build the css and reload the browser. Currently it's setup to use Chrome as your browser of choice but can be configured to use other browsers. [See how](https://www.browsersync.io/docs/)
 
 #### Foundation 6
-This theme uses a custom version of [Foundation](http://foundation.zurb.com/) the responsive framework. When making changes to the foundation theme do so in the `_settings.scss` file located in `assets/styles` The settings file is for any specific changes to the framework itself including: variables, media queries, component styles etc. Before adding custom styles see what's possible within the settings file first.
+This theme uses a custom version of [Foundation](http://foundation.zurb.com/), the responsive framework. When making changes to the foundation theme do so in the `_settings.scss` file located in `assets/styles` The settings file is for any specific changes to the framework itself including: variables, media queries, component styles etc. Before adding custom styles see what's possible within the settings file first.
 
 The theme uses a subset of Foundation components. The current included components are found in the `assets/styles/foundation.scss` file.
 
 The theme also includes a collection of UW- and theme-specific components, with corresponding Sass files. Any other custom styles that fall outside of the Foundation packaged components and the theme- and UW-specific components, should be added to the `assets/styles/custom.scss` file.
+
+To update Foundation in local development (e.g. after a version update), use `npm update foundation-sites`
 
 ### Contributing
 

@@ -6,6 +6,7 @@
   $phone = get_field( 'phone' );
   $position = get_field( 'title_position' );
   $address = get_field( 'address' );
+  $linkedin = get_field( 'linkedin' );
 ?>
 
 <div class="faculty-headshot-contact">
@@ -16,7 +17,27 @@
     echo !empty($email) ? '<p><a href="mailto:' . $email . '">' . $email . '</a></p>' : null;
     echo !empty($phone) ? '<p>' . $phone . '</p>' : null;
     echo !empty($address) ? '<p class="faculty-address">' . $address . '</p>' : null;
+    echo !empty($linkedin) ? '<ul class="uw-social-icons"><li class="uw-social-icon"><a href="' . $linkedin . '">' . get_svg('uw-symbol-linkedin', array("aria-hidden" => "true")) . '</a></li></ul>' : null;
   ?>
+
+  <?php if( have_rows('extra_fields') ): ?>
+    <dl class="faculty-extra">
+      <?php while ( have_rows('extra_fields') ) : the_row(); ?>
+        <?php
+          $extra_label = get_sub_field("extra_label");
+          $extra_value = get_sub_field("extra_value");
+          $extra_url = get_sub_field("extra_url");
+        ?>
+        <dt class="faculty-extra-label"><?php echo $extra_label; ?></dt>
+        <dd class="faculty-extra-value">
+          <?php if ( !empty($extra_url) ) : ?><a href="<?php echo $extra_url ?>"><?php endif; ?>
+            <?php echo $extra_value; ?>
+          <?php if ( !empty($extra_url) ) : ?></a><?php endif; ?>
+        </dd>
+      <?php endwhile; ?>
+    </dl>
+  <?php endif; ?>
+
   </div>
   <div class="faculty-headshot">
     <?php
