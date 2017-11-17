@@ -145,7 +145,7 @@ function uwmadison_customize_register( $wp_customize ) {
     )
   ) );
   $wp_customize->add_setting( 'uwmadison_map_url', array(
-    'sanitize_callback' => 'sanitize_url',
+    'sanitize_callback' => 'esc_url_raw',
   ) );
   $wp_customize->add_control( 'uwmadison_map_url', array(
     'section'    => 'uwmadison_footer',
@@ -169,7 +169,7 @@ function uwmadison_customize_register( $wp_customize ) {
   ) );
 
   $wp_customize->add_setting( 'uwmadison_social[facebook]', array(
-    'sanitize_callback' => 'sanitize_url',
+    'sanitize_callback' => 'esc_url_raw',
   ) );
   $wp_customize->add_control( 'uwmadison_social[facebook]', array(
     'section'    => 'uwmadison_footer',

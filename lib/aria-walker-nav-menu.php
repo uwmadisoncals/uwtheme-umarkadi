@@ -132,8 +132,8 @@ class Aria_Walker_Nav_Menu extends Walker_Nav_Menu {
     /** This filter is documented in wp-includes/post-template.php */
     $item_output .= $args->link_before . apply_filters( 'the_title', $item->title, $item->ID ) . $args->link_after;
     if ( in_array( 'menu-item-has-children', $item->classes ) && $depth < 1 ) {
-      $item_output .= get_svg('uw-symbol-caret-down');
-      $item_output .= get_svg('uw-symbol-caret-up');
+      $item_output .= get_svg('uw-symbol-caret-down', array('aria-hidden' => 'true'));
+      $item_output .= get_svg('uw-symbol-caret-up', array('aria-hidden' => 'true'));
     }
     $item_output .= '</a>';
     $item_output .= $args->after;

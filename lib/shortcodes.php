@@ -44,3 +44,69 @@ function uwmadison_search_form_shortcode() {
   return get_search_form(false);
 }
 add_shortcode( 'uw-search-input', 'uwmadison_search_form_shortcode' );
+
+
+
+/**
+ * Shortcode for including RSS Feed in content
+ *
+ *	Usage: [uw-rss-feed url="http://rss.example.com/feed.xml" title="Example Title" description="Example description." more-link="http://example.com" max-posts="10"]
+ *
+ * @return String markup for RSS Feed
+ **/
+function uw_rss_feed_cache_lifetime( $seconds ) {
+	return 3 * HOUR_IN_SECONDS;
+}
+function uw_rss_feed( $atts ) {
+    $url = ( !empty( $atts['url'] ) ) ? $atts['url']: "";
+    $title = ( !empty( $atts['title'] ) ) ? $atts['title']: "";
+    $description = ( !empty( $atts['description'] ) ) ? $atts['description']: "";
+    $more_link = ( !empty( $atts['more-link'] ) ) ? $atts['more-link']: "";
+    $max_posts = ( !empty( $atts['max-posts'] ) ) ? intval( $atts['max-posts'] ): 10; // default to 10
+    if ( !empty( $url ) ) : 
+      ob_start();
+			add_filter( 'wp_feed_cache_transient_lifetime' , 'uw_rss_feed_cache_lifetime' );
+			$feed = fetch_feed($url); 
+			remove_filter( 'wp_feed_cache_transient_lifetime' , 'uw_rss_feed_cache_lifetime' );
+			$items = $feed->get_items(0, $max_posts);
+        if ( count($items) > 0 ) : ?>
+            <div class="uw-pe uw-pe-latest_posts uw-rss-feed"> 
+                <?php if ( !empty( $title ) ) : ?>
+                    <h2 class="uw-mini-bar uw-content-box-header"><?php echo $title; ?></h2>
+                <?php endif; ?>             
+                <?php if ( !empty( $description ) ) : ?>
+                    <p><?php echo $description; ?></p>
+                <?php endif; ?>             
+                <ul class="uw-posts-listing">
+                    <?php
+                    foreach ($items as $item) : 
+                    ?>
+                        <li class="uw-post align-middle">
+                            <div class="uw-post-text">
+                                <h3>
+                                    <a href='<?php echo $item->get_permalink(); ?>'><?php echo $item->get_title(); ?></a>
+                                </h3>
+                                <?php if ( !empty( $item->get_date('F j, Y') ) ) :
+                                    ?>
+                                    <span class='uw-post-date'><?php echo " " . str_replace(' ','&nbsp;',$item->get_date('F j, Y')); ?></span>
+                                <?php endif ?>                          
+                            </div>
+                        </li>
+                        <?php endforeach; ?>
+                </ul>
+            </div>
+            <?php       
+            if ( !empty( $more_link ) ) : ?>
+                    <div class="uw-pe uw-pe-text_block">
+                        <p>
+                            <a class="uw-more-link" style="text-decoration: none;" href="<?php echo $more_link; ?>">More <?php echo get_svg('uw-symbol-more', array("aria-hidden" => "true")); ?></a>
+                        </p>
+                    </div>
+                <?php
+            endif;
+        endif;
+      return ob_get_clean();
+    endif;
+    return false;
+}
+add_shortcode( 'uw-rss-feed', 'uw_rss_feed' );

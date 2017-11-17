@@ -1338,6 +1338,25 @@
                                     "display": "block",
                                     "sub_fields": [
                                         {
+                                            "key": "field_576c0c4a70ec7",
+                                            "label": "Header Text",
+                                            "name": "links_header",
+                                            "type": "text",
+                                            "instructions": "An optional header that will appear before the links.",
+                                            "required": 0,
+                                            "conditional_logic": 0,
+                                            "wrapper": {
+                                                "width": "",
+                                                "class": "",
+                                                "id": ""
+                                            },
+                                            "default_value": "",
+                                            "placeholder": "",
+                                            "prepend": "",
+                                            "append": "",
+                                            "maxlength": ""
+                                        },
+                                        {
                                             "key": "field_576c0c4a70ec8",
                                             "label": "Use Predefined Menu?",
                                             "name": "use_predefined_menu",

@@ -123,7 +123,9 @@ uw_utils.ready(function() {
 
           // render menu in non-mobile state but hidden,
           // and calculate its width
-          uw_menu.classList.add("uw-hidden","uw-is-visible","uw-horizontal");
+            uw_menu.classList.add("uw-hidden");
+            uw_menu.classList.add("uw-is-visible");
+            uw_menu.classList.add("uw-horizontal");
           uw_menu.classList.remove("uw-stacked");
           menu_width = calcMainMenuWidth();
 
@@ -134,9 +136,11 @@ uw_utils.ready(function() {
             uw_menu_button.classList.remove("uw-is-visible");
             uw_menu_button.setAttribute("aria-expanded",true);
 
-          // restore the mobile menu and button classes
+              // restore the mobile menu and button classes
           } else {
-            uw_menu.classList.remove("uw-is-visible","uw-hidden","uw-horizontal");
+            uw_menu.classList.remove("uw-is-visible");
+            uw_menu.classList.remove("uw-horizontal");
+            uw_menu.classList.remove("uw-hidden");
             uw_menu.classList.add("uw-stacked");
           }
         } else {

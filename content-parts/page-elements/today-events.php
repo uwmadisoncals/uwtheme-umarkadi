@@ -26,7 +26,7 @@ if (!empty($header))
 	echo '<h2 class="uw-content-box-header">' . $header . '</h2>';
 
 // loop through events; events will be grouped by month
-if (!empty($event_feed->data)) {
+if (!empty(array_filter($event_feed->data))) {
 	echo '<ul class="uw-events">';
 	foreach ($event_feed->data['grouped'] as $month => $events) {
 		if ( !empty($events) ) {

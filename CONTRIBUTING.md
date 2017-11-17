@@ -18,15 +18,18 @@ The following steps assume that you know git and the commands needed to pull, co
 2. Running the project locally
     * See the [README](README.md) for details on building a local development environment for the theme
 3. Contributing to the project
-    * If this is not the first time working with this repo, make sure to sync your fork from master before starting to work
+    * If this is not the first time working with this repo, make sure to sync your fork from the Dev branch before starting to work. 
     * Create a branch that either describes the feature being developed or directly ties to a jira issue
     * Commit changes to the created branch early and often
-    * When development is finished and ready be merged to master, push your branch to your fork
+    * When development is finished and ready be merged, push your branch to your fork and open a merge request.
 4. The art of review
     * Login to GitLabs
     * Generate merge request
     * Gather feedback and make edits as needed/requested
     * Once your code is approved, someone from the University Marketing or DoIT team will merge your pull request into master
+
+### Git Workflow
+All new code should be submitted to the Dev branch (the master branch is reserved for releases). Learn more about the workflow we are following here: https://www.atlassian.com/git/tutorials/comparing-workflows#gitflow-workflow.
 
 ### Working with ACF JSON
 The theme comes pre-packaged with Advanced Custom Fields and the standard page uses ACF heavily to populate all the page elements. The theme is set to use ACF JSON so all field groups remain in sync and all new changes are added to the theme automatically. Read more here: https://www.advancedcustomfields.com/resources/local-json/

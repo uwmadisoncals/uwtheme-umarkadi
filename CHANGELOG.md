@@ -1,5 +1,55 @@
 # Change Log
 
+## [1.1.1] - 2017-10-16
+
+### Fixed
+* Removed the maximum height on the hero area, which fixes issues where headline text was getting cut off at some sizes (https://git.doit.wisc.edu/uw-madison-digital-strategy/uw-theme/merge_requests/210)
+* Header element is now available on the Group of Links element in a 1-column layout (https://git.doit.wisc.edu/uw-madison-digital-strategy/uw-theme/merge_requests/206)
+* Display issues for images with captions (https://git.doit.wisc.edu/uw-madison-digital-strategy/uw-theme/merge_requests/189 and https://git.doit.wisc.edu/uw-madison-digital-strategy/uw-theme/merge_requests/209)
+* Fixes a bug for sites using foreign accents in tab titles (https://git.doit.wisc.edu/uw-madison-digital-strategy/uw-theme/merge_requests/211)
+* Fixes display issues with the hero image inset in Internet Explorer (https://git.doit.wisc.edu/uw-madison-digital-strategy/uw-theme/merge_requests/213)
+* Fixes display issues with mobile menu on Internet Explorer (https://git.doit.wisc.edu/uw-madison-digital-strategy/uw-theme/merge_requests/215)
+* Adds a little more space between the main page title and the first row (https://git.doit.wisc.edu/uw-madison-digital-strategy/uw-theme/merge_requests/216)
+* Adjusts the line spacing in the top/utility menu (https://git.doit.wisc.edu/uw-madison-digital-strategy/uw-theme/merge_requests/214)
+
+
+## [1.1.0] - 2017-08-30
+
+### Deprecated
+* Attachment pages (the standalone pages for media files) no longer allow comments (https://git.doit.wisc.edu/uw-madison-digital-strategy/uw-theme/merge_requests/186)
+
+### Changed
+* Custom Post Type archive setting now defaults to `false` (https://git.doit.wisc.edu/uw-madison-digital-strategy/uw-theme/merge_requests/172)
+* Custom Post Types are now sorted alphabetically in archives. Applies to Faculty/Staff, Documents, or custom post types added to child themes. (https://git.doit.wisc.edu/uw-madison-digital-strategy/uw-theme/merge_requests/169)
+* UW Crest updated (https://git.doit.wisc.edu/uw-madison-digital-strategy/uw-theme/merge_requests/173)
+* Moves Hero overlay (Headline option) to bottom left (https://git.doit.wisc.edu/uw-madison-digital-strategy/uw-theme/merge_requests/178)
+
+### Fixed
+* Improves filtering for Documents Listing when filtering by category or type. (https://git.doit.wisc.edu/uw-madison-digital-strategy/uw-theme/merge_requests/157)
+* Fixes breadcrumb issue when WooCommerce is being used. (https://git.doit.wisc.edu/uw-madison-digital-strategy/uw-theme/merge_requests/174)
+* Color contrast fixes (https://git.doit.wisc.edu/uw-madison-digital-strategy/uw-theme/merge_requests/166)
+* npm-shrinkwrap.json file added to be skipped in build rake task (https://git.doit.wisc.edu/uw-madison-digital-strategy/uw-theme/merge_requests/167/diffs)
+* Admin interface search issues resolved (https://git.doit.wisc.edu/uw-madison-digital-strategy/uw-theme/merge_requests/168)
+* Removes dead link in Faculty/Staff breadcrumbs (https://git.doit.wisc.edu/uw-madison-digital-strategy/uw-theme/merge_requests/176/)
+* Display issues with lower content area (https://git.doit.wisc.edu/uw-madison-digital-strategy/uw-theme/merge_requests/182)
+* Properly sets aria-hidden to true on nav menu dropdown caret icons (https://git.doit.wisc.edu/uw-madison-digital-strategy/uw-theme/merge_requests/194)
+* Formatting/display issues with numbered lists (https://git.doit.wisc.edu/uw-madison-digital-strategy/uw-theme/merge_requests/181)
+* Formatting for bulleted lists in Faculty/Staff listings (https://git.doit.wisc.edu/uw-madison-digital-strategy/uw-theme/merge_requests/179)
+* Formatting issue for text blocks with inline images (https://git.doit.wisc.edu/uw-madison-digital-strategy/uw-theme/merge_requests/190)
+* Formatting issue for images with captions on pages where there is a sidebar (https://git.doit.wisc.edu/uw-madison-digital-strategy/uw-theme/merge_requests/189)
+* Formatting issue for centered lists (https://git.doit.wisc.edu/uw-madison-digital-strategy/uw-theme/merge_requests/193)
+* Removes space in styling for `.uw-outer-row` (https://git.doit.wisc.edu/uw-madison-digital-strategy/uw-theme/merge_requests/191)
+* Issues with today.wisc.edu events feeds (https://git.doit.wisc.edu/uw-madison-digital-strategy/uw-theme/merge_requests/183)
+* Updates deprecated `sanitize_url` to `esc_url_raw` (https://git.doit.wisc.edu/uw-madison-digital-strategy/uw-theme/merge_requests/198)
+* Adjust default Foundation table background color to adhere with WCAG AA color contrast specs (https://git.doit.wisc.edu/uw-madison-digital-strategy/uw-theme/merge_requests/197)
+
+
+### Added
+* Add Media button added to Faculty/Staff pages to allow media to be added to bio section (https://git.doit.wisc.edu/uw-madison-digital-strategy/uw-theme/merge_requests/180)
+* New, expanded character set for fonts (https://git.doit.wisc.edu/uw-madison-digital-strategy/uw-theme/merge_requests/177)
+* A shortcode for displaying RSS feeds (https://git.doit.wisc.edu/uw-madison-digital-strategy/uw-theme/merge_requests/187)
+* A default, official UW favicon (https://git.doit.wisc.edu/uw-madison-digital-strategy/uw-theme/merge_requests/201)
+
 ## [1.0.0] - 2017-05-17
 
 ### Deprecated
@@ -10,7 +60,7 @@
 
 * Rewrote auto excerpt function to work in PHP 5.4
 * All hero images will now be 100% width of the browser window
-* Fixed bug with URL field in factuly/staff extra fields 
+* Fixed bug with URL field in factuly/staff extra fields
 
 ## [1.0.0-beta.4] - 2017-05-05
 
@@ -28,7 +78,7 @@
 
 * New hero carousel options: ([!106](https://git.doit.wisc.edu/uw-madison-digital-strategy/uw-theme/merge_requests/106))
     * The hero can include one or more content panels. If more than one panel is entered, the hero area will become a carousel.
-    * Each panel can contain either a: 
+    * Each panel can contain either a:
         * standalone image
         * an image with a headline set manually that can optionally link to a URL
         * an image with a headline fed from a page or post that will link to the page or post
@@ -42,7 +92,7 @@
 * Added support for oEmbed Kaltura videos ([!88](https://git.doit.wisc.edu/uw-madison-digital-strategy/uw-theme/merge_requests/88))
 * Added ability to set class name and/or id on a page layout row ([!86](https://git.doit.wisc.edu/uw-madison-digital-strategy/uw-theme/merge_requests/86))
 * Added option to add caption when using the Image page element ([!96](https://git.doit.wisc.edu/uw-madison-digital-strategy/uw-theme/merge_requests/96) [!101](https://git.doit.wisc.edu/uw-madison-digital-strategy/uw-theme/merge_requests/101))
-* Added action hooks in to allow greater flexibility for child themes to customize the header and footer areas. ([!105](https://git.doit.wisc.edu/uw-madison-digital-strategy/uw-theme/merge_requests/105)) Specifically: 
+* Added action hooks in to allow greater flexibility for child themes to customize the header and footer areas. ([!105](https://git.doit.wisc.edu/uw-madison-digital-strategy/uw-theme/merge_requests/105)) Specifically:
     * `uw_after_body_open_tag`
     * `uw_after_header`
     * `uw_after_menus_inside`
@@ -107,7 +157,7 @@
 
 ### Changed
 
-* Unbundles jQuery2 from main.js and properly registers it in place of the default Wordpress jQuery1. jQuery is also now loaded in No Conflict mode in line with Wordpress conventions. (Note: sites with custom JS code that assumed jQuery was *not* in No Conflict mode will have breaking JS. This is likely rare since properly written JS for Wordpress should always assume No Conflict mode.) Child themes can deregister the theme's jQuery and register the default one. 
+* Unbundles jQuery2 from main.js and properly registers it in place of the default Wordpress jQuery1. jQuery is also now loaded in No Conflict mode in line with Wordpress conventions. (Note: sites with custom JS code that assumed jQuery was *not* in No Conflict mode will have breaking JS. This is likely rare since properly written JS for Wordpress should always assume No Conflict mode.) Child themes can deregister the theme's jQuery and register the default one.
 * Now includes post types in archive queries
 * No longer applies -webkit-font-smoothing: antialised to serif fonts
 * Strips *Archive*, *Tag*, *Category* etc from archive titles
@@ -120,7 +170,7 @@
 * Add accessibility improvements to image carousel page element
 * Add various other accessibility improvements to theme
 * Add various minor styling adjustments
-* Page Builder pages will now auto-generate a page excerpt unless an excerpt already exists ([!143](https://git.doit.wisc.edu/uw-madison-digital-strategy/uw-theme/merge_requests/143)) 
+* Page Builder pages will now auto-generate a page excerpt unless an excerpt already exists ([!143](https://git.doit.wisc.edu/uw-madison-digital-strategy/uw-theme/merge_requests/143))
 
 
 ### Fixed
@@ -163,7 +213,7 @@
 * Add ability to unset a footer menu
 * Fixed menu dropdown bug where dropdowns did not clear correctly when selecting new dropdown
 * Fixed mismatch between Customizer default colors and header.php default colors that caused confusion upon initial theme configuration
-* fixed various color styling issues 
+* fixed various color styling issues
 * fixed various accessibility issues identified when running the AMP tool
 * fixed layout issue on smaller screen sizes when using the Image Carousel page element on a page
 * fixed issues with long text in the hero inset box

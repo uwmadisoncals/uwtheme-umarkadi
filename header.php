@@ -13,6 +13,9 @@
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="profile" href="http://gmpg.org/xfn/11">
+	<?php if ( !has_site_icon() ) :
+		do_action('uw_favicon');
+	endif; ?>
 	<script>(function(H){H.className=H.className.replace(/\bno-js\b/,'')})(document.documentElement)</script>
 
 	<?php wp_head(); ?>

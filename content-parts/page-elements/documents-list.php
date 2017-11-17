@@ -9,35 +9,53 @@ $individual_documents = get_sub_field('individual_documents');
 
 // set query args for when a taxonomy is selected
 if($document_list_type == "Documents by Category/Type") :
+    if ($document_category && !$document_type) :
+        $tax_query = array(
+          array(
+              'taxonomy' => 'category',
+              'field'    => 'term_id',
+              'terms'    => $document_category,
+          )
+      );
+    elseif (!$document_category && $document_type) :
+        $tax_query =  array(
+          array(
+              'taxonomy' => 'uw_document_type',
+              'field'    => 'term_id',
+              'terms'    => $document_type,
+          )
+        );
+    else :
+       $tax_query = array(
+        'relation' => 'OR',
+          array(
+              'taxonomy' => 'category',
+              'field'    => 'term_id',
+              'terms'    => $document_category,
+          ),
+          array(
+              'taxonomy' => 'uw_document_type',
+              'field'    => 'term_id',
+              'terms'    => $document_type,
+          )
+      );
+    endif;
 
-$args = array(
-  'posts_per_page' => -1,
-  'post_type' => 'uw_documents',
-  'tax_query' => array(
-    'relation' => 'OR',
-    array(
-        'taxonomy' => 'category',
-        'field'    => 'term_id',
-        'terms'    => $document_category,
-    ),
-    array(
-        'taxonomy' => 'uw_document_type',
-        'field'    => 'term_id',
-        'terms'    => $document_type,
-    ),
-  ),
-  'orderby'=> 'title',
-  'order' => 'ASC'
-);
-
+    $args = array(
+      'posts_per_page' => -1,
+      'post_type' => 'uw_documents',
+      'tax_query' => $tax_query,
+      'orderby'=> 'title',
+      'order' => 'ASC'
+    );
 else :
-//default args
-$args = array(
-  'posts_per_page' => -1,
-  'post_type' => 'uw_documents',
-  'orderby'=> 'title',
-  'order' => 'ASC'
-);
+    //default args
+    $args = array(
+      'posts_per_page' => -1,
+      'post_type' => 'uw_documents',
+      'orderby'=> 'title',
+      'order' => 'ASC'
+    );
 
 endif;
 ?>

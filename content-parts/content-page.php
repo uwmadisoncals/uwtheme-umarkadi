@@ -124,7 +124,7 @@ function elements_as_classes($row) {
 
 				echo '<div ';
 				if($row_custom_id) {
-					echo 'id="' . $row_custom_id . '"';
+					echo 'id="' . $row_custom_id . '" ';
 				}
 				echo 'class="uw-outer-row row-' . get_row_index() . elements_as_classes( get_row()) . ' ' . $bg_color;
 				if ($row_custom_class) {

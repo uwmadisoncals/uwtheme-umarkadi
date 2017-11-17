@@ -39,10 +39,10 @@ function custom_breadcrumbs() {
 
 				$post_type_object = get_post_type_object($post_type);
 				$post_type_archive = get_post_type_archive_link($post_type);
-
-				echo '<li class="item-cat item-custom-post-type-' . $post_type . '"><a class="bread-cat bread-custom-post-type-' . $post_type . '" href="' . $post_type_archive . '" title="' . $post_type_object->labels->name . '">' . $post_type_object->labels->name . '</a></li>';
+				if (!empty($post_type_archive)){
+					echo '<li class="item-cat item-custom-post-type-' . $post_type . '"><a class="bread-cat bread-custom-post-type-' . $post_type . '" href="' . $post_type_archive . '" title="' . $post_type_object->labels->name . '">' . $post_type_object->labels->name . '</a></li>';
 				//echo '<li class="separator"> ' . $separator . ' </li>';
-
+				} 
 			}
 
 			$custom_tax_name = get_queried_object()->name;
@@ -58,9 +58,10 @@ function custom_breadcrumbs() {
 
 				$post_type_object = get_post_type_object($post_type);
 				$post_type_archive = get_post_type_archive_link($post_type);
-
-				echo '<li class="item-cat item-custom-post-type-' . $post_type . '"><a class="bread-cat bread-custom-post-type-' . $post_type . '" href="' . $post_type_archive . '" title="' . $post_type_object->labels->name . '">' . $post_type_object->labels->name . '</a></li>';
+				if (!empty($post_type_archive)){
+					echo '<li class="item-cat item-custom-post-type-' . $post_type . '"><a class="bread-cat bread-custom-post-type-' . $post_type . '" href="' . $post_type_archive . '" title="' . $post_type_object->labels->name . '">' . $post_type_object->labels->name . '</a></li>';
 				//echo '<li class="separator"> ' . $separator . ' </li>';
+				} 
 
 			}
 
@@ -85,9 +86,12 @@ function custom_breadcrumbs() {
 
 			}
 
-			// If it's a custom post type within a custom taxonomy
+			/* Checks if it's a custom taxonomy in a custom post type
+			 * Also checks if custom taxonomy is associated to post ID to
+			 * account for WooCommerce using same 'product_cat' taxonomy name
+			 */
 			$taxonomy_exists = taxonomy_exists($custom_taxonomy);
-			if(empty($last_category) && !empty($custom_taxonomy) && $taxonomy_exists) {
+			if(empty($last_category) && !empty($custom_taxonomy) && $taxonomy_exists && has_term('', $custom_taxonomy, $post->ID)) {
 
 				$taxonomy_terms = get_the_terms( $post->ID, $custom_taxonomy );
 				$cat_id   = $taxonomy_terms[0]->term_id;

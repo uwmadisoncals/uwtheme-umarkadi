@@ -449,37 +449,37 @@ if ( ! function_exists( 'uwmadison_scripts' ) ) :
 	 */
 	function uwmadison_scripts() {
 		// enqueue UW fonts
-		wp_register_style( 'uwmadison-fonts', get_template_directory_uri() . '/dist/fonts/uw160/fonts.css', false, '1.0.0' );
+		wp_register_style( 'uwmadison-fonts', get_template_directory_uri() . '/dist/fonts/uw160/fonts.css', false, '1.1.1' );
 		wp_enqueue_style( 'uwmadison-fonts' );
 
 		// Add custom fonts, used in the main stylesheet.
-		wp_register_style( 'uwmadison-google-fonts', uwmadison_add_google_fonts(), false, '1.0.0' );
+		wp_register_style( 'uwmadison-google-fonts', uwmadison_add_google_fonts(), false, '1.1.1' );
 		wp_enqueue_style( 'uwmadison-google-fonts' );
 
 
-		wp_register_script( 'uwmadison-ie', get_template_directory_uri() . '/dist/js/polyfills/classList.js', false, '1.0.0', true );
+		wp_register_script( 'uwmadison-ie', get_template_directory_uri() . '/dist/js/polyfills/classList.js', false, '1.1.1', true );
 		wp_enqueue_script( 'uwmadison-ie' );
 		wp_script_add_data( 'uwmadison-ie', 'conditional', 'lt IE 10' );
 
 		// deregister WP's jQuery; register jQuery 2 for Foundation dependency
 		wp_deregister_script( 'jquery' );
-		wp_register_script( 'jquery', get_template_directory_uri() . '/dist/js/jquery/jquery.min.js' , false, '1.0.0', true );
+		wp_register_script( 'jquery', get_template_directory_uri() . '/dist/js/jquery/jquery.min.js' , false, '1.1.1', true );
 
 		// Theme assets.
 		if ( !WP_DEBUG ) {
-			wp_register_style( 'uwmadison-style', get_template_directory_uri() . '/dist/main.min.css' , false, '1.0.0' );
+			wp_register_style( 'uwmadison-style', get_template_directory_uri() . '/dist/main.min.css' , false, '1.1.1' );
 			wp_enqueue_style( 'uwmadison-style' );
-			wp_register_script( 'uwmadison-script', get_template_directory_uri() . '/dist/main.min.js', array('jquery'), '1.0.0', true );
+			wp_register_script( 'uwmadison-script', get_template_directory_uri() . '/dist/main.min.js', array('jquery'), '1.1.1', true );
 			wp_enqueue_script( 'uwmadison-script' );
 		} else {
-			wp_register_style( 'uwmadison-style', get_template_directory_uri() . '/dist/main.css' , false, '1.0.0' );
+			wp_register_style( 'uwmadison-style', get_template_directory_uri() . '/dist/main.css' , false, '1.1.1' );
 			wp_enqueue_style( 'uwmadison-style' );
-			wp_register_script( 'uwmadison-script', get_template_directory_uri() . '/dist/main.js', array('jquery'), '1.0.0', true );
+			wp_register_script( 'uwmadison-script', get_template_directory_uri() . '/dist/main.js', array('jquery'), '1.1.1', true );
 			wp_enqueue_script( 'uwmadison-script' );
 		}
 
 		// Load the Internet Explorer specific stylesheet.
-		wp_register_style( 'uwmadison-ie', get_template_directory_uri() . '/dist/css/ie.css', array( 'uwmadison-style' ), '1.0.0' );
+		wp_register_style( 'uwmadison-ie', get_template_directory_uri() . '/dist/css/ie.css', array( 'uwmadison-style' ), '1.1.1' );
 		wp_enqueue_style( 'uwmadison-ie' );
 		wp_style_add_data( 'uwmadison-ie', 'conditional', 'lt IE 10' );
 
@@ -573,7 +573,7 @@ function has_any_menus() {
  **/
 function filter_search_query( $query, $error = true ) {
 	$gcse_id = site_uses_google_search();
-	if ( is_search() && $gcse_id ) {
+	if ( is_search() && $gcse_id && !is_admin()) {
 		$query->query_vars['s'] = false;
 		$query->query['s'] = false;
 	}
@@ -954,6 +954,18 @@ endif;
 add_filter( 'pre_get_posts', 'uwmadison_add_custom_types' );
 
 
+/**
+	 * Sorts custom post type archives alphabetically by title
+	 *
+	 **/
+function uwmadison_sort_custom_types_alpha($query) {
+	if(is_post_type_archive()) {
+		$query->set('order', 'ASC');
+		$query->set('orderby', 'title');
+	}
+}
+add_action('pre_get_posts', 'uwmadison_sort_custom_types_alpha');
+
 if ( ! function_exists( 'uwmadison_customize_tmce' ) ) :
 
 	/**
@@ -1051,12 +1063,12 @@ function uwmadison_website_issues_contact() {
 endif;
 
 /**
- * Allow custom 404 pages 
+ * Allow custom 404 pages
  *
  **/
 function uw_custom_404() {
 	global $post;
-	
+
 	// Add edit page link to admin bar on custom 404 pages
 	add_action( 'wp_before_admin_bar_render', function() {
     global $wp_admin_bar, $post;
@@ -1069,13 +1081,13 @@ function uw_custom_404() {
         'href' => get_edit_post_link($post->id)
     ) );
 	}, 8 );
-	
+
 	// Add error404 class to body
 	add_filter( 'body_class', function($classes) {
         $classes[] = 'error404';
         return $classes;
 	});
-	
+
 	// Construct page
 	$post = get_post( get_theme_mod( 'uwmadison_404_page_id' ) );
 	query_posts( array( 'page_id' => $post->ID ) );
@@ -1086,9 +1098,9 @@ function uw_custom_404() {
 /**
 *
 *	Generate page builder page excerpt from ACF content
-* 
-* Performs recursive search of ACF Page Builder to find  
-* 'text_block_content' fields and uses them to construct 
+*
+* Performs recursive search of ACF Page Builder to find
+* 'text_block_content' fields and uses them to construct
 * an excerpt in the event that the excerpt field was left
 * blank
 *
@@ -1108,15 +1120,15 @@ function uw_acf_excerpt( $post_id ) {
 	$excerpt = trim(get_the_excerpt( $post_id ));
 	if ( $excerpt === '' ) {
 		ob_start();
-		uw_recursive_search( 
-			array( 
-				'array' => get_fields( $post_id ), 
-				'key' => 'text_block_content' 
-			) 
-		); 
+		uw_recursive_search(
+			array(
+				'array' => get_fields( $post_id ),
+				'key' => 'text_block_content'
+			)
+		);
 		$content = ob_get_clean();
 		remove_action( 'save_post', 'uw_acf_excerpt' );
-		wp_update_post( 
+		wp_update_post(
 			array(
 				'ID'          	 => $post_id,
 				'post_excerpt'   => wp_trim_words( $content, 55 ),
@@ -1128,7 +1140,7 @@ function uw_acf_excerpt( $post_id ) {
 add_action( 'save_post', 'uw_acf_excerpt' );
 
 // perform recursive array search of ACF fields
-function uw_recursive_search( $fields ) {	
+function uw_recursive_search( $fields ) {
 	if ( !empty( $fields ) ) {
 		$array = $fields['array'];
 		$key = $fields['key'];
@@ -1138,15 +1150,62 @@ function uw_recursive_search( $fields ) {
 			} else if( !array_key_exists( $key, $array ) ) {
 				foreach ( $array as $index   =>  $subarray ) {
 					if( is_array( $subarray ) ) {
-						uw_recursive_search( 
-							array( 
-								'array' => $subarray, 
-								'key' 	=> $key 
-							) 
+						uw_recursive_search(
+							array(
+								'array' => $subarray,
+								'key' 	=> $key
+							)
 						);
 					}
 				}
-			}	
+			}
 		}
 	}
-}	
+}
+
+// disable comments on targeted pages
+function uw_filter_media_comment_status( $open, $post_id ) {
+    $post = get_post( $post_id );
+    if( $post->post_type == 'attachment' ) {
+        return false;
+    }
+    return $open;
+}
+add_filter( 'comments_open', 'uw_filter_media_comment_status', 10 , 2 );
+
+
+if ( ! function_exists( 'uw_default_favicon' ) ) :
+	/**
+	 * Sets default UW favicon if site icon is not set through Customizer
+	 **/
+	function uw_default_favicon() {
+		echo '<link rel="icon" href="' . get_template_directory_uri() . '/dist/images/favicon.ico" sizes="32x32" />';
+	}
+endif;
+add_action( 'uw_favicon', 'uw_default_favicon' );
+
+/**
+ * Sets the <figure> inline width to max-width so images and captions don't overflow their container
+ **/
+add_filter( 'img_caption_shortcode', 'uw_img_caption_shortcode', 10, 3 );
+
+function uw_img_caption_shortcode( $empty, $attr, $content ){
+    $attr = shortcode_atts( array(
+        'id'      => '',
+        'align'   => 'alignnone',
+        'width'   => '',
+        'caption' => ''
+    ), $attr );
+    if ( 1 > (int) $attr['width'] || empty( $attr['caption'] ) ) {
+        return '';
+    }
+    if ( $attr['id'] ) {
+        $attr['id'] = 'id="' . esc_attr( $attr['id'] ) . '" ';
+    }
+    return '<figure ' . $attr['id']
+    . 'class="wp-caption ' . esc_attr( $attr['align'] ) . '" '
+    . 'style="max-width: ' . ( (int) $attr['width'] ) . 'px;">'
+    . do_shortcode( $content )
+    . '<figcaption class="wp-caption-text">' . $attr['caption'] . '</figcaption>'
+    . '</figure>';
+}

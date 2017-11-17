@@ -13,7 +13,7 @@ function all_custom_post_types() {
 // universal function for custom post type settings
 // do not modify or duplicate this function... to create a new
 // post type and define settings, add a line to all_custom_post_types()
-function post_type_settings( $key_name, $name, $singular_name, $url_slug, $icon = true, $supports, $has_archive ) {
+function post_type_settings( $key_name, $name, $singular_name, $url_slug, $icon = true, $supports, $has_archive = false ) {
 	$labels = array(
 		'name'					=> $name,
 		'singular_name'			=> $singular_name,
