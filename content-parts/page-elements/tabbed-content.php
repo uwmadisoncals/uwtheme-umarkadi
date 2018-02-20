@@ -7,7 +7,7 @@ if ($tabs) :
 	$counter_content = 1; ?>
 
 	<div class="tabs-container">
-		<ul id="tabs" class="tabs" role="tablist" data-tabs>
+		<ul id="tabs" class="tabs" role="tablist" data-tabs data-deep-link="true">
 			<?php foreach ( $tabs as $tab ) :
 				$id = sanitize_title($tab['tab_title']); ?>
 

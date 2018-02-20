@@ -1,5 +1,36 @@
 # Change Log
 
+## [1.1.3] - 2018-02-07
+
+### Fixed
+* Fixed bug in faculty/staff listing page element when selecting staff by type
+
+## [1.1.2] - 2018-02-01
+
+### Changed
+* Adds action hook to footer (!243)
+* Change the max-width of .uw-pe.uw-pe-latest_posts to 100% (!242)
+* Allow Dashicons on Front End (!241)
+* Turn on data deep linking for tabbed element (!220)
+* Allow site title and description in header to be filtered (!238)
+
+### Removed
+* Remove Old Hero content (!236)
+
+### Fixed
+* Exclude event queries from ordering by title (!240)
+* Add Alt-Text to Bucky Head in Faculty/Staff Lists (!234)
+* Underline links in list items (!237)
+* Fix carousel “Learn More” links from wrapping on iPad’s (!235)
+* Adjust Language on Fac/Staff to "By Type" not "By Category" (!231)
+* Update to 1.2.2 of UW events plugin (!230)
+* A simpler fix for the SVG issue (!226)
+* Edit Hero Content Area ACF (!225)
+* Resize utility links submenu if it is closest to window edge (!221)
+* Change KB Doc reference in customizer admin view (!222)
+* Add image specs to custom fields (!224)
+
+
 ## [1.1.1] - 2017-10-16
 
 ### Fixed

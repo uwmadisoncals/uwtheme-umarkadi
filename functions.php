@@ -449,37 +449,37 @@ if ( ! function_exists( 'uwmadison_scripts' ) ) :
 	 */
 	function uwmadison_scripts() {
 		// enqueue UW fonts
-		wp_register_style( 'uwmadison-fonts', get_template_directory_uri() . '/dist/fonts/uw160/fonts.css', false, '1.1.1' );
+		wp_register_style( 'uwmadison-fonts', get_template_directory_uri() . '/dist/fonts/uw160/fonts.css', false, '1.1.3' );
 		wp_enqueue_style( 'uwmadison-fonts' );
 
 		// Add custom fonts, used in the main stylesheet.
-		wp_register_style( 'uwmadison-google-fonts', uwmadison_add_google_fonts(), false, '1.1.1' );
+		wp_register_style( 'uwmadison-google-fonts', uwmadison_add_google_fonts(), false, '1.1.3' );
 		wp_enqueue_style( 'uwmadison-google-fonts' );
 
 
-		wp_register_script( 'uwmadison-ie', get_template_directory_uri() . '/dist/js/polyfills/classList.js', false, '1.1.1', true );
+		wp_register_script( 'uwmadison-ie', get_template_directory_uri() . '/dist/js/polyfills/classList.js', false, '1.1.3', true );
 		wp_enqueue_script( 'uwmadison-ie' );
 		wp_script_add_data( 'uwmadison-ie', 'conditional', 'lt IE 10' );
 
 		// deregister WP's jQuery; register jQuery 2 for Foundation dependency
 		wp_deregister_script( 'jquery' );
-		wp_register_script( 'jquery', get_template_directory_uri() . '/dist/js/jquery/jquery.min.js' , false, '1.1.1', true );
+		wp_register_script( 'jquery', get_template_directory_uri() . '/dist/js/jquery/jquery.min.js' , false, '1.1.3', true );
 
 		// Theme assets.
 		if ( !WP_DEBUG ) {
-			wp_register_style( 'uwmadison-style', get_template_directory_uri() . '/dist/main.min.css' , false, '1.1.1' );
+			wp_register_style( 'uwmadison-style', get_template_directory_uri() . '/dist/main.min.css' , false, '1.1.3' );
 			wp_enqueue_style( 'uwmadison-style' );
-			wp_register_script( 'uwmadison-script', get_template_directory_uri() . '/dist/main.min.js', array('jquery'), '1.1.1', true );
+			wp_register_script( 'uwmadison-script', get_template_directory_uri() . '/dist/main.min.js', array('jquery'), '1.1.3', true );
 			wp_enqueue_script( 'uwmadison-script' );
 		} else {
-			wp_register_style( 'uwmadison-style', get_template_directory_uri() . '/dist/main.css' , false, '1.1.1' );
+			wp_register_style( 'uwmadison-style', get_template_directory_uri() . '/dist/main.css' , false, '1.1.3' );
 			wp_enqueue_style( 'uwmadison-style' );
-			wp_register_script( 'uwmadison-script', get_template_directory_uri() . '/dist/main.js', array('jquery'), '1.1.1', true );
+			wp_register_script( 'uwmadison-script', get_template_directory_uri() . '/dist/main.js', array('jquery'), '1.1.3', true );
 			wp_enqueue_script( 'uwmadison-script' );
 		}
 
 		// Load the Internet Explorer specific stylesheet.
-		wp_register_style( 'uwmadison-ie', get_template_directory_uri() . '/dist/css/ie.css', array( 'uwmadison-style' ), '1.1.1' );
+		wp_register_style( 'uwmadison-ie', get_template_directory_uri() . '/dist/css/ie.css', array( 'uwmadison-style' ), '1.1.3' );
 		wp_enqueue_style( 'uwmadison-ie' );
 		wp_style_add_data( 'uwmadison-ie', 'conditional', 'lt IE 10' );
 
@@ -697,14 +697,15 @@ function site_uses_breadcrumbs() {
 	return get_theme_mod('uwmadison_breadcrumbs', true);
 }
 
+$SVG = simplexml_load_string(file_get_contents(get_template_directory() . '/dist/images/uw-icons.svg'));
 
 /**
  * get_svg function grabs symbol from SVG/XML object, processes, and returns for embedding in HTML.
  **/
 function get_svg($symbol_id, array $args = array()) {
-
+	global $SVG;
 	// Create XML object that will be used by get_svg function throughout theme.
-	$oSVGXML = simplexml_load_file(get_template_directory() . '/dist/images/uw-icons.svg');
+	$oSVGXML = $SVG;
 
 	// Add or override whatever SVG attributes you want simply by including them in the args array.
 	// SVG attributes in SVG file override defaults below.
@@ -781,7 +782,6 @@ function get_svg($symbol_id, array $args = array()) {
 	// Return svg result for embedding in html
 	return(str_ireplace(' id="'.$symbol_id.'"','',str_ireplace('</symbol>','</svg>',str_ireplace('<symbol ','<svg ',$oXML->asXML()))));
 }
-
 
 if ( ! function_exists( 'news_oembed_filter' ) ) :
 
@@ -951,15 +951,19 @@ if ( ! function_exists( 'uwmadison_add_custom_types' ) ) :
 	}
 
 endif;
-add_filter( 'pre_get_posts', 'uwmadison_add_custom_types' );
 
+if(!is_admin()) {
+	add_filter( 'pre_get_posts', 'uwmadison_add_custom_types' );
+}
 
 /**
-	 * Sorts custom post type archives alphabetically by title
+	 * Sorts custom post type archives alphabetically by title. Do not apply
+	 * when querying for event post types to populate an instance of the Events
+	 * Calendar plugin. https://theeventscalendar.com/product/wordpress-events-calendar
 	 *
 	 **/
 function uwmadison_sort_custom_types_alpha($query) {
-	if(is_post_type_archive()) {
+	if(is_post_type_archive() && $query->get('post_type') !== 'tribe_events') {
 		$query->set('order', 'ASC');
 		$query->set('orderby', 'title');
 	}

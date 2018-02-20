@@ -83,15 +83,22 @@
     ?>
 
 		<div class="uw-copyright">
-      <p>
-        <?php echo uwmadison_website_issues_contact(); ?>
-        &nbsp; &bull; &nbsp; This website was built using the <a href="https://uwtheme.wordpress.wisc.edu/">UW Theme</a>.
-      </p>
-
-      <p>
-        &copy; <?php echo date('Y'); ?> Board of Regents of the
-        <a href="http://www.wisconsin.edu">University of Wisconsin System</a>
-      </p>
+            <p><?php echo uwmadison_website_issues_contact(); ?>.</p>
+            <p>This site was built using the <a href="https://uwtheme.wordpress.wisc.edu/">UW Theme</a>. &copy; <?php echo date('Y'); ?> Board of Regents of the <a href="http://www.wisconsin.edu">University of Wisconsin System.</a>
+            </p>
+            <?php
+            /* Hook for adding custom code inside the uw-copyright content area
+             * In a child theme, add a function like this:
+             *
+             *     function your_custom_code() {
+             *      // your custom code here
+             *      }
+             *      add_action('uw_inside_copyright', 'your_custom_code');
+             *
+             * More about hooks: https://developer.wordpress.org/reference/functions/do_action/
+            */
+            do_action('uw_inside_copyright');
+        ?>
 
     </div>
 
@@ -114,4 +121,3 @@
   <?php wp_footer(); ?>
 </body>
 </html>
-

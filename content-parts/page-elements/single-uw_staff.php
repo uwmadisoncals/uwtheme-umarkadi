@@ -42,10 +42,11 @@
   <div class="faculty-headshot">
     <?php
     $image_id = get_field( 'headshot' );
+		$alt_text = $last_to_first ? $last_name. ', ' .$first_name : $first_name. ' ' .$last_name;	
     if ( $image_id ) :
       echo '<p>' . wp_get_attachment_image( $image_id, 'medium' ) . '</p>';
     else :
-      echo '<p><img src="' . get_template_directory_uri() . '/dist/images/bucky-head.png"/></p>';
+      echo '<p><img src="' . get_template_directory_uri() . '/dist/images/bucky-head.png" alt="' . $alt_text . '" /></p>';
     endif;
     ?>
   </div>

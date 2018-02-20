@@ -104,8 +104,9 @@ if( get_posts($args) ) :
 				<?php
 				if ( $image_id ) :
 					echo wp_get_attachment_image( $image_id, $image_src );
-				else : ?>
-					<img class="buckyhead" src="<?php  echo get_template_directory_uri() . '/dist/images/bucky-head.png'; ?>"/>
+				else : 
+					$alt_text = $last_to_first ? get_field( 'last_name', $person->ID ). ', ' .get_field( 'first_name', $person->ID ) : get_field( 'first_name', $person->ID ). ' ' .get_field( 'last_name', $person->ID ); ?>
+					<img class="buckyhead" src="<?php  echo get_template_directory_uri() . '/dist/images/bucky-head.png'; ?>" alt="<?php echo $alt_text; ?>" />
 				<?php endif; ?>
 			</a>
 		</div>

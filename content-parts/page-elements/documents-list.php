@@ -85,7 +85,7 @@ endif;
 
       echo '<li>';
         if($file && trim(get_the_content() == '')) :
-          echo '<span class="dashicons dashicons-media-text"></span> <a href="' . $file['url'] . '">';
+          echo get_svg('uw-symbol-document', array("class" => "uw-symbol-document")) . ' <a href="' . $file['url'] . '">';
         else:
           echo '<a href="' . get_permalink($post_object->ID) . '">';
         endif;

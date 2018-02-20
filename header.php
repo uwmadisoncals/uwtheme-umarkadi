@@ -55,9 +55,9 @@
 				<div class="uw-title-tagline">
 					<?php $title_tag = is_front_page() ? "h1" : "div"; ?>
 					<<?php echo $title_tag; ?> id="site-title" class="uw-site-title <?php echo $uwmadison_title_style;?> ">
-						<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php echo get_bloginfo( 'name' ); ?></a>
+						<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php echo get_bloginfo( 'name', 'display' ); ?></a>
 					</<?php echo $title_tag; ?>>
-					<?php $tagline = get_bloginfo( 'description' ); ?>
+					<?php $tagline = get_bloginfo( 'description', 'display' ); ?>
 					<?php if (!empty($tagline)) { ?>
 						<div id="site-description" class="uw-site-tagline"><?php echo $tagline ?></div>
 					<?php } ?>

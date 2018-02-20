@@ -535,7 +535,7 @@
                                                     "label": "Image",
                                                     "name": "alternating_content_image",
                                                     "type": "image",
-                                                    "instructions": "",
+                                                    "instructions": "Images should be at least 576 pixels wide and 384 pixels in height to ensure consistent display.",
                                                     "required": 0,
                                                     "conditional_logic": 0,
                                                     "wrapper": {
@@ -807,12 +807,10 @@
                                             },
                                             "choices": {
                                                 "All Faculty\/Staff": "All Faculty\/Staff",
-                                                "Faculty\/Staff by category": "Faculty\/Staff by category",
+                                                "Faculty\/Staff by category": "Faculty\/Staff by type",
                                                 "Select individual people": "Select individual people"
                                             },
-                                            "default_value": [
-
-                                            ],
+                                            "default_value": [],
                                             "allow_null": 0,
                                             "multiple": 0,
                                             "ui": 0,
@@ -874,9 +872,7 @@
                                             "post_type": [
                                                 "uw_staff"
                                             ],
-                                            "taxonomy": [
-
-                                            ],
+                                            "taxonomy": [],
                                             "allow_null": 0,
                                             "multiple": 1,
                                             "return_format": "object",
@@ -1081,9 +1077,7 @@
                                                 "Thumbnail (site default)": "Thumbnail (site default)",
                                                 "Custom": "Custom"
                                             },
-                                            "default_value": [
-
-                                            ],
+                                            "default_value": [],
                                             "allow_null": 0,
                                             "multiple": 0,
                                             "ui": 0,
@@ -1579,7 +1573,7 @@
                                                     "label": "Image",
                                                     "name": "image",
                                                     "type": "image",
-                                                    "instructions": "",
+                                                    "instructions": "Images should be the same pixel dimensions (width x height) to ensure consistent display. The maximum pixel width and height to fill the image space is 588 pixels wide by 392 pixels in height.",
                                                     "required": 0,
                                                     "conditional_logic": 0,
                                                     "wrapper": {
@@ -1672,8 +1666,8 @@
                                             "name": "image_gallery",
                                             "type": "gallery",
                                             "instructions": "",
-                                            "required": "",
-                                            "conditional_logic": "",
+                                            "required": 0,
+                                            "conditional_logic": 0,
                                             "wrapper": {
                                                 "width": "",
                                                 "class": "",
@@ -1681,9 +1675,8 @@
                                             },
                                             "min": "",
                                             "max": "",
-                                            "preview_size": "thumbnail",
                                             "insert": "append",
-                                            "library": "",
+                                            "library": "all",
                                             "min_width": "",
                                             "min_height": "",
                                             "min_size": "",
@@ -1803,9 +1796,7 @@
                                                 "class": "",
                                                 "id": ""
                                             },
-                                            "post_type": [
-
-                                            ],
+                                            "post_type": [],
                                             "taxonomy": [],
                                             "allow_null": 1,
                                             "multiple": 1,
@@ -3206,9 +3197,7 @@
                                                 "class": "",
                                                 "id": ""
                                             },
-                                            "post_type": [
-
-                                            ],
+                                            "post_type": [],
                                             "taxonomy": [],
                                             "allow_null": 1,
                                             "multiple": 1,
@@ -4325,9 +4314,7 @@
                                                 "class": "",
                                                 "id": ""
                                             },
-                                            "post_type": [
-
-                                            ],
+                                            "post_type": [],
                                             "taxonomy": [],
                                             "allow_null": 1,
                                             "multiple": 1,
@@ -5483,9 +5470,7 @@
                                                 "class": "",
                                                 "id": ""
                                             },
-                                            "post_type": [
-
-                                            ],
+                                            "post_type": [],
                                             "taxonomy": [],
                                             "allow_null": 1,
                                             "multiple": 1,
@@ -6504,9 +6489,7 @@
                                                 "class": "",
                                                 "id": ""
                                             },
-                                            "post_type": [
-
-                                            ],
+                                            "post_type": [],
                                             "taxonomy": [],
                                             "allow_null": 1,
                                             "multiple": 1,
@@ -7525,9 +7508,7 @@
                                                 "class": "",
                                                 "id": ""
                                             },
-                                            "post_type": [
-
-                                            ],
+                                            "post_type": [],
                                             "taxonomy": [],
                                             "allow_null": 1,
                                             "multiple": 1,
@@ -7831,5 +7812,5 @@
     ],
     "active": 1,
     "description": "default page layout",
-    "modified": 1493941957
+    "modified": 1518040311
 }

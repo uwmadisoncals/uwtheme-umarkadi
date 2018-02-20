@@ -112,7 +112,7 @@ function uwmadison_customize_register( $wp_customize ) {
   $wp_customize->add_control( 'uwmadison_google_cse_id', array(
     'section'    => 'uwmadison_search',
     'label'      => 'Optional: Using Google Search',
-    'description' => 'By default, this theme uses the native Wordpress search. If you prefer to use a Google Custom Search Engine, enter its GCSE ID below. See <a href="https://kb.wisc.edu/wiscwebcms/page.php?id=32875">KB doc</a> for help with setting up a Google Custom Search Engine.',
+    'description' => 'By default, this theme uses the native Wordpress search. If you prefer to use a Google Custom Search Engine, enter its GCSE ID below. See <a href="https://kb.wisc.edu/wiscweb/page.php?id=69294">KB doc</a> for help with setting up a Google Custom Search Engine.',
     'input_attrs' => array(
       'placeholder' => 'Enter GCSE ID'
     )
@@ -280,7 +280,7 @@ function uwmadison_customize_register( $wp_customize ) {
     'label'      => 'Use breadcrumbs on this site',
     'type'       => 'checkbox'
   ) );
-	
+
 	// add custom 404 page options
 	$wp_customize->add_setting( 'uwmadison_404_page_id' );
 	$wp_customize->add_control( 'uwmadison_404_page_id', array(

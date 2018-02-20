@@ -25,6 +25,7 @@ if( have_rows('image_group') ):
 
           window.initSlick = function() {
             carousel_1.slick({
+              swipe: false,
               slidesToShow: 1,
               slideToScroll: 1,
               arrows: false,
@@ -33,6 +34,7 @@ if( have_rows('image_group') ):
               asNavFor: '.carousel-2'
             });
             carousel_2.slick({
+              swipe: false,
               slidesToShow: 1,
               slideToScroll: 1,
               asNavFor: '.carousel-1',
