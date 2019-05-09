@@ -130,6 +130,7 @@ function uw_staff_columns( $columns ) {
 	$columns = array(
 		'cb' =>   '<input type="checkbox" />',
 		'title' => __( 'Title', 'uw-theme' ),
+		'credentials' => __('Credentials', 'uw-theme'),
 		'headshot' => __( 'Headshot', 'uw-theme' ),
 		'email' => __( 'Email', 'uw-theme' ),
 		'uw_staff_type' => __( 'Faculty Type', 'uw-theme' ),
@@ -208,18 +209,18 @@ function manage_uw_staff_columns( $column, $post_id ) {
 			$name = get_field( 'name' );
 			if ( $name ) {
 				echo $name;
-			} else {
-			echo "";
-		}
+			}
 		break;
-
+		case 'credentials' :
+			$credentials = get_field( 'credentials' );
+			if ( $credentials ) {
+				echo $credentials;
+			}
 		case 'email' :
 			$email = get_field( 'email' );
 			if ( $email ) {
 				echo $email;
-			} else {
-			echo "";
-		}
+			}
 		break;
 
 		case 'uw_staff_type' :
@@ -228,8 +229,6 @@ function manage_uw_staff_columns( $column, $post_id ) {
 			foreach ($term_names as $term) {
 				echo $term . '<br/>';
 			}
-		} else {
-			echo "";
 		}
 		break;
 
@@ -237,8 +236,6 @@ function manage_uw_staff_columns( $column, $post_id ) {
 		$title_position = get_field( 'title_position' );
 		if ( $title_position ) {
 			echo $title_position;
-		} else {
-			echo "";
 		}
 		break;
 
@@ -257,3 +254,16 @@ function my_acf_admin_head_faculty() {
 	</style>
 	<?php
 }
+
+/**
+ *
+ *	Display the archive page for the UW Staff Type taxonomy in alphabetical order
+ *
+ */
+function uw_staff_type_taxonomy_sort_order( $query ) {
+	if ( $query->is_tax('uw_staff_type') ) {
+		$query->set('orderby', 'title');
+		$query->set('order', 'ASC');
+	}
+}
+add_action( 'pre_get_posts', 'uw_staff_type_taxonomy_sort_order' );

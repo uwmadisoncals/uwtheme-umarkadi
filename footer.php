@@ -21,6 +21,7 @@
   ?>
 
 	<footer id="colophon" class="uw-footer">
+    <h2 class="show-for-sr uw-footer-header">Site footer content</h2>
 		<div class="uw-footer-content">
 			<div class="uw-logo">
 				<a href="http://www.wisc.edu" aria-label="Link to main university website">
@@ -84,7 +85,7 @@
 
 		<div class="uw-copyright">
             <p><?php echo uwmadison_website_issues_contact(); ?>.</p>
-            <p>This site was built using the <a href="https://uwtheme.wordpress.wisc.edu/">UW Theme</a>. &copy; <?php echo date('Y'); ?> Board of Regents of the <a href="http://www.wisconsin.edu">University of Wisconsin System.</a>
+            <p>This site was built using the <a href="https://uwtheme.wordpress.wisc.edu/">UW Theme</a> | <?php echo uwmadison_footer_privacy(); ?> | &copy; <?php echo date('Y'); ?> Board of Regents of the <a href="http://www.wisconsin.edu">University of Wisconsin System.</a>
             </p>
             <?php
             /* Hook for adding custom code inside the uw-copyright content area

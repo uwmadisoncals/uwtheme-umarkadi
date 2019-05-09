@@ -86,7 +86,7 @@ function uwmadison_posted_on() {
     '<span class="author vcard"><a class="url fn n" href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '">' . esc_html( get_the_author() ) . '</a></span>'
   );
 
-  // echo '<span class="posted-on">' . $posted_on . '</span><span class="byline"> ' . $byline . '</span>'; 
+  // echo '<span class="posted-on">' . $posted_on . '</span><span class="byline"> ' . $byline . '</span>';
   echo '<span class="posted-on">' . $posted_on . '</span>';
 
 }
@@ -189,7 +189,7 @@ if ( ! function_exists( 'uwmadison_page_menu' ) ) :
       echo '<a href="'.get_permalink($page->ID).'">';
       echo esc_html( $page->post_title );
       if ($has_children) {
-        echo get_svg('uw-symbol-caret-down');
+        echo get_svg('uw-symbol-caret-down', array('aria-hidden' => 'true'));
       }
       echo '</a>';
       if ($has_children) {
@@ -252,6 +252,23 @@ if ( ! function_exists( 'uwmadison_footer_contact' ) ) :
   }
 endif;
 
+if ( ! function_exists( 'uwmadison_footer_privacy' ) ) :
+  /**
+   * Prints privacy statement link based on option
+   * set via the Customizer.
+   *
+   **/
+  function uwmadison_footer_privacy() {
+    $uwmadison_privacy_link = get_theme_mod( "uwmadison_privacy_link" );
+
+    // if the link has not been set, use the home page privacy statement
+    if (empty($uwmadison_privacy_link)) {
+        $uwmadison_privacy_link = UW_PRIVACY_STATEMENT_URL;
+    }
+    $output = '<a href="'.$uwmadison_privacy_link.'">Privacy Statement</a>';
+    return $output;
+  }
+endif;
 
 /**
  * Render contact info ad set in customizer
@@ -263,6 +280,7 @@ function uwmadison_contact_info($include_social = true) {
     $uwmadison_map_url = get_theme_mod( "uwmadison_map_url" );
     $uwmadison_email = get_theme_mod( "uwmadison_email" );
     $uwmadison_phone = get_theme_mod( "uwmadison_phone" );
+
 
     $output = '';
 

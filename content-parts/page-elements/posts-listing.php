@@ -1,4 +1,16 @@
 <?php
+
+// Helper function that returns a the "More Posts" link as a text string
+if (!function_exists('uw_create_more_link')) {
+	function uw_create_more_link($text = false, $url = false){
+		if(!$url && !$text) { return false; }
+
+		return '<li><a class="uw-more-link" href="' . $url
+		. '">' . $text . ' '
+		. get_svg('uw-symbol-more', array("aria-hidden" => "true")) . '</a></li>';
+	}
+}
+
 $header = get_sub_field('header_text');
 $post_list_type = get_sub_field('post_list_type');
 $category_ids = get_sub_field('category_id');
@@ -9,6 +21,83 @@ $show_date = get_sub_field('show_date');
 $show_date = get_sub_field('show_date');
 $show_excerpt = get_sub_field('show_excerpt');
 $show_image = get_sub_field('show_image');
+$show_more_posts_link = get_sub_field('show_more_link');
+$link_text = false;
+$custom_link_text = get_sub_field('more_posts_text');
+$custom_link_url = get_sub_field('more_posts_url');
+
+// Get the default blog link
+// Check if there is a static home page set
+if ( get_option( 'show_on_front' ) == 'page' ) {
+		// Check if there is a page set to display posts. Goes to a
+		// generic posts query if no blog page is selected.
+		if ( get_option( 'page_for_posts' ) ) {
+				$blog_link_url = get_permalink(get_option('page_for_posts'));
+		} else {
+				$blog_link_url = home_url('/?post_type=post');
+		}
+// Link goes to the home page if that is the blog page
+} else {
+		$blog_link_url = home_url( '/' );
+}
+
+// Build more posts links
+if($show_more_posts_link){
+
+	// Check if either custom text or a custom URL is set
+	// If neither are set, generate the default more posts link
+	if($custom_link_text || $custom_link_url){
+
+		if($custom_link_text && $custom_link_url){
+
+				// If both URL and text are set
+				$link_text = uw_create_more_link( $custom_link_text, $custom_link_url );
+
+		} else if (!$custom_link_text && $custom_link_url) {
+
+			// If only link URL is set
+			$link_text = uw_create_more_link("More Posts", $custom_link_url );
+
+		} else {
+
+				// If only teh text is set
+				$link_text = uw_create_more_link($custom_link_text, $blog_link_url);
+
+		}
+
+	} else {
+
+		// Generate default links
+		switch ($post_list_type) {
+
+			case 'Custom Post Types':
+				$custom_post_title = get_post_type_object( $custom_post_type )->labels->name;
+				$link_text = uw_create_more_link($custom_post_title, get_post_type_archive_link( $custom_post_type ));
+				break;
+
+			case 'Posts by Categories':
+				if(empty( $category_ids )){ break; }
+
+				$categories = get_categories( array('include' => $category_ids) );
+				$link_text = "";
+				foreach ($categories as $category) {
+						$link_text .= uw_create_more_link("More <i>". $category->name ."</i> posts",get_category_link( $category->cat_ID ));
+				}
+
+				break;
+
+			case "Select Individual Posts":
+				$link_text = uw_create_more_link("More Posts", esc_url($blog_link_url));
+				break;
+
+			default:
+				$link_text = uw_create_more_link("More News", esc_url($blog_link_url));
+				break;
+		}
+
+	}
+
+}
 
 // checks if user has selected specific
 // taxonomy terms and set the query accordingly
@@ -74,58 +163,9 @@ if ( is_array($list_posts) && !empty($list_posts) ) {
         echo '</li>';
     }
 
-    /* Show a "more" link that changes based on the kind of post list.
-     * Currently only shows a link if the user selects All Posts or a Custom Post Type.
-    */
-
-    if ( $post_list_type == "All Posts" || $post_list_type == "" ) {
-        // Check if there is a static home page set
-        if ( get_option( 'show_on_front' ) == 'page' ) {
-            // Check if there is a page set to display posts. Goes to a
-            // generic posts query if no blog page is selected.
-            if ( get_option( 'page_for_posts' ) ) {
-                $blog_link_url = get_permalink(get_option('page_for_posts'));
-            } else {
-                $blog_link_url = home_url('/?post_type=post');
-            }
-        // Link goes to the home page if that is the blog page
-        } else {
-            $blog_link_url = home_url( '/' );
-        }
-
-        echo '<li><a class="uw-more-link" href="' . esc_url($blog_link_url) . '">'
-        . 'More News ' . get_svg('uw-symbol-more', array("aria-hidden" => "true")) . '</a></li>';
-
-    }
-
-    if ( $post_list_type == "Custom Post Types" ) {
-        $custom_post_title = get_post_type_object( $custom_post_type );
-        echo '<li><a class="uw-more-link" href="' . get_post_type_archive_link( $custom_post_type )
-        . '">' . $custom_post_title->labels->name . ' '
-        . get_svg('uw-symbol-more', array("aria-hidden" => "true")) . '</a></li>';
-    }
-
-    if ( $post_list_type == "Posts by Categories" && !empty( $category_ids ) ) {
-        $categories = get_categories( array('include' => $category_ids) );
-        $links_out = "";
-        foreach ($categories as $category) {
-            $links_out .= '<li><a class="uw-more-link" href="' . get_category_link( $category->cat_ID )
-        . '">More <i>' . $category->name . '</i> posts '
-        . get_svg('uw-symbol-more', array("aria-hidden" => "true")) . '</a></li>';
-        }
-
-        /**
-         * Filter the category more links output
-         * If you don't want any links, add a 'latest_posts_category_more_links' filter function
-         * in your child theme that returns false
-         *
-         * @param string $output Markup generated by default
-         * @param Array $category_ids The chosen categories
-         */
-        $links_out = apply_filters( 'latest_posts_category_more_links', $links_out, $category_ids );
-
-        echo $links_out;
-    }
+    if( $show_more_posts_link && $link_text ){
+			echo $link_text;
+		}
 
     echo '</ul>';
 } else {

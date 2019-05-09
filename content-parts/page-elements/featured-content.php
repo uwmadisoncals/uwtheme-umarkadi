@@ -24,11 +24,11 @@ if( $use_post_object == 'Yes, select a post or page' ):
     $post = $post_object;
     setup_postdata( $post );
     ?>
+    <?php if($image): ?>
     <a href="<?php the_permalink(); ?>" aria-hidden="true" tabindex="-1">
-      <?php if($image): ?>
         <img src="<?php echo $image['sizes']['uw-3x2']; ?>" alt="<?php echo $image['alt']; ?>">
-      <?php endif; ?>
     </a>
+    <?php endif; ?>
     <h3 class="uw-mini-bar">
       <a href="<?php the_permalink(); ?>">
         <?php the_title(); ?>
@@ -41,7 +41,7 @@ if( $use_post_object == 'Yes, select a post or page' ):
   <?php endif; ?>
 
 <?php else: //if the user is entering their own title, text, and link?>
-  <?php if($link): ?>
+  <?php if($link && $image): ?>
     <a href="<?php echo $link; ?>" aria-hidden="true" tabindex="-1">
   <?php endif; ?>
 
@@ -49,7 +49,7 @@ if( $use_post_object == 'Yes, select a post or page' ):
     <img src="<?php echo $image['sizes']['uw-3x2']; ?>" alt="<?php echo $image['alt']; ?>">
   <?php endif; ?>
 
-  <?php if($link): ?>
+  <?php if($link && $image): ?>
     </a>
   <?php endif; ?>
 

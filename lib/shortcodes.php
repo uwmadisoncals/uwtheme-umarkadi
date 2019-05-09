@@ -105,7 +105,21 @@ function uw_rss_feed( $atts ) {
                 <?php
             endif;
         endif;
-      return ob_get_clean();
+ 			$output = ob_get_clean();
+			/**
+			* 
+			* Override this shortcode from a child theme using filter: uw_rss_feed_filter 
+			*
+			* Example:
+			*
+			* function example_filter_function( $output, $atts ) {
+			*   // your code here
+			* }
+			* add_filter( 'uw_rss_feed_filter', 'example_filter_function', 1, 2 ); 
+			*
+			*/
+			$output = apply_filters( 'uw_rss_feed_filter', $output, $atts );
+      return $output;
     endif;
     return false;
 }

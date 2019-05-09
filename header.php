@@ -9,6 +9,19 @@
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?> class="no-js">
 <head>
+	<?php
+	/* Hook for adding custom code after the <head> tag.
+	 * In a child theme, add a function like this:
+	 *
+	 *     function your_custom_code() {
+	 * 	    // your custom code here
+	 *      }
+	 *      add_action('uw_after_head_open_tag', 'your_custom_code');
+	 *
+	 * More about hooks: https://developer.wordpress.org/reference/functions/do_action/
+	*/
+	do_action('uw_after_head_open_tag');
+	?>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"> 
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -45,8 +58,8 @@
 	do_action('uw_after_body_open_tag');
 	?>
 
-	<div class="uw-global-bar <?php echo ($uwmadison_header_style == "uw-white-top-bar") ? "uw-global-bar-inverse" : "" ?>">
-		<a class="uw-global-name-link" href="http://www.wisc.edu">U<span>niversity <span class="uw-of">of</span> </span>W<span>isconsin</span>–Madison</a>
+	<div class="uw-global-bar <?php echo ($uwmadison_header_style == "uw-white-top-bar") ? "uw-global-bar-inverse" : "" ?>" role="navigation">
+		<a class="uw-global-name-link" href="http://www.wisc.edu" aria-label="University of Wisconsin Madison home page">U<span>niversity <span class="uw-of">of</span> </span>W<span>isconsin</span>–Madison</a>
 	</div>
 	<header class="uw-header <?php echo (site_uses_search()) ? "uw-has-search" : ""; ?>">
 		<div class="uw-header-container">

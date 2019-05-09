@@ -919,6 +919,25 @@
                                             "ui_off_text": ""
                                         },
                                         {
+                                            "key": "field_5abe5e89e821e",
+                                            "label": "Display credentials for faculty\/staff",
+                                            "name": "show_credentials",
+                                            "type": "true_false",
+                                            "instructions": "",
+                                            "required": 0,
+                                            "conditional_logic": 0,
+                                            "wrapper": {
+                                                "width": "25",
+                                                "class": "",
+                                                "id": ""
+                                            },
+                                            "message": "",
+                                            "default_value": 1,
+                                            "ui": 0,
+                                            "ui_on_text": "",
+                                            "ui_off_text": ""
+                                        },
+                                        {
                                             "key": "field_57600ccfb5ce7",
                                             "label": "Display Email address for faculty\/staff",
                                             "name": "show_email",
@@ -1032,6 +1051,38 @@
                                             "ui_on_text": "",
                                             "ui_off_text": ""
                                         },
+																				{
+                                            "key": "field_5accea3620797",
+                                            "label": "Biography Format",
+                                            "name": "biography_format",
+                                            "type": "radio",
+                                            "instructions": "",
+                                            "required": 0,
+                                            "conditional_logic": [
+                                                [
+                                                    {
+                                                        "field": "field_5813f3d4aae28",
+                                                        "operator": "==",
+                                                        "value": "1"
+                                                    }
+                                                ]
+                                            ],
+                                            "wrapper": {
+                                                "width": "25",
+                                                "class": "",
+                                                "id": ""
+                                            },
+                                            "choices": {
+                                                "full": "Full Biography",
+                                                "excerpt": "Excerpt"
+                                            },
+                                            "allow_null": 0,
+                                            "other_choice": 0,
+                                            "save_other_choice": 0,
+                                            "default_value": "full",
+                                            "layout": "vertical",
+                                            "return_format": "value"
+                                        },
                                         {
                                             "key": "field_58ee90e5c0c43",
                                             "label": "Display Photos",
@@ -1068,7 +1119,7 @@
                                                 ]
                                             ],
                                             "wrapper": {
-                                                "width": "40",
+                                                "width": "35",
                                                 "class": "",
                                                 "id": ""
                                             },
@@ -1945,6 +1996,76 @@
                                             "ui": 0,
                                             "ui_on_text": "",
                                             "ui_off_text": ""
+                                        },
+                                        {
+                                            "key": "field_5ad4b59c94b95",
+                                            "label": "Show \"More Posts\" link",
+                                            "name": "show_more_link",
+                                            "type": "true_false",
+                                            "instructions": "",
+                                            "required": 0,
+                                            "conditional_logic": 0,
+                                            "wrapper": {
+                                                "width": "",
+                                                "class": "",
+                                                "id": ""
+                                            },
+                                            "message": "",
+                                            "default_value": 1,
+                                            "ui": 0,
+                                            "ui_on_text": "",
+                                            "ui_off_text": ""
+                                        },
+                                        {
+                                            "key": "field_5ad4b5c694b96",
+                                            "label": "\"More Posts\" link text",
+                                            "name": "more_posts_text",
+                                            "type": "text",
+                                            "instructions": "",
+                                            "required": 0,
+                                            "conditional_logic": [
+                                              [
+                                                  {
+                                                      "field": "field_5ad4b59c94b95",
+                                                      "operator": "==",
+                                                      "value": "1"
+                                                  }
+                                              ]
+                                            ],
+                                            "wrapper": {
+                                                "width": "",
+                                                "class": "",
+                                                "id": ""
+                                            },
+                                            "default_value": "",
+                                            "placeholder": "",
+                                            "prepend": "",
+                                            "append": "",
+                                            "maxlength": ""
+                                        },
+                                        {
+                                            "key": "field_5ad4b6a094b9b",
+                                            "label": "\"More Posts\" link URL",
+                                            "name": "more_posts_url",
+                                            "type": "url",
+                                            "instructions": "",
+                                            "required": 0,
+                                            "conditional_logic": [
+                                              [
+                                                  {
+                                                      "field": "field_5ad4b59c94b95",
+                                                      "operator": "==",
+                                                      "value": "1"
+                                                  }
+                                              ]
+                                            ],
+                                            "wrapper": {
+                                                "width": "",
+                                                "class": "",
+                                                "id": ""
+                                            },
+                                            "default_value": "",
+                                            "placeholder": ""
                                         }
                                     ],
                                     "min": "",
@@ -3346,6 +3467,76 @@
                                             "ui": 0,
                                             "ui_on_text": "",
                                             "ui_off_text": ""
+                                        },
+                                        {
+                                            "key": "field_5ad4b9a249e41",
+                                            "label": "Show \"More Posts\" link",
+                                            "name": "show_more_link",
+                                            "type": "true_false",
+                                            "instructions": "",
+                                            "required": 0,
+                                            "conditional_logic": 0,
+                                            "wrapper": {
+                                                "width": "",
+                                                "class": "",
+                                                "id": ""
+                                            },
+                                            "message": "",
+                                            "default_value": 1,
+                                            "ui": 0,
+                                            "ui_on_text": "",
+                                            "ui_off_text": ""
+                                        },
+                                        {
+                                            "key": "field_5ad4b9c449e42",
+                                            "label": "\"More Posts\" link text",
+                                            "name": "more_posts_text",
+                                            "type": "text",
+                                            "instructions": "",
+                                            "required": 0,
+                                            "conditional_logic": [
+                                                [
+                                                    {
+                                                        "field": "field_5ad4b9a249e41",
+                                                        "operator": "==",
+                                                        "value": "1"
+                                                    }
+                                                ]
+                                            ],
+                                            "wrapper": {
+                                                "width": "",
+                                                "class": "",
+                                                "id": ""
+                                            },
+                                            "default_value": "",
+                                            "placeholder": "",
+                                            "prepend": "",
+                                            "append": "",
+                                            "maxlength": ""
+                                        },
+                                        {
+                                            "key": "field_5ad4b9fa49e46",
+                                            "label": "\"More Posts\" link URL",
+                                            "name": "more_posts_url",
+                                            "type": "url",
+                                            "instructions": "",
+                                            "required": 0,
+                                            "conditional_logic": [
+                                              [
+                                                  {
+                                                      "field": "field_5ad4b9a249e41",
+                                                      "operator": "==",
+                                                      "value": "1"
+                                                  }
+                                              ]
+                                            ],
+                                            "wrapper": {
+                                                "width": "",
+                                                "class": "",
+                                                "id": ""
+                                            },
+                                            "default_value": "",
+                                            "placeholder": ""
                                         }
                                     ],
                                     "min": "",
@@ -4463,6 +4654,76 @@
                                             "ui": 0,
                                             "ui_on_text": "",
                                             "ui_off_text": ""
+                                        },
+                                        {
+                                            "key": "field_5ad4bb1849e47",
+                                            "label": "Show \"More Posts\" link",
+                                            "name": "show_more_link",
+                                            "type": "true_false",
+                                            "instructions": "",
+                                            "required": 0,
+                                            "conditional_logic": 0,
+                                            "wrapper": {
+                                                "width": "",
+                                                "class": "",
+                                                "id": ""
+                                            },
+                                            "message": "",
+                                            "default_value": 1,
+                                            "ui": 0,
+                                            "ui_on_text": "",
+                                            "ui_off_text": ""
+                                        },
+                                        {
+                                            "key": "field_5ad4bb8149e48",
+                                            "label": "\"More Posts\" link text",
+                                            "name": "more_posts_text",
+                                            "type": "text",
+                                            "instructions": "",
+                                            "required": 0,
+                                            "conditional_logic": [
+                                                [
+                                                    {
+                                                        "field": "field_5ad4bb1849e47",
+                                                        "operator": "==",
+                                                        "value": "1"
+                                                    }
+                                                ]
+                                            ],
+                                            "wrapper": {
+                                                "width": "",
+                                                "class": "",
+                                                "id": ""
+                                            },
+                                            "default_value": "",
+                                            "placeholder": "",
+                                            "prepend": "",
+                                            "append": "",
+                                            "maxlength": ""
+                                        },
+                                        {
+                                            "key": "field_5ad4b6a0alwen",
+                                            "label": "\"More Posts\" link URL",
+                                            "name": "more_posts_url",
+                                            "type": "url",
+                                            "instructions": "",
+                                            "required": 0,
+                                            "conditional_logic": [
+                                              [
+                                                  {
+                                                      "field": "field_5ad4bb1849e47",
+                                                      "operator": "==",
+                                                      "value": "1"
+                                                  }
+                                              ]
+                                            ],
+                                            "wrapper": {
+                                                "width": "",
+                                                "class": "",
+                                                "id": ""
+                                            },
+                                            "default_value": "",
+                                            "placeholder": ""
                                         }
                                     ],
                                     "min": "",
@@ -4942,6 +5203,32 @@
                                     "max": ""
                                 },
                                 {
+                                    "key": "673460f859b146",
+                                    "name": "embed_content",
+                                    "label": "Embed Content",
+                                    "display": "block",
+                                    "sub_fields": [
+                                        {
+                                            "key": "field_67360f8b9b147",
+                                            "label": "Embed",
+                                            "name": "embed",
+                                            "type": "oembed",
+                                            "instructions": "",
+                                            "required": "",
+                                            "conditional_logic": "",
+                                            "wrapper": {
+                                                "width": "",
+                                                "class": "",
+                                                "id": ""
+                                            },
+                                            "width": "",
+                                            "height": ""
+                                        }
+                                    ],
+                                    "min": "",
+                                    "max": ""
+                                },
+																{
                                     "key": "425746000b530c2",
                                     "name": "featured_content",
                                     "label": "Featured Content Block",
@@ -5619,6 +5906,76 @@
                                             "ui": 0,
                                             "ui_on_text": "",
                                             "ui_off_text": ""
+                                        },
+                                        {
+                                            "key": "field_5ad4bbf90973e",
+                                            "label": "Show \"More Posts\" link",
+                                            "name": "show_more_link",
+                                            "type": "true_false",
+                                            "instructions": "",
+                                            "required": 0,
+                                            "conditional_logic": 0,
+                                            "wrapper": {
+                                                "width": "",
+                                                "class": "",
+                                                "id": ""
+                                            },
+                                            "message": "",
+                                            "default_value": 1,
+                                            "ui": 0,
+                                            "ui_on_text": "",
+                                            "ui_off_text": ""
+                                        },
+                                        {
+                                            "key": "field_5ad4bc170973f",
+                                            "label": "\"More Posts\" link text",
+                                            "name": "more_posts_text",
+                                            "type": "text",
+                                            "instructions": "",
+                                            "required": 0,
+                                            "conditional_logic": [
+                                                [
+                                                    {
+                                                        "field": "field_5ad4bbf90973e",
+                                                        "operator": "==",
+                                                        "value": "1"
+                                                    }
+                                                ]
+                                            ],
+                                            "wrapper": {
+                                                "width": "",
+                                                "class": "",
+                                                "id": ""
+                                            },
+                                            "default_value": "",
+                                            "placeholder": "",
+                                            "prepend": "",
+                                            "append": "",
+                                            "maxlength": ""
+                                        },
+                                        {
+                                            "key": "field_5ad4bc5709743",
+                                            "label": "\"More Posts\" link URL",
+                                            "name": "more_posts_url",
+                                            "type": "url",
+                                            "instructions": "",
+                                            "required": 0,
+                                            "conditional_logic": [
+                                              [
+                                                  {
+                                                      "field": "field_5ad4bbf90973e",
+                                                      "operator": "==",
+                                                      "value": "1"
+                                                  }
+                                              ]
+                                            ],
+                                            "wrapper": {
+                                                "width": "",
+                                                "class": "",
+                                                "id": ""
+                                            },
+                                            "default_value": "",
+                                            "placeholder": ""
                                         }
                                     ],
                                     "min": "",
@@ -5955,6 +6312,32 @@
                                             "ui": 0,
                                             "ui_on_text": "",
                                             "ui_off_text": ""
+                                        }
+                                    ],
+                                    "min": "",
+                                    "max": ""
+                                },
+															  {
+                                    "key": "683460f859b146",
+                                    "name": "embed_content",
+                                    "label": "Embed Content",
+                                    "display": "block",
+                                    "sub_fields": [
+                                        {
+                                            "key": "field_68360f8b9b147",
+                                            "label": "Embed",
+                                            "name": "embed",
+                                            "type": "oembed",
+                                            "instructions": "",
+                                            "required": "",
+                                            "conditional_logic": "",
+                                            "wrapper": {
+                                                "width": "",
+                                                "class": "",
+                                                "id": ""
+                                            },
+                                            "width": "",
+                                            "height": ""
                                         }
                                     ],
                                     "min": "",
@@ -6638,6 +7021,76 @@
                                             "ui": 0,
                                             "ui_on_text": "",
                                             "ui_off_text": ""
+                                        },
+                                        {
+                                            "key": "field_5ad4bc9209744",
+                                            "label": "Show \"More Posts\" link",
+                                            "name": "show_more_link",
+                                            "type": "true_false",
+                                            "instructions": "",
+                                            "required": 0,
+                                            "conditional_logic": 0,
+                                            "wrapper": {
+                                                "width": "",
+                                                "class": "",
+                                                "id": ""
+                                            },
+                                            "message": "",
+                                            "default_value": 1,
+                                            "ui": 0,
+                                            "ui_on_text": "",
+                                            "ui_off_text": ""
+                                        },
+                                        {
+                                            "key": "field_5ad4bcae09745",
+                                            "label": "\"More Posts\" link text",
+                                            "name": "more_posts_text",
+                                            "type": "text",
+                                            "instructions": "",
+                                            "required": 0,
+                                            "conditional_logic": [
+                                                [
+                                                    {
+                                                        "field": "field_5ad4bc9209744",
+                                                        "operator": "==",
+                                                        "value": "1"
+                                                    }
+                                                ]
+                                            ],
+                                            "wrapper": {
+                                                "width": "",
+                                                "class": "",
+                                                "id": ""
+                                            },
+                                            "default_value": "",
+                                            "placeholder": "",
+                                            "prepend": "",
+                                            "append": "",
+                                            "maxlength": ""
+                                        },
+                                        {
+                                            "key": "field_5ad4bd1a09749",
+                                            "label": "\"More Posts\" link URL",
+                                            "name": "more_posts_url",
+                                            "type": "url",
+                                            "instructions": "",
+                                            "required": 0,
+                                            "conditional_logic": [
+                                              [
+                                                  {
+                                                      "field": "field_5ad4bc9209744",
+                                                      "operator": "==",
+                                                      "value": "1"
+                                                  }
+                                              ]
+                                            ],
+                                            "wrapper": {
+                                                "width": "",
+                                                "class": "",
+                                                "id": ""
+                                            },
+                                            "default_value": "",
+                                            "placeholder": ""
                                         }
                                     ],
                                     "min": "",
@@ -6974,6 +7427,32 @@
                                             "ui": 0,
                                             "ui_on_text": "",
                                             "ui_off_text": ""
+                                        }
+                                    ],
+                                    "min": "",
+                                    "max": ""
+                                },
+																{
+                                    "key": "693460f859b146",
+                                    "name": "embed_content",
+                                    "label": "Embed Content",
+                                    "display": "block",
+                                    "sub_fields": [
+                                        {
+                                            "key": "field_69360f8b9b147",
+                                            "label": "Embed",
+                                            "name": "embed",
+                                            "type": "oembed",
+                                            "instructions": "",
+                                            "required": "",
+                                            "conditional_logic": "",
+                                            "wrapper": {
+                                                "width": "",
+                                                "class": "",
+                                                "id": ""
+                                            },
+                                            "width": "",
+                                            "height": ""
                                         }
                                     ],
                                     "min": "",
@@ -7657,6 +8136,76 @@
                                             "ui": 0,
                                             "ui_on_text": "",
                                             "ui_off_text": ""
+                                        },
+                                        {
+                                            "key": "field_5ad4bd3c0974a",
+                                            "label": "Show \"More Posts\" link",
+                                            "name": "show_more_link",
+                                            "type": "true_false",
+                                            "instructions": "",
+                                            "required": 0,
+                                            "conditional_logic": 0,
+                                            "wrapper": {
+                                                "width": "",
+                                                "class": "",
+                                                "id": ""
+                                            },
+                                            "message": "",
+                                            "default_value": 1,
+                                            "ui": 0,
+                                            "ui_on_text": "",
+                                            "ui_off_text": ""
+                                        },
+                                        {
+                                            "key": "field_5ad4bd600974b",
+                                            "label": "\"More Posts\" link text",
+                                            "name": "more_posts_text",
+                                            "type": "text",
+                                            "instructions": "",
+                                            "required": 0,
+                                            "conditional_logic": [
+                                              [
+                                                  {
+                                                      "field": "field_5ad4bd3c0974a",
+                                                      "operator": "==",
+                                                      "value": "1"
+                                                  }
+                                              ]
+                                            ],
+                                            "wrapper": {
+                                                "width": "",
+                                                "class": "",
+                                                "id": ""
+                                            },
+                                            "default_value": "",
+                                            "placeholder": "",
+                                            "prepend": "",
+                                            "append": "",
+                                            "maxlength": ""
+                                        },
+                                        {
+                                            "key": "field_5ad45lkcoisdfiu",
+                                            "label": "\"More Posts\" link URL",
+                                            "name": "more_posts_url",
+                                            "type": "url",
+                                            "instructions": "",
+                                            "required": 0,
+                                            "conditional_logic": [
+                                              [
+                                                  {
+                                                      "field": "field_5ad4bd3c0974a",
+                                                      "operator": "==",
+                                                      "value": "1"
+                                                  }
+                                              ]
+                                            ],
+                                            "wrapper": {
+                                                "width": "",
+                                                "class": "",
+                                                "id": ""
+                                            },
+                                            "default_value": "",
+                                            "placeholder": ""
                                         }
                                     ],
                                     "min": "",
@@ -7812,5 +8361,5 @@
     ],
     "active": 1,
     "description": "default page layout",
-    "modified": 1518040311
+    "modified": 1522433680
 }

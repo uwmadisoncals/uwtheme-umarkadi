@@ -10,7 +10,7 @@ In a nutshell, here are the steps for contributing (see below for detailed instr
 
 <strong>Detailed instructions:</strong>
 
-The following steps assume that you know git and the commands needed to pull, commit and push to remote repositories. Please review the [Git](http://git-scm.com/docs/gittutorial) documentation if you're not familiar with git.
+The following steps assume that you know git and the commands needed to pull, commit and push to remote repositories. Please review the [Git](https://git-scm.com/docs/gittutorial) documentation if you're not familiar with Git.
 1. Getting started with the project
 	* Navigate to the Master Repository: https://git.doit.wisc.edu/uw-madison-digital-strategy/uw-theme
     * Create a fork of the Master and associate it with your user account
@@ -19,7 +19,7 @@ The following steps assume that you know git and the commands needed to pull, co
     * See the [README](README.md) for details on building a local development environment for the theme
 3. Contributing to the project
     * If this is not the first time working with this repo, make sure to sync your fork from the Dev branch before starting to work. 
-    * Create a branch that either describes the feature being developed or directly ties to a jira issue
+    * Create a branch that either describes the feature being developed or directly ties to a Jira issue
     * Commit changes to the created branch early and often
     * When development is finished and ready be merged, push your branch to your fork and open a merge request.
 4. The art of review
@@ -43,7 +43,7 @@ The theme comes pre-packaged with Advanced Custom Fields and the standard page u
     * Hover over the field name and you will see the word 'Sync' appear. Click on 'sync' to update the field group
 2. Make your field changes
     * You can make changes in the WordPress admin area or by editing the corresponding acf-json file.
-    ** NOTE: if you edit the .json file directly, be sure to update the Unix timestamp at the very bottom of the file with the current time (find the current Unix time here: http://www.unixtimestamp.com/)
+    ** NOTE: if you edit the .json file directly, be sure to update the Unix timestamp at the very bottom of the file with the current time (find the current Unix time here: https://www.unixtimestamp.com/)
     * All "key" values must be unique. Adding fields within the WordPress admin will generate custom keys. If you work with the .json file, be sure to manually change all key values to be unique.
 3. Commit your changes and check carefully for merge conflicts
     * Merge conflicts in the acf-json files can be hairy. Proceed with caution and please carefully check that you aren't overwriting any exisitng fields.

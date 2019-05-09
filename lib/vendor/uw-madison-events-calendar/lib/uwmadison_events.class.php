@@ -17,7 +17,7 @@ if ( !class_exists("UwmadisonEvents") ) {
      */
     public function __construct() {
       // API Base
-      $this->api_base = 'http://today.wisc.edu';
+      $this->api_base = 'https://today.wisc.edu';
 
       // Plugin name
       $this->plugin_name = 'uwmadison_events';
@@ -31,7 +31,7 @@ if ( !class_exists("UwmadisonEvents") ) {
      */
     public function init() {
       // Register the widget class
-      add_action( 'widgets_init', create_function( '', 'register_widget( "UwmadisonEventsWidget" );' ) );
+      add_action( 'widgets_init', function() { register_widget( "UwmadisonEventsWidget" ); } );
       // A short code wrapper for ::parse()
       add_shortcode( 'uwmadison_events', array( &$this, 'shortCode') );
     }

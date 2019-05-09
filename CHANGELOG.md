@@ -1,9 +1,146 @@
 # Change Log
 
+## [1.4.1] - 2019-05-02
+
+### Fixed
+* Fixes Apple touch icons and adds additional favicon meta
+    * Based on best practices per both https://realfavicongenerator.net/ and https://github.com/h5bp/html5-boilerplate
+    * These changes have been recently added to the official UW web templates and to the favicon download on brand.wisc.edu (!363)
+* Fixes HTML validation error on fac-staff single page
+    * Removes p tag from inside h2 tag wrapping title
+    * Updates css so new markup matches old in appearance
+    * Adds if statement to bio block so empty div not rendered if no bio present (!371)
+* Fixes redirecting links and minor spelling and Markdown issues in README and CONTRIBUTING
+    * Removes some extraneous whitespace at the end of a few lines (!378 - thanks @james-skemp)
+* Pagination a11y update
+    * Updates uwmadison_posts_pagination filter to wrap navigation ul in a nav element; removed role="navigation" and aria-label from ul (!372)
+* Fixes invalid use of `aside` HTML elements in sidebar
+    * Replaces aside with div in before_widget and after_widget arguments to register_sidebar for Blog and Archive sidebars so that there are no nested aside elements in sidebars; updated CSS so that sidebar appearance remains the same as it was before change was made (!370)
+* Fixes duplicate IDs in SVGs
+    * Updates get_svg function to force new id to be generated for title and description elements each time svg is generated to avoid duplicate ids when the same svg is rendered more than once on a page (!346)
+* Fixes Featured Content page element
+    * Moves/updates if statements in content-parts/page-elements/featured-content.php so that empty a tags are not rendered when no image is included in the featured content.
+    * In a minor, but unrelated update, added uw-footer-header class to h2 in footer to fix a11y contrast error (!368)
+
+### Added
+* Adds Google Console Verification option to theme customizer
+    * Adds a Google Console Verification option to theme customizer
+    * When a value has been added, a meta tag containing the site verification ID will be added to the page
+    * This also renames the "Analytics" Customizer menu option to "Google Services" (!362)
+* Adds default privacy statement to footer
+    * Gives site administrators option of entering a custom url in customizer that will be used in footer in place of the default (!377)
+* Used uw_favicon action for applying new favicons
+    * Moved the earlier favicons change into this action hook, which means the UW default favicons will be set if a site has not uploaded a site icon in the Customizer (!366)
+
+
+### Updates
+* Update the ACF JSON to allow the use of the embed element in the page builder's three column layout (!361)
+* Style 'group of links' submenu links in accordance with brand standards (!353) (!365)
+    * Adds additional padding to the nested menus in the link list component based on feedback.
+* Fixes heading color on page elements with white background (!354)
+* Display the archive page for the UW Staff Type taxonomy in alphabetical order
+    * Sets the sort order of the archive page for the UW Staff Type taxonomy to alphabetical order. The archive was previously sorted by the date in which the posts were added (!373)
+* Underline links by default in page content
+    * Updates styles of anchor tags to display with underlines (!374)
+* Updates the Google Analytics snippet to the latest version and move to the top of the head tag (!375)
+
+## [1.4.0] - 2019-02-07
+
+### Updates
+* Update ACF version to 5.7.9 (!335)
+
+
+## [1.3.1] - 2019-01-16
+
+### Fixed
+
+* Places h2 header within div wrapper to ensure UW logo in footer is center aligned (!349)
+* Allows UW Theme Helper Tool to support multi-site environments (!348)
+
+
+## [1.3.0] - 2018-12-18
+
+### Fixed
+* Accessibility improvements to utility menu (!315)
+    * Adds aria-label to callout university name in utility menu
+    * Adds role attribute of `navigation` to utility menu
+    * Removes UW Crest logo from the tab order
+    * Adds h2 header in footer only viewable to screen readers to improve semantic hierarchy of footer content
+* Accessibility improvements to decorative images (!316): 
+    * Sets focus to false for SVGs to remove them for the tab order in IE11
+    * Sets aria-hidden to true for caret symbols to hide them from screen readers
+* Fixes error caused when trying to render social media icons on a site with no posts (!341)
+
+### Added
+* Adds `Theme Helper Tool` to project as admin page that provides option to remove ACF fields stored in the database and reset page templates to use the default UW Theme template (!319)
+* Adds Wordpress action hook immediately after opening `<head>` element
+
+
+### Updates
+* Updates UW Events plugin to version 1.2.4 which secures the API by using HTTPS (!343) 
+* Updates Ruby version to 2.5.1 (!336)
+
+### Tests 
+Includes the addition and removal of test code in order for team to test automation processes (!324) (!325) (!326) (!327) (!328)
+
+### Changed
+Moves tag manager code snippet immediately after opening `<head>` element per Google’s recommendation (!339)
+
+### Removed
+* Removes extraneous code from ACF json file (!321) (!329)
+* Removes extraneous span tags from social meta tags (!349) 
+* Removes unclosed PHP tags from `lib/theme-helper-tool.php` (!340)
+* Removes unused Jekyll framework from project build tools (!336)
+
+### Hotfix 
+Adds code from hotfix that allows users to hide featured images from posts into the project (!318)
+
+
+## [1.2.2] - 2018-05-15
+
+### Fixed 
+* Refactor the functionality that hides the featured image (!306)
+
+## [1.2.1] - 2018-05-15
+
+### Fixed 
+* Remove filter that adds feature image checkbox on archive pages (!300)
+
+## [1.2.0] - 2018-05-09
+
+### Changed
+* Add touch icons for both apple and android mobile devices (!259)
+* Add filter to RSS Feed to allow the RSS Feed shortcode to be overridden by a child theme (!260)
+* Add option to include Google Tag Manager via the Customizer (!262)
+* Make "View More" and "News" link consistent with UW styles (!268)
+* Add stylesheet for Gravity Forms plugin with minor style adjustments (!266)
+* Add checkbox to show or hide featured image within posts (!272)
+* Add additional sub-title field to Faculty/Staff post type (!271)
+* Update hero area language to match the lower content area (!273)
+* Allow faculty staff list biography field to be displayed as an excerpt (!277)
+* Update post listing to allow a custom "More" link for all types of posts (!281)
+* Give Editors the ability to randomize images within the hero carousel (!280)
+* Add social media meta tags to header for Twitter, Google+, Facebook, and Linkedin (!283)
+* Replace `grunt-version` with `bump-regex` and corresponding npm script changes (!294)
+
+### Removed
+* Remove FormHack.io styles in favor of Foundation's form styles (!263)
+* Remove placeholder text from Website Issues Contact within the Customizer (!288)
+* Fix cell misalignment in calendar view for those using Events Calendar Pro (!285)
+
+### Fixed
+* If hero images are hidden an empty space will no longer display (!269)
+* Header colors and font weight inconsistencies for all row background options (!270)
+* Replace deprecated function in UW Events plugin to be compatible with PHP 7.2 (!275)
+* Allow changes to the Website Issues Email in the Customizer to refresh the page preview (!276)
+* Firefox and Android formatting issues for the Faculty/Staff list element (!278)
+* Add extra escaping to search variable (!274)
+
 ## [1.1.3] - 2018-02-07
 
 ### Fixed
 * Fixed bug in faculty/staff listing page element when selecting staff by type
+
 
 ## [1.1.2] - 2018-02-01
 

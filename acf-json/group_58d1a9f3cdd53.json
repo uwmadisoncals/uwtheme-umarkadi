@@ -4,10 +4,10 @@
     "fields": [
         {
             "key": "field_58e695e8ad64f",
-            "label": "Hero Content Area",
+            "label": "Upper Content",
             "name": "hero_content",
             "type": "flexible_content",
-            "instructions": "The hero content area is optional. If you add multiple images\/heroes, the heroes will be displayed as an interactive carousel. Each hero has multiple layout options. The Featured Content Inset and Headline options create an overlay that can contain text and a link (featured content only: optional inset photo). The link can go to an external URL or to an existing page or post.  For the sake of consistency and usability, if you have a carousel, it is recommended that you link all heroes in the carousel or none.",
+            "instructions": "",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -15,7 +15,7 @@
                 "class": "",
                 "id": ""
             },
-            "button_label": "Add Hero Content",
+            "button_label": "Add Upper Content",
             "min": "",
             "max": 1,
             "layouts": [
@@ -25,6 +25,42 @@
                     "label": "Hero Image\/Carousel",
                     "display": "block",
                     "sub_fields": [
+                          {
+                            "key": "field_5ab02827829e2",
+                            "label": "Hero Content Area",
+                            "name": "",
+                            "type": "message",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "message": "The hero content area is optional. If you add multiple images\/heroes, the heroes will be displayed as an interactive carousel. Each hero has multiple layout options. The Featured Content Inset and Headline options create an overlay that can contain text and a link (featured content only: optional inset photo). The link can go to an external URL or to an existing page or post. For the sake of consistency and usability, if you have a carousel, it is recommended that you link all heroes in the carousel or none.",
+                            "new_lines": "wpautop",
+                            "esc_html": 0
+                        },
+	                      {
+                            "key": "field_5ad66f5566ffc",
+                            "label": "Randomize Order",
+                            "name": "randomize_order",
+                            "type": "true_false",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "message": "Randomize the slide order",
+                            "default_value": 0,
+                            "ui": 0,
+                            "ui_on_text": "",
+                            "ui_off_text": ""
+                        },										
                         {
                             "key": "field_58e6960dad650",
                             "label": "Hero Carousel Repeater",

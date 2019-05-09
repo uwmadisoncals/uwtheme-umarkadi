@@ -36,7 +36,7 @@ function uwmadison_customize_register( $wp_customize ) {
     'priority' => 140,
   ) );
   $wp_customize->add_section( 'uwmadison_analytics', array(
-    'title'    => __( 'Analytics', 'uw-theme' ),
+    'title'    => __( 'Google Services', 'uw-theme' ),
     'priority' => 150,
   ) );
   $wp_customize->add_section( 'uwmadison_menu_options', array(
@@ -51,6 +51,10 @@ function uwmadison_customize_register( $wp_customize ) {
 	$wp_customize->add_section( 'uwmadison_404_page' , array(
 		'title'       => __( 'Custom 404 Page', 'uw-theme' ),
 		'priority'    => 165
+  ) );
+  $wp_customize->add_section( 'uwmadison_privacy_statement' , array(
+		'title'       => __( 'Custom Privacy Statement', 'uw-theme' ),
+		'priority'    => 160
   ) );
 
 
@@ -116,6 +120,19 @@ function uwmadison_customize_register( $wp_customize ) {
     'input_attrs' => array(
       'placeholder' => 'Enter GCSE ID'
     )
+  ) );
+	$wp_customize->add_setting( 'uwmadison_google_console_id', array(
+    'default'           => "",
+    'sanitize_callback' => 'sanitize_text_field',
+  ) );
+	$wp_customize->add_control( 'uwmadison_google_console_id', array(
+    'section'    => 'uwmadison_analytics',
+    'label'      => 'Google Search Console Verification',
+    'description' => 'See <a href="https://kb.wisc.edu/wiscwebcms/page.php?id=90062">KB doc</a> for help generating a Google Site Verification ID.',
+    'input_attrs' => array(
+      'placeholder' => 'Google Site Verification ID'
+    ),
+		'priority'    => 100,
   ) );
 
 
@@ -249,14 +266,13 @@ function uwmadison_customize_register( $wp_customize ) {
   $wp_customize->add_setting( 'website_issues_email', array(
     'sanitize_callback' => 'sanitize_email',
   ) );
-  $wp_customize->get_setting( 'website_issues_email' )->transport = 'postMessage';
   $wp_customize->add_control( 'website_issues_email', array(
     'section'    => 'uwmadison_footer',
     'priority' => 100,
     'label' => __('Website issues contact'),
     'description' => __('Used for feedback, questions or accessibility issues. Default is the site admin email from Settings -> General. <a href="https://it.wisc.edu/services/email-lists-wisclist/" title="Email lists (WiscList)">Learn about options for group email lists (WiscList)</a>.'),
     'input_attrs' => array(
-      'placeholder' => __( $default_admin_email ),
+      'placeholder' => '',
     ),
   ) );
 
@@ -270,6 +286,15 @@ function uwmadison_customize_register( $wp_customize ) {
     'label' => 'Google Analytics Tracking ID'
   ) );
 
+		// adds google analytics section
+  $wp_customize->add_setting( 'uwmadison_gtm_tracking_id', array(
+    'sanitize_callback' => 'sanitize_text_field',
+  ) );
+  $wp_customize->add_control( 'uwmadison_gtm_tracking_id', array(
+    'section'    => 'uwmadison_analytics',
+    'label' => 'Google Tag Manager Tracking ID'
+  ) );
+
   // adds breadcrumbs section
   $wp_customize->add_setting( 'uwmadison_breadcrumbs', array(
     'default'           => $defaults['uwmadison_breadcrumbs'],
@@ -279,6 +304,17 @@ function uwmadison_customize_register( $wp_customize ) {
     'section'    => 'uwmadison_breadcrumbs',
     'label'      => 'Use breadcrumbs on this site',
     'type'       => 'checkbox'
+  ) );
+  // adds privacy link section
+  $wp_customize->add_setting( 'uwmadison_privacy_link', array(
+    'sanitize_callback' => 'validate_privacy_url',
+    'transport' => 'postMessage'
+  ) );
+  $wp_customize->add_control( 'uwmadison_privacy_link', array(
+    'section'    => 'uwmadison_privacy_statement',
+    'label' => 'Custom Privacy Statement URL',
+    'type' => 'url',
+    'description' => 'Enter the URL to the custom privacy statement for your website, which will be displayed in the footer. Leave blank to display the link to the <a href="'.UW_PRIVACY_STATEMENT_URL.'">privacy statement</a> on the main UW–Madison website.'
   ) );
 
 	// add custom 404 page options
@@ -291,10 +327,25 @@ function uwmadison_customize_register( $wp_customize ) {
 			'type'     => 'dropdown-pages'
 	) );
 
-
 }
 add_action( 'customize_register', 'uwmadison_customize_register' );
 
+/**
+* Validates a URL entered in the custom privacy URL field.
+* If not empty and valid, the value is escaped before saving to db
+*/
+function validate_privacy_url($value) {
+  $value = trim($value);
+  if(empty($value)) {
+    return $value;
+  }
+  else if(filter_var($value, FILTER_VALIDATE_URL)) {
+    return esc_url_raw($value);
+  }
+  else  {
+    return new WP_Error('invalidurl', __('Enter a valid URL', 'uw-theme'));
+  }
+}
 
 /**
  * Returns the default options for UW-Madison.
@@ -396,6 +447,7 @@ function uwmadison_get_settings_choices( $setting ){
 function sanitize_textarea($text) {
   return esc_textarea( $text );
 }
+
 
 /**
  * Print JS for customizer UI

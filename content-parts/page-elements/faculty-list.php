@@ -37,6 +37,7 @@ if( get_posts($args) ) :
 	$foundation_grid_cols = '';
 	$one_column_layout = false;
 	$last_to_first	= get_sub_field( 'last_name_first');
+	$show_credentials = get_sub_field( 'show_credentials' );
 	$show_email		= get_sub_field( 'show_email' );
 	$show_phone		= get_sub_field( 'show_phone' );
 	$show_title		= get_sub_field( 'show_title' );
@@ -124,6 +125,7 @@ if( get_posts($args) ) :
 		<h3><a href="<?php the_permalink($person->ID); ?>">
 			<?php echo $last_to_first ? get_field( 'last_name', $person->ID ). ', ' .get_field( 'first_name', $person->ID ) : get_field( 'first_name', $person->ID ). ' ' .get_field( 'last_name', $person->ID ) ?>
 		</a></h3>
+		<?php echo $show_credentials ? '<p><b>' . get_field( 'credentials', $person->ID ) . '</b></p>' : ''; ?>
 		<?php echo $show_title ? '<p>' . get_field( 'title_position', $person->ID ) . '</p>' : ''; ?>
 
 		<?php echo $show_email ? '<p><a href="mailto:' . get_field( 'email', $person->ID ) . '">' . get_field( 'email', $person->ID ) . '</a></p>' : '' ?>
@@ -146,7 +148,22 @@ if( get_posts($args) ) :
 			<?php endif; ?>
 		<?php endif;?>
 
-		<?php echo $show_bio ? '<p class="bio">' . get_field ( 'biography', $person->ID )  . '</p>' : '' ;
+		<?php 
+				if ( $show_bio ) :
+				$biography_format = get_sub_field( 'biography_format' );
+				$biography_excerpt = trim( get_the_excerpt( $person->ID ) );
+				if ( $biography_format == "excerpt" && $biography_excerpt !== '' ) :
+					// show excerpt
+					echo sprintf( '<p class="bio">%s</p>', get_the_excerpt( $person->ID ) );
+				elseif ( $biography_format == "excerpt" && $biography_excerpt === '' ) :
+					// show truncated biography 
+					echo sprintf( '<p class="bio">%s</p>', wp_trim_words( get_field ( 'biography', $person->ID ), uwmadison_custom_excerpt_length( '' ) ) );
+				else :
+					// show biography 
+					echo sprintf( '<p class="bio">%s</p>', get_field( 'biography', $person->ID ) );
+				endif;
+		endif;
+		
 
 	if ($one_column_layout ) :
 		echo '</div></div>';

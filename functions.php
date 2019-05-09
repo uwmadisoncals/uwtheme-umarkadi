@@ -122,6 +122,7 @@ add_filter('acf/location/screen', 'acf_location_screen_options', 10, 2);
  *
  */
 $uwmadison_includes = array(
+	'lib/constants.php', //Constants 
 	'lib/custom-acf.php',
 	'lib/customizer.php',   // Theme customizer
 	'lib/custom-fields.php', // Advanced Custom Fields
@@ -132,6 +133,7 @@ $uwmadison_includes = array(
 	'lib/page-builder.php',
 	'lib/breadcrumbs.php',
 	'lib/tool-page-converter.php',
+	'lib/tool-theme-helper.php',
 	'lib/vendor/uw-madison-events-calendar/uwmadison_events.php'
 );
 
@@ -277,8 +279,8 @@ if ( ! function_exists( 'uwmadison_widgets_init' ) ) :
 		register_sidebar( array(
 			'name' => __( 'Blog Sidebar', 'uw-theme' ),
 			'id' => 'sidebar-blog',
-			'before_widget' => '<aside id="%1$s" class="widget uw-content-box %2$s">',
-			'after_widget' => "</aside>",
+			'before_widget' => '<div id="%1$s" class="widget uw-content-box %2$s">',
+			'after_widget' => "</div>",
 			'before_title' => '<h3 class="widget-title">',
 			'after_title' => '</h3>',
 		) );
@@ -286,8 +288,8 @@ if ( ! function_exists( 'uwmadison_widgets_init' ) ) :
 		register_sidebar( array(
 			'name' => __( 'Archive Sidebar', 'uw-theme' ),
 			'id' => 'sidebar-archive',
-			'before_widget' => '<aside id="%1$s" class="widget uw-content-box %2$s">',
-			'after_widget' => "</aside>",
+			'before_widget' => '<div id="%1$s" class="widget uw-content-box %2$s">',
+			'after_widget' => "</div>",
 			'before_title' => '<h3 class="widget-title">',
 			'after_title' => '</h3>',
 		) );
@@ -449,37 +451,37 @@ if ( ! function_exists( 'uwmadison_scripts' ) ) :
 	 */
 	function uwmadison_scripts() {
 		// enqueue UW fonts
-		wp_register_style( 'uwmadison-fonts', get_template_directory_uri() . '/dist/fonts/uw160/fonts.css', false, '1.1.3' );
+		wp_register_style( 'uwmadison-fonts', get_template_directory_uri() . '/dist/fonts/uw160/fonts.css', false, '1.4.1' );
 		wp_enqueue_style( 'uwmadison-fonts' );
 
 		// Add custom fonts, used in the main stylesheet.
-		wp_register_style( 'uwmadison-google-fonts', uwmadison_add_google_fonts(), false, '1.1.3' );
+		wp_register_style( 'uwmadison-google-fonts', uwmadison_add_google_fonts(), false, '1.4.1' );
 		wp_enqueue_style( 'uwmadison-google-fonts' );
 
 
-		wp_register_script( 'uwmadison-ie', get_template_directory_uri() . '/dist/js/polyfills/classList.js', false, '1.1.3', true );
+		wp_register_script( 'uwmadison-ie', get_template_directory_uri() . '/dist/js/polyfills/classList.js', false, '1.4.1', true );
 		wp_enqueue_script( 'uwmadison-ie' );
 		wp_script_add_data( 'uwmadison-ie', 'conditional', 'lt IE 10' );
 
 		// deregister WP's jQuery; register jQuery 2 for Foundation dependency
 		wp_deregister_script( 'jquery' );
-		wp_register_script( 'jquery', get_template_directory_uri() . '/dist/js/jquery/jquery.min.js' , false, '1.1.3', true );
+		wp_register_script( 'jquery', get_template_directory_uri() . '/dist/js/jquery/jquery.min.js' , false, '1.4.1', true );
 
 		// Theme assets.
 		if ( !WP_DEBUG ) {
-			wp_register_style( 'uwmadison-style', get_template_directory_uri() . '/dist/main.min.css' , false, '1.1.3' );
+			wp_register_style( 'uwmadison-style', get_template_directory_uri() . '/dist/main.min.css' , false, '1.4.1' );
 			wp_enqueue_style( 'uwmadison-style' );
-			wp_register_script( 'uwmadison-script', get_template_directory_uri() . '/dist/main.min.js', array('jquery'), '1.1.3', true );
+			wp_register_script( 'uwmadison-script', get_template_directory_uri() . '/dist/main.min.js', array('jquery'), '1.4.1', true );
 			wp_enqueue_script( 'uwmadison-script' );
 		} else {
-			wp_register_style( 'uwmadison-style', get_template_directory_uri() . '/dist/main.css' , false, '1.1.3' );
+			wp_register_style( 'uwmadison-style', get_template_directory_uri() . '/dist/main.css' , false, '1.4.1' );
 			wp_enqueue_style( 'uwmadison-style' );
-			wp_register_script( 'uwmadison-script', get_template_directory_uri() . '/dist/main.js', array('jquery'), '1.1.3', true );
+			wp_register_script( 'uwmadison-script', get_template_directory_uri() . '/dist/main.js', array('jquery'), '1.4.1', true );
 			wp_enqueue_script( 'uwmadison-script' );
 		}
 
 		// Load the Internet Explorer specific stylesheet.
-		wp_register_style( 'uwmadison-ie', get_template_directory_uri() . '/dist/css/ie.css', array( 'uwmadison-style' ), '1.1.3' );
+		wp_register_style( 'uwmadison-ie', get_template_directory_uri() . '/dist/css/ie.css', array( 'uwmadison-style' ), '1.4.1' );
 		wp_enqueue_style( 'uwmadison-ie' );
 		wp_style_add_data( 'uwmadison-ie', 'conditional', 'lt IE 10' );
 
@@ -615,7 +617,7 @@ if ( ! function_exists( 'uwmadison_search_where' ) ) :
 	 **/
 	function uwmadison_search_where( $where ){
 		global $wpdb;
-		$s = $wpdb->esc_like(get_query_var( 's' ));
+		$s = esc_sql($wpdb->esc_like(get_query_var( 's' )));
 		if( is_search() && !site_uses_google_search() ) {
 			$where = preg_replace(
 							"/\(\s*".$wpdb->posts.".post_title\s+LIKE\s*(\'[^\']+\')\s*\)/",
@@ -672,21 +674,19 @@ if ( ! function_exists( 'add_google_analytics' ) ) :
 		if (!$ga_tracking_id)
 			return false;
 		?>
-
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=<?php echo $ga_tracking_id ?>"></script>
 		<script>
-			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-			})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-			ga('create', '<?php echo $ga_tracking_id ?>', 'auto');
-			ga('send', 'pageview');
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+			gtag('config', '<?php echo $ga_tracking_id ?>');
 		</script>
 
 	<?php }
 
 endif;
-add_action('wp_head', 'add_google_analytics');
+add_action('uw_after_head_open_tag', 'add_google_analytics', 0);
 
 /**
  * return whether the site is using breadcrumbs or not
@@ -718,7 +718,8 @@ function get_svg($symbol_id, array $args = array()) {
 	$aDefault = array(
 		'version'=>'1.1',
 		'title'=>'This image needs a title.',
-		'role'=>'img'
+		'role'=>'img',
+		'focusable' => 'false'
 	);
 	$oSVG = $oSVGXML->xpath("//*[@id='" . $symbol_id . "']");
 	$oXML = $oSVG[0];
@@ -754,23 +755,15 @@ function get_svg($symbol_id, array $args = array()) {
 	}
 	// If there is a title, add aria-labelledby
 	if (property_exists($oXML, 'title')) {
-		if (isset($oXML->title['id'])) {
-			$oXML['aria-labelledby'] = (string)$oXML->title['id'];
-		} else {
-			$sGeneratedID = uniqid('dynid', true);
-			$oXML->title['id'] = $sGeneratedID;
-			$oXML['aria-labelledby'] = $sGeneratedID;
-		}
+		$sGeneratedID = uniqid('dynid', true);
+		$oXML->title['id'] = $sGeneratedID;
+		$oXML['aria-labelledby'] = $sGeneratedID;
 	}
 	// If there is a desc, add aria-describedby
 	if (property_exists($oXML, 'desc')) {
-		if (isset($oXML->desc['id'])) {
-			$oXML['aria-describedby'] = (string)$oXML->desc['id'];
-		} else {
-			$sGeneratedID = uniqid('dynid');
-			$oXML->desc['id'] = $sGeneratedID;
-			$oXML['aria-describedby'] = $sGeneratedID;
-		}
+		$sGeneratedID = uniqid('dynid');
+		$oXML->desc['id'] = $sGeneratedID;
+		$oXML['aria-describedby'] = $sGeneratedID;
 	}
 	// If no_title_id, remove the title id attribute
 	if (array_key_exists('no_title_id', $aDefaultSymbolParms)) {
@@ -835,7 +828,7 @@ if ( ! function_exists( 'uwmadison_posts_pagination' ) ) :
 			)
 		);
 
-		$new_template = '<div class="pagination-container"><ul class="pagination" role="navigation" aria-label="Pagination">';
+		$new_template = '<nav class="pagination-container"  aria-label="Pagination"><ul class="pagination">';
 
 		foreach ($links as $key => $link) {
 			$li_classes = array();
@@ -861,7 +854,7 @@ if ( ! function_exists( 'uwmadison_posts_pagination' ) ) :
 			$new_template .= $link;
 			$new_template .= '</li>';
 		}
-		$new_template .= '</ul></div>';
+		$new_template .= '</ul></nav>';
 		return $new_template;
 	}
 endif;
@@ -1178,16 +1171,6 @@ function uw_filter_media_comment_status( $open, $post_id ) {
 add_filter( 'comments_open', 'uw_filter_media_comment_status', 10 , 2 );
 
 
-if ( ! function_exists( 'uw_default_favicon' ) ) :
-	/**
-	 * Sets default UW favicon if site icon is not set through Customizer
-	 **/
-	function uw_default_favicon() {
-		echo '<link rel="icon" href="' . get_template_directory_uri() . '/dist/images/favicon.ico" sizes="32x32" />';
-	}
-endif;
-add_action( 'uw_favicon', 'uw_default_favicon' );
-
 /**
  * Sets the <figure> inline width to max-width so images and captions don't overflow their container
  **/
@@ -1213,3 +1196,168 @@ function uw_img_caption_shortcode( $empty, $attr, $content ){
     . '<figcaption class="wp-caption-text">' . $attr['caption'] . '</figcaption>'
     . '</figure>';
 }
+
+// Hide featured image from post
+function hide_featured_image( $content, $post_id ) {
+	if ( get_field('hide_featured_image') && is_single( $post_id ) ) {
+		return "";
+	} else {
+		return $content;
+	}
+}
+add_filter( 'post_thumbnail_html', 'hide_featured_image', 10, 2 );
+
+// add tag manager to head
+if ( ! function_exists( 'uw_tag_manager_head' ) ) :
+	function uw_tag_manager_head() {
+		if ( is_user_logged_in() )
+			return false;
+
+		$gtm_tracking_id = get_theme_mod('uwmadison_gtm_tracking_id', false);
+
+		if (!$gtm_tracking_id)
+			return false;
+		?>
+			<!-- Google Tag Manager -->
+			<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+			new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+			j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+			'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+			})(window,document,'script','dataLayer', '<?php echo $gtm_tracking_id; ?>');</script>
+			<!-- End Google Tag Manager -->
+		<?php
+	}
+endif;
+add_action('uw_after_head_open_tag', 'uw_tag_manager_head', 0);
+
+// add tag manager to body
+if ( ! function_exists( 'uw_tag_manager_body' ) ) :
+	function uw_tag_manager_body() {
+		if ( is_user_logged_in() )
+			return false;
+
+		$gtm_tracking_id = get_theme_mod('uwmadison_gtm_tracking_id', false);
+
+		if (!$gtm_tracking_id)
+			return false;
+		?>
+			<!-- Google Tag Manager (noscript) -->
+			<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=<?php echo $gtm_tracking_id; ?>"
+			height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+			<!-- End Google Tag Manager (noscript) -->
+		<?php
+	}
+endif;
+add_action('uw_after_body_open_tag', 'uw_tag_manager_body', 0);
+
+//This function inserts the icons for apple and android mobile devices
+add_action('uw_favicon', 'uw_default_favicon');
+if ( ! function_exists( 'uw_default_favicon' ) ) :
+	function uw_default_favicon() {
+    ?>
+	    <link rel="apple-touch-icon" href="<?php echo get_template_directory_uri();?>/dist/images/favicons/apple-touch-icon.png" />
+	    <link rel="icon" type="image/png" sizes="32x32" href="<?php echo get_template_directory_uri();?>/dist/images/favicons/favicon-32x32.png">
+	    <link rel="icon" type="image/png" sizes="16x16" href="<?php echo get_template_directory_uri();?>/dist/images/favicons/favicon-16x16.png">
+	    <link rel="manifest" href="<?php echo get_template_directory_uri();?>/dist/images/favicons/site.webmanifest">
+	    <link rel="mask-icon" href="<?php echo get_template_directory_uri();?>/dist/images/favicons/safari-pinned-tab.svg" color="#c5050c">
+	    <link rel="shortcut icon" href="/favicon.ico">
+	    <meta name="msapplication-TileColor" content="#c5050c">
+	    <meta name="msapplication-config" content="<?php echo get_template_directory_uri();?>/dist/images/favicons/browserconfig.xml">
+	    <meta name="theme-color" content="#ffffff">
+    <?php
+	}
+endif;
+
+function social_media_meta_tags(){
+  global $post;
+  if ($post === NULL) {
+    return;
+  }
+
+	if ( is_archive() ) {
+	  $title = get_the_archive_title();
+	} else {
+	  $title = get_the_title();
+	}
+	$title = strip_tags($title);
+
+    $thumb = wp_get_attachment_image_src(get_post_thumbnail_id(get_the_ID()),'medium');
+    $thumb_url = ( !empty($thumb[0]) ) ? $thumb[0] : false;
+	$thumb_height = ( !empty($thumb[2]) ) ? $thumb[2] : false;
+	$thumb_width = ( !empty($thumb[1]) ) ? $thumb[1] : false;
+
+    if( $post->post_excerpt ) {
+      $excerpt = strip_tags($post->post_excerpt);
+	} elseif ( get_the_archive_description() ) {
+		$excerpt = get_the_archive_description();
+	} else {
+		$excerpt = get_bloginfo('description');
+	}
+  ?>
+	<meta name="description" content="<?php echo $excerpt; ?>" />
+
+	<!-- Schema.org markup for Google+ -->
+	<meta itemprop="name" content="<?php echo $title; ?>">
+	<meta itemprop="description" content="<?php echo $excerpt; ?>">
+	<?php if ( $thumb_url ) : ?>
+		<meta itemprop="image" content="<?php echo $thumb_url; ?>">
+	<?php endif; ?>
+
+	<!-- Open Graph data -->
+	<?php if ( is_single() ) : ?>
+		<meta property="og:type" content="article" />
+		<meta property="article:published_time" content="<?php echo get_the_date(get_the_ID()); ?>" />
+		<meta property="article:modified_time" content="<?php echo get_the_modified_date(get_the_ID()); ?>" />
+	<?php else: ?>
+		<meta property="og:type" content="website" />
+	<?php endif; ?>
+
+	<meta property="og:title" content="<?php echo $title; ?>" />
+	<meta property="og:url" content="<?php the_permalink(); ?>" />
+	<meta property="og:description" content="<?php echo $excerpt; ?>" />
+	<meta property="og:site_name" content="<?php echo get_bloginfo(); ?>" />
+	<?php if ( $thumb_url && (( $thumb_width > 200 ) && ( $thumb_height > 200 ))) : ?>
+		<meta property="og:image" content="<?php echo $thumb_url; ?>" />
+		<meta property="og:image:alt" content ="<?php echo $title; ?>" />
+		<meta property="og:image:width" content="<?php echo $thumb_width; ?>"/>
+		<meta property="og:image:height" content="<?php echo $thumb_height; ?>"/>
+	<?php endif; ?>
+
+	<!-- Twitter Card data -->
+	<?php if (( $thumb_width > 300 ) && ( $thumb_height > 157 )) : ?>
+		<meta name="twitter:card" content="summary_large_image" />
+	<?php elseif (( $thumb_width > 144 ) && ( $thumb_height > 144 )) : ?>
+		<meta name="twitter:card" content="summary" />
+	<?php endif; ?>
+
+	<meta name="twitter:title" content="<?php echo $title; ?>" />
+	<meta name="twitter:description" content="<?php echo $excerpt; ?>" />
+	<?php if ( $thumb_url && (( $thumb_width > 144 ) && ( $thumb_height > 144 ))) : ?>
+		<meta name="twitter:image" content="<?php echo $thumb_url; ?>" />
+		<meta name="twitter:image:src" content="<?php echo $thumb_url; ?>" />
+		<meta name="twitter:image:alt" content="<?php echo $title; ?>" />
+	<?php endif; ?>
+	<?php // Action hook for apending additional meta tag
+		do_action( 'uw_social_media_meta_tags' ); ?>
+  <?php
+}
+
+add_action('wp_head', 'social_media_meta_tags');
+
+/**
+ *
+ * Add Google Search Console Site Verification Meta Tag
+ *
+ * https://support.google.com/webmasters/answer/35179
+ *
+ */
+
+if ( ! function_exists( 'uw_google_verification' ) ) {
+	function uw_google_verification() {
+		$uwmadison_google_console_id = get_theme_mod('uwmadison_google_console_id', false);
+		if (!$uwmadison_google_console_id)
+			return false;
+			echo '<meta name="google-site-verification" content="' . $uwmadison_google_console_id . '" />';
+	}
+}
+add_action('wp_head', 'uw_google_verification');

@@ -128,7 +128,7 @@ function my_acf_admin_head() {
 	.settings-gear:hover {
 		color: #b4b9be;
 	}
-	.acf-flexible-content .layout .acf-fc-layout-controlls .acf-icon.-plus, .acf-flexible-content .layout .acf-fc-layout-controlls .acf-icon.-minus {
+	.acf-flexible-content .layout .acf-fc-layout-controls .acf-icon.-plus, .acf-flexible-content .layout .acf-fc-layout-controls .acf-icon.-minus {
 		visibility: visible;
 	}
 
@@ -174,9 +174,6 @@ function my_acf_admin_head() {
 				layout_type = current_layout.attr('data-layout'),
 				settings_fields = [];
 
-			// show fields and values
-			//console.log( acf.serialize( current_layout ) );
-
 			// Show if layout is collapsed
 			if ( current_layout.hasClass('-collapsed') ) {
 				current_layout.removeClass('-collapsed');
@@ -208,18 +205,36 @@ function my_acf_admin_head() {
 
 			// Hide / Show fields
 			current_fields.each(function(){
-				if ($(this).hasClass('hidden-by-conditional-logic')) {
-					acf.conditional_logic.show_field($(this).fadeToggle("default", "linear"));
-				} else {
-					acf.conditional_logic.hide_field($(this).fadeToggle("default", "linear"));
+				// Toggle the hidden class
+				$(this).toggleClass('hidden-by-conditional-logic');
+
+				// If the current field is the background choice field, check the choice to see if it is "Upload Image"
+				if( $(this).attr('data-name') === 'background_choice' && $('select', this).val() === 'Upload Image' ){
+					// Get the background image field and toggle the hidden class
+					$('[data-name="background_image"]', $(this).parent() ).toggleClass('hidden-by-conditional-logic');
 				}
 			});
+		}
+
+		function toggleBackgroundImage(e){
+			// Get the field value
+			var value = e.target.value;
+
+			// Get the field group parent elmeent
+			var fieldGroup = $(e.target).parent().parent().parent();
+
+			// Show / Hide the field based on the value
+			if(value === "Upload Image"){
+				$('[data-name="background_image"]', fieldGroup).removeClass('hidden-by-conditional-logic');
+			} else {
+				$('[data-name="background_image"]', fieldGroup).addClass('hidden-by-conditional-logic');
+			}
 		}
 
 		acf.add_action('load', function( $el ) {
 			// Add settings button to any existing layouts
 			$('div[data-layout="one_column_content_layout"], div[data-layout="two_column_content_layout"], div[data-layout="three_column_content_layout"]').not('.acf-clone')
-				.find('> .acf-fc-layout-controlls:visible')
+				.find('> .acf-fc-layout-controls:visible')
 				.prepend(settings_button);
 			// Add click event to icon
 			$('.settings-gear').on('click.settings', function(e) { toggleSettings(e) });
@@ -232,15 +247,25 @@ function my_acf_admin_head() {
 				return confirm("Delete " + elementName + "?");
 			});
 
+			// Hide layout backgrounds
+			$('[data-name="background_image"]').addClass('hidden-by-conditional-logic');
+
+			$('[data-name="background_choice"]').on('change', function(e){ toggleBackgroundImage(e) });
+
 		});
 		acf.add_action('append', function( $el ) {
 			// Check for a layout and add settings button
 			$element = $el.attr('data-layout');
 			if ( ( $element == 'one_column_content_layout' ) || ( $element == 'two_column_content_layout' ) || ( $element == 'three_column_content_layout' ) ) {
-				$el.find('.acf-fc-layout-controlls').eq(0).prepend(settings_button);
+				$el.find('.acf-fc-layout-controls').eq(0).prepend(settings_button);
+
+				// $el.find('[data-name="background_image"]').removeClass('hidden-by-conditional-logic');
 			}
 			// Add click event to icon, in some cases the event as added twice with the predefined layout. The event is unbound first as a precaution.
 			$('.settings-gear').off('click.settings').on('click.settings', function(e) { toggleSettings(e) });
+
+			// Add change listener to new background selects
+			$('[data-name="background_choice"]').on('change', function(e){ toggleBackgroundImage(e) });
 
 		});
 
@@ -295,6 +320,8 @@ function page_layouts_meta_box_markup() {
 		 * and refreshing the page.
 		 */
 
+		var confirmClearMessage = "Are you sure want to reset your page layout?\n\nThis will delete any content that is currently in the Primary Content Area of the page and create an empty page template."
+
 
 		/**
 		 *
@@ -302,9 +329,18 @@ function page_layouts_meta_box_markup() {
 		 *
 		 */
 		function clearLayout() {
-			jQuery(".acf-field-56a66cfb6ddaf .layout[data-layout='one_column_content_layout']:not('.acf-clone') > .acf-fc-layout-controlls .-minus").trigger('click');
-			jQuery(".acf-field-56a66cfb6ddaf .layout[data-layout='two_column_content_layout']:not('.acf-clone') > .acf-fc-layout-controlls .-minus").trigger('click');
-			jQuery(".acf-field-56a66cfb6ddaf .layout[data-layout='three_column_content_layout']:not('.acf-clone') > .acf-fc-layout-controlls .-minus").trigger('click');
+			// Confirm the user wants to clear their layout
+			/*
+				ACF now asks to confirm that you wish to remove a layout
+				Thankfully you can actually just click the minus button twice to confirm this
+
+				So we now need to trigger the clicks twice to actually clear the fields
+			*/
+			for(var x = 0; x <= 1; x++){
+				jQuery(".acf-field-56a66cfb6ddaf .layout[data-layout='one_column_content_layout']:not('.acf-clone') > .acf-fc-layout-controls .-minus").trigger('click');
+				jQuery(".acf-field-56a66cfb6ddaf .layout[data-layout='two_column_content_layout']:not('.acf-clone') > .acf-fc-layout-controls .-minus").trigger('click');
+				jQuery(".acf-field-56a66cfb6ddaf .layout[data-layout='three_column_content_layout']:not('.acf-clone') > .acf-fc-layout-controls .-minus").trigger('click');
+			}
 		}
 
 		/**
@@ -316,7 +352,10 @@ function page_layouts_meta_box_markup() {
 		function addColumnContentLayout(columns) {
 			var dfd = new jQuery.Deferred();
 			setTimeout(function() {
-				acf.fields.flexible_content.add(columns + '_column_content_layout');
+				// acf.fields.flexible_content.add(columns + '_column_content_layout');
+				jQuery('[data-name="primary_content_area"] .acf-button[data-name="add-layout"]').trigger('click')
+				.next( jQuery('[data-layout="' + columns + '_column_content_layout"]').trigger('click') );
+				jQuery('.acf-fc-popup').remove();
 			dfd.resolve();
 			}, 300);
 			return dfd.promise();
@@ -340,18 +379,24 @@ function page_layouts_meta_box_markup() {
 		// 		One Column Content Layout
 		//			|--Text Block
 		jQuery('.default-layout').on('click', function() {
+			if(!confirm(confirmClearMessage)){ return false; }
+
 			// Always clear the layout before creating a new one.
 			clearLayout();
 			// Default layout
 			var promise = addColumnContentLayout('one');
 			promise.done(function() {
-				addPageElement('acf-field-56a8d83a184a9', 'text_block');
+				// addPageElement('acf-field-56a8d83a184a9', 'text_block');
+				jQuery('[data-name="one_column_page_elements"] .acf-button[data-name="add-layout"]').trigger('click')
+				.next( jQuery('.acf-tooltip [data-layout="text_block"]').trigger('click') )
 			});
 		});
 
 		// Two Column Layout:
 		// 		Two Column Content Layout (50-50)
 		jQuery('.two-col').on('click', function() {
+			if(!confirm(confirmClearMessage)){ return false; }
+
 			clearLayout();
 			// Two Column layout
 			addColumnContentLayout('two');
@@ -359,6 +404,8 @@ function page_layouts_meta_box_markup() {
 		// Two Column Layout:
 		// 		Two Column Content Layout (60-40)
 		jQuery('.two-col-60-40').on('click', function() {
+			if(!confirm(confirmClearMessage)){ return false; }
+
 			clearLayout();
 			// Two Column layout
 			var promise = addColumnContentLayout('two');
@@ -367,6 +414,8 @@ function page_layouts_meta_box_markup() {
 			});
 		});
 		jQuery('.two-col-40-60').on('click', function() {
+			if(!confirm(confirmClearMessage)){ return false; }
+
 			clearLayout();
 			// Two Column layout
 			var promise = addColumnContentLayout('two');
