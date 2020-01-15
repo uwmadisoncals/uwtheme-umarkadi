@@ -124,3 +124,16 @@ function uw_rss_feed( $atts ) {
     return false;
 }
 add_shortcode( 'uw-rss-feed', 'uw_rss_feed' );
+
+
+/**
+ * 
+ * Back to Top Button 
+ * 
+ * This shortcode adds a button that jumps a user back to the #main element
+ * 
+ */
+function uw_back_to_top_button_shortcode( $atts ) {
+    return '<a class="uw-more-link" href="#main">Back to top ' . get_svg('uw-symbol-caret-up') . '</a>';
+}
+add_shortcode( 'back-to-top', 'uw_back_to_top_button_shortcode' );

@@ -25,7 +25,7 @@ class Aria_Walker_Nav_Menu extends Walker_Nav_Menu {
     $indent = str_repeat("\t", $depth);
 
     // $output includes the menu output so far
-    // We want last menu item name for our aria-label 
+    // We want last menu item name for our aria-label
     // which will be returned by array_pop
     preg_match_all('/aria-expanded="false">([\w\s\p{P}]+)<svg/', $output, $matches);
     if (!empty($matches[1])) {
@@ -130,7 +130,7 @@ class Aria_Walker_Nav_Menu extends Walker_Nav_Menu {
     $item_output = $args->before;
     $item_output .= '<a'. $attributes .'>';
     /** This filter is documented in wp-includes/post-template.php */
-    $item_output .= $args->link_before . apply_filters( 'the_title', $item->title, $item->ID ) . $args->link_after;
+    $item_output .= apply_filters('uw_nav_link_text', $args->link_before . apply_filters( 'the_title', $item->title, $item->ID ) . $args->link_after);
     if ( in_array( 'menu-item-has-children', $item->classes ) && $depth < 1 ) {
       $item_output .= get_svg('uw-symbol-caret-down', array('aria-hidden' => 'true'));
       $item_output .= get_svg('uw-symbol-caret-up', array('aria-hidden' => 'true'));

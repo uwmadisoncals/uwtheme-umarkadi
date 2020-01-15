@@ -59,7 +59,13 @@ function output_page_elements() {
 			if ( !empty($action_hook_slug) )
 				do_action( $action_hook_slug );
 			break;
-		default: echo 'Page element not found';
+		default: 
+		// Allow child themes to register their own page builder elements
+		if(has_action(get_row_layout())) {
+			do_action(get_row_layout());
+		} else {
+			echo 'Page element not found';
+		}
 	}
 }
 

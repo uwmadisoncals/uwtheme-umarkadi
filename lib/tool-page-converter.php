@@ -6,11 +6,11 @@
  * @return void
  **/
 function add_page_converter_menu(){
-  $classic_pages = classic_wp_pages();
-
-  if ( !empty( $classic_pages ) ) {
-    add_theme_page( 'Convert Pages to Page Builder', 'Convert Pages', 'manage_options', 'uw-page-converter', 'convert_pages_page' );
-  }
+	$permission = ( ( is_multisite() && is_super_admin() ) || ( !is_multisite() && current_user_can('administrator') ) );
+	$permission = apply_filters( 'uw_add_page_converter_permission_filter', $permission );
+	if ( $permission ) {
+		add_theme_page( 'Convert Pages to Page Builder', 'Convert Pages', 'manage_options', 'uw-page-converter', 'convert_pages_page' );
+	}
 }
 add_action( 'admin_menu', 'add_page_converter_menu' );
 

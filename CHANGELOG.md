@@ -1,5 +1,85 @@
 # Change Log
 
+## [1.8.1] - 2019-01-09 
+
+### Fixed 
+
+* Fixed bug in the new Faculty/staff admin settings menu affecting standalone Wordpress sites (!451)
+
+## [1.8.0] - 2019-01-09 
+
+### Fixed 
+
+* Removed background color on accordion internal elements to ensure background is white regardless of content layout background. (!439)
+* Fixed an issue where hero carousel images were being miscounted when certain images were set to be hidden. (!440)
+
+### Added
+* Option to customize the slug of the Fac/Staff pages (!444)
+* Added the ability to hyperlink the tagline in the header with HTML. (!446)
+* ‘Back to Top’ option added to the text editor (!448)
+* Added support for “Reduce Motion” browser-defined accessibility setting (!352)
+
+### Updates
+* Changed hover behavior of focused tab in a Tabbed Grouping to have a white background, in order to better-differentiate from an active/selected tab. (!441)
+* Updated the styles for the `<code>` element to more closely match the `<pre>` element. (!435)
+* Removes the conditional logic that determines if the Page Converter and Theme Helper are included in the admin menu. (!422)
+* Updated the mobile menu button font to Verlag (!442)
+* Updated the social media icons (!443)
+* Refactor the `uw_acf_excerpt()` function to save the page builder auto-generated excerpt into a new post meta field rather than outputting it to the normal WordPress excerpt field. (!447)
+
+### Removed
+* Removed emoji support on very old browsers. (!406)
+
+## [1.7.0] - 2019-11-07
+
+### Fixed
+* Corrects the image size used in several page elements — Image, Image Gallery, Alternating Content Boxes.. This will prevent extremely large images from being displayed when smaller images suffice. (!418) (!419) (!421) (!426)
+
+### Added
+* Create new stylesheet to override styles in the wpDataTables plugin (!430)
+
+### Updates
+* Updates to the way the theme version is set on enqueued files and fixes version bump scripts. (!416)
+* Update node-sass to 4.12 (!423)
+* Removed styleguide files (!424)
+* Small change to make the height of page title minibars 6px (!425)
+* Update cookie consent to latest version (!431)
+
+## [1.6.0] - 2019-09-05
+
+### Fixed
+* Group of links page element
+    * Adds filter function to prevent the “more link” icon from begin orphaned on a line by itself. (!402)
+    * Replaces flexbox with the CSS property [column-count](https://developer.mozilla.org/en-US/docs/Web/CSS/column-count) for the group of links page element to prevent large gaps of white space in the layout. Note: List items do not display in logical order from left to right; column-count simply breaks an element’s content into the specific number of columns. (!405)
+* Centers Linkedin icon in faculty/staff listing within two-column and ensures bio content outputs within proper HTML tags.
+* Updates the Today’s Events page element to group events only by month, so that events in the same month but different years do not get grouped together. (!397)
+* Increases CSS specificity to ensure links inside of an accordion panel are blue regardless of whether the parent container has a background color. (!401) (!411)
+
+### Added
+* Adds a function to enqueue cookie consent script if the domain ends in wisc.edu. The function can be overwritten in the child theme. (!407)
+
+### Updates
+* Replaces hard-coded instances of the Verlag and Georgia font to use the UW Theme Sass variables to reduce duplicate code and allow developers to override variables, rather than specific CSS targets. (!394)
+
+
+## [1.5.0] - 2019-06-07
+
+### Fixed
+* Filter hero slides server side (!385)
+    * Filters out disabled heroes in PHP instead of SlickJS's Filter feature
+    * Leaves the uw-hero-enabled CSS class in place in case child themes are styling off it.
+    * Changes Windows line endings back to Linux line endings (they got messed up at some point).
+
+### Added
+Add action that allows child themes to render custom page builder blocks (!386)
+
+### Updates
+* Removed privacy from customizer (!382)
+    * Removed privacy policy section from the customizer Added filter to uwmadison_footer_privacy template tag so that privacy policy link can be changed by child theme developers.
+* Updated privacy notice URL and link text to reflect change from privacy notice…(!387)
+    * Updated privacy notice URL and link text to reflect change from privacy notice to privacy statement on wisc.edu website
+* Improved accessibility for accordion elements (!383)
+
 ## [1.4.1] - 2019-05-02
 
 ### Fixed
@@ -66,7 +146,7 @@
     * Adds role attribute of `navigation` to utility menu
     * Removes UW Crest logo from the tab order
     * Adds h2 header in footer only viewable to screen readers to improve semantic hierarchy of footer content
-* Accessibility improvements to decorative images (!316): 
+* Accessibility improvements to decorative images (!316):
     * Sets focus to false for SVGs to remove them for the tab order in IE11
     * Sets aria-hidden to true for caret symbols to hide them from screen readers
 * Fixes error caused when trying to render social media icons on a site with no posts (!341)
@@ -77,10 +157,10 @@
 
 
 ### Updates
-* Updates UW Events plugin to version 1.2.4 which secures the API by using HTTPS (!343) 
+* Updates UW Events plugin to version 1.2.4 which secures the API by using HTTPS (!343)
 * Updates Ruby version to 2.5.1 (!336)
 
-### Tests 
+### Tests
 Includes the addition and removal of test code in order for team to test automation processes (!324) (!325) (!326) (!327) (!328)
 
 ### Changed
@@ -88,22 +168,22 @@ Moves tag manager code snippet immediately after opening `<head>` element per Go
 
 ### Removed
 * Removes extraneous code from ACF json file (!321) (!329)
-* Removes extraneous span tags from social meta tags (!349) 
+* Removes extraneous span tags from social meta tags (!349)
 * Removes unclosed PHP tags from `lib/theme-helper-tool.php` (!340)
 * Removes unused Jekyll framework from project build tools (!336)
 
-### Hotfix 
+### Hotfix
 Adds code from hotfix that allows users to hide featured images from posts into the project (!318)
 
 
 ## [1.2.2] - 2018-05-15
 
-### Fixed 
+### Fixed
 * Refactor the functionality that hides the featured image (!306)
 
 ## [1.2.1] - 2018-05-15
 
-### Fixed 
+### Fixed
 * Remove filter that adds feature image checkbox on archive pages (!300)
 
 ## [1.2.0] - 2018-05-09

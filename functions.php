@@ -122,7 +122,7 @@ add_filter('acf/location/screen', 'acf_location_screen_options', 10, 2);
  *
  */
 $uwmadison_includes = array(
-	'lib/constants.php', //Constants 
+	'lib/constants.php', //Constants
 	'lib/custom-acf.php',
 	'lib/customizer.php',   // Theme customizer
 	'lib/custom-fields.php', // Advanced Custom Fields
@@ -134,7 +134,8 @@ $uwmadison_includes = array(
 	'lib/breadcrumbs.php',
 	'lib/tool-page-converter.php',
 	'lib/tool-theme-helper.php',
-	'lib/vendor/uw-madison-events-calendar/uwmadison_events.php'
+	'lib/vendor/uw-madison-events-calendar/uwmadison_events.php',
+	'lib/staff-settings.php' // staff settings admin page
 );
 
 foreach ($uwmadison_includes as $file) {
@@ -450,38 +451,41 @@ if ( ! function_exists( 'uwmadison_scripts' ) ) :
 	 *
 	 */
 	function uwmadison_scripts() {
+		$theme_version="1.8.1";
+
 		// enqueue UW fonts
-		wp_register_style( 'uwmadison-fonts', get_template_directory_uri() . '/dist/fonts/uw160/fonts.css', false, '1.4.1' );
+		wp_register_style( 'uwmadison-fonts', get_template_directory_uri() . '/dist/fonts/uw160/fonts.css', false, '1.0.0' );
 		wp_enqueue_style( 'uwmadison-fonts' );
 
 		// Add custom fonts, used in the main stylesheet.
-		wp_register_style( 'uwmadison-google-fonts', uwmadison_add_google_fonts(), false, '1.4.1' );
+		wp_register_style( 'uwmadison-google-fonts', uwmadison_add_google_fonts(), false, $theme_version );
 		wp_enqueue_style( 'uwmadison-google-fonts' );
 
 
-		wp_register_script( 'uwmadison-ie', get_template_directory_uri() . '/dist/js/polyfills/classList.js', false, '1.4.1', true );
+		wp_register_script( 'uwmadison-ie', get_template_directory_uri() . '/dist/js/polyfills/classList.js', false, '1.0.0', true );
 		wp_enqueue_script( 'uwmadison-ie' );
 		wp_script_add_data( 'uwmadison-ie', 'conditional', 'lt IE 10' );
 
 		// deregister WP's jQuery; register jQuery 2 for Foundation dependency
 		wp_deregister_script( 'jquery' );
-		wp_register_script( 'jquery', get_template_directory_uri() . '/dist/js/jquery/jquery.min.js' , false, '1.4.1', true );
+
+		wp_register_script( 'jquery', get_template_directory_uri() . '/dist/js/jquery/jquery.min.js' , false, '2.2.4', true );
 
 		// Theme assets.
 		if ( !WP_DEBUG ) {
-			wp_register_style( 'uwmadison-style', get_template_directory_uri() . '/dist/main.min.css' , false, '1.4.1' );
+			wp_register_style( 'uwmadison-style', get_template_directory_uri() . '/dist/main.min.css' , false, $theme_version );
 			wp_enqueue_style( 'uwmadison-style' );
-			wp_register_script( 'uwmadison-script', get_template_directory_uri() . '/dist/main.min.js', array('jquery'), '1.4.1', true );
+			wp_register_script( 'uwmadison-script', get_template_directory_uri() . '/dist/main.min.js', array('jquery'), $theme_version, true );
 			wp_enqueue_script( 'uwmadison-script' );
 		} else {
-			wp_register_style( 'uwmadison-style', get_template_directory_uri() . '/dist/main.css' , false, '1.4.1' );
+			wp_register_style( 'uwmadison-style', get_template_directory_uri() . '/dist/main.css' , false, $theme_version );
 			wp_enqueue_style( 'uwmadison-style' );
-			wp_register_script( 'uwmadison-script', get_template_directory_uri() . '/dist/main.js', array('jquery'), '1.4.1', true );
+			wp_register_script( 'uwmadison-script', get_template_directory_uri() . '/dist/main.js', array('jquery'), $theme_version, true );
 			wp_enqueue_script( 'uwmadison-script' );
 		}
 
 		// Load the Internet Explorer specific stylesheet.
-		wp_register_style( 'uwmadison-ie', get_template_directory_uri() . '/dist/css/ie.css', array( 'uwmadison-style' ), '1.4.1' );
+		wp_register_style( 'uwmadison-ie', get_template_directory_uri() . '/dist/css/ie.css', array( 'uwmadison-style' ), $theme_version );
 		wp_enqueue_style( 'uwmadison-ie' );
 		wp_style_add_data( 'uwmadison-ie', 'conditional', 'lt IE 10' );
 
@@ -493,6 +497,14 @@ if ( ! function_exists( 'uwmadison_scripts' ) ) :
 
 endif;
 add_action( 'wp_enqueue_scripts', 'uwmadison_scripts' );
+
+
+/**
+ * Remove support for Emoji styles
+ *
+ **/
+remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
+remove_action( 'wp_print_styles', 'print_emoji_styles' );
 
 
 /**
@@ -1096,14 +1108,12 @@ function uw_custom_404() {
 *
 *	Generate page builder page excerpt from ACF content
 *
-* Performs recursive search of ACF Page Builder to find
-* 'text_block_content' fields and uses them to construct
-* an excerpt in the event that the excerpt field was left
-* blank
+*   Performs recursive search of ACF Page Builder to find
+*   'text_block_content' fields and uses them to construct
+*   an auto generated excerpt that will be saved as post meta
+*   with the key "uw_acf_excerpt"
 *
 */
-
-// construct ACF excerpt
 function uw_acf_excerpt( $post_id ) {
 	global $post;
 	$post = get_post( $post_id );
@@ -1114,27 +1124,37 @@ function uw_acf_excerpt( $post_id ) {
 	if (!$uses_page_builder)
 		return;
 
-	$excerpt = trim(get_the_excerpt( $post_id ));
-	if ( $excerpt === '' ) {
-		ob_start();
-		uw_recursive_search(
-			array(
-				'array' => get_fields( $post_id ),
-				'key' => 'text_block_content'
-			)
-		);
-		$content = ob_get_clean();
-		remove_action( 'save_post', 'uw_acf_excerpt' );
-		wp_update_post(
-			array(
-				'ID'          	 => $post_id,
-				'post_excerpt'   => wp_trim_words( $content, 55 ),
-			)
-		);
-		add_action( 'save_post', 'uw_acf_excerpt' );
-	}
+    ob_start();
+    uw_recursive_search(
+        array(
+            'array' => get_fields( $post_id ),
+            'key' => 'text_block_content'
+        )
+    );
+    $content = ob_get_clean();
+    remove_action( 'save_post', 'uw_acf_excerpt' );
+    update_post_meta($post_id, 'uw_auto_excerpt', wp_trim_words( $content, 55 ));
+    add_action( 'save_post', 'uw_acf_excerpt' );
 }
 add_action( 'save_post', 'uw_acf_excerpt' );
+
+/**
+*
+*	Replace content of the excerpt with auto generated content (Pages only)
+*
+*   If the excerpt field is left blank any calls to "the_excerpt" or
+*   "get_the_excerpt" will return an auto generated excerpt.
+*
+*   The auto generated excerpt is saved as post meta with the key "uw_auto_excerpt"
+*
+*/
+function uw_auto_excerpt_filter($post_excerpt, $post){
+    if($post->post_type === 'page' && !has_excerpt($post->ID)) {
+        return get_post_meta($post->ID, 'uw_auto_excerpt', true);
+    }
+    return $post_excerpt;
+}
+add_filter('get_the_excerpt', 'uw_auto_excerpt_filter', null, 2);
 
 // perform recursive array search of ACF fields
 function uw_recursive_search( $fields ) {
@@ -1284,10 +1304,10 @@ function social_media_meta_tags(){
     $thumb = wp_get_attachment_image_src(get_post_thumbnail_id(get_the_ID()),'medium');
     $thumb_url = ( !empty($thumb[0]) ) ? $thumb[0] : false;
 	$thumb_height = ( !empty($thumb[2]) ) ? $thumb[2] : false;
-	$thumb_width = ( !empty($thumb[1]) ) ? $thumb[1] : false;
+    $thumb_width = ( !empty($thumb[1]) ) ? $thumb[1] : false;
 
-    if( $post->post_excerpt ) {
-      $excerpt = strip_tags($post->post_excerpt);
+    if( !has_excerpt($post->ID) ) {
+      $excerpt = strip_tags(get_the_excerpt($post->ID));
 	} elseif ( get_the_archive_description() ) {
 		$excerpt = get_the_archive_description();
 	} else {
@@ -1361,3 +1381,29 @@ if ( ! function_exists( 'uw_google_verification' ) ) {
 	}
 }
 add_action('wp_head', 'uw_google_verification');
+
+/*
+* Enqueues the cookie consent script. You can override this function in a
+* child theme to pass options to the script. Available options are:
+*  var options = {
+                 "enabled": true, // false disables the dialog
+                 "testing": false // set to true for development environments only
+              }
+*
+* Note that the script is only enqueued if the domain of the website ends
+* in wisc.edu. The script will not work as intended on other domains.
+*
+*/
+if(!function_exists('uwmadison_cookie_consent_script')) {
+	function uwmadison_cookie_consent_script() {
+		$url = get_home_url();
+		if(substr($url, -8, 8) === 'wisc.edu') {
+			$version = '1.0.1';
+			$url = 'https://cdn.wisc.cloud/cookie-consent/'.$version.'/uwcookieconsent.min.js';
+			wp_enqueue_script('uw-cookie-consent', $url, array(), $version, true);
+			$script = 'window.addEventListener("load", function(){window.cookieconsent.initialize()});';
+			wp_add_inline_script('uw-cookie-consent', $script, 'after');
+		}
+	}
+}
+add_action('wp_enqueue_scripts', 'uwmadison_cookie_consent_script');

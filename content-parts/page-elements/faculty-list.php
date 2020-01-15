@@ -149,21 +149,25 @@ if( get_posts($args) ) :
 		<?php endif;?>
 
 		<?php 
-				if ( $show_bio ) :
-				$biography_format = get_sub_field( 'biography_format' );
-				$biography_excerpt = trim( get_the_excerpt( $person->ID ) );
+		if ( $show_bio ) :
+			$biography_format = get_sub_field( 'biography_format' );
+			$biography_excerpt = trim( get_the_excerpt( $person->ID ) ); ?>
+
+			<div class="bio">
+			<?php 
 				if ( $biography_format == "excerpt" && $biography_excerpt !== '' ) :
 					// show excerpt
-					echo sprintf( '<p class="bio">%s</p>', get_the_excerpt( $person->ID ) );
+					echo '<p class="bio">' . get_the_excerpt( $person->ID )  . '</p>';
 				elseif ( $biography_format == "excerpt" && $biography_excerpt === '' ) :
 					// show truncated biography 
-					echo sprintf( '<p class="bio">%s</p>', wp_trim_words( get_field ( 'biography', $person->ID ), uwmadison_custom_excerpt_length( '' ) ) );
+					echo '<p class="bio">' . wp_trim_words( get_field ( 'biography', $person->ID ), uwmadison_custom_excerpt_length( '' ) ) . '</p>';
 				else :
 					// show biography 
-					echo sprintf( '<p class="bio">%s</p>', get_field( 'biography', $person->ID ) );
-				endif;
+					echo get_field( 'biography', $person->ID );  
+				endif; ?>
+			</div>
+			<?php
 		endif;
-		
 
 	if ($one_column_layout ) :
 		echo '</div></div>';

@@ -18,9 +18,24 @@ if( have_rows('hero_content', $page_id) ) :
     if($visible_slide):
       while ( have_rows('hero_content', $page_id) ) : the_row();
         if ( get_row_layout() == 'hero_carousel' ) :
-          $heros = get_sub_field('hero_carousel_repeater');
-          $hero_count = count($heros); //getRandomInt($hero_count)
-          $heros_randomize = ( get_sub_field('randomize_order') ) ? "initialSlide: getRandomInt($hero_count),": "";
+          $heroes = get_sub_field('hero_carousel_repeater');
+
+          // Count the number of hero images in the array that are not hidden.
+          $hero_count = 0;
+          if (
+            gettype($heroes) === 'array'
+            && count($heroes) > 0
+          ) {
+            foreach ($heroes as $hero) {
+              if (!$hero['disable_this_hero']) {
+                $hero_count += 1;
+              }
+            }
+          }
+
+          // If set to randomize, set the initial slide to pick a random integer.
+          $heroes_randomize = ( get_sub_field('randomize_order') ) ? "initialSlide: getRandomInt($hero_count),": "";
+
 					if ( $hero_count > 1 ) :
             if( !wp_script_is(get_template_directory_uri().'/dist/vendor/slick.min.js', 'enqueue') ) :
               // Register the Slick JavaScript library
@@ -46,14 +61,14 @@ if( have_rows('hero_content', $page_id) ) :
                   slidesToShow: 1,
                   slidesToScroll: 1,
                   arrows: true,
-									$heros_randomize
+                  $heroes_randomize
                   prevArrow: '<div class=\"uw-carousel-arrow-wrapper uw-carousel-arrow-wrapper-left\"><button type=\"button\" class=\"slick-prev uw-carousel-arrow\" aria-label=\"previous\">".preg_replace( "/\r|\n/", "", get_svg('uw-symbol-chevron-left') )."<span class=\"show-for-sr\">Previous</span></button></div>',
                   nextArrow: '<div class=\"uw-carousel-arrow-wrapper uw-carousel-arrow-wrapper-right\"><button type=\"button\" class=\"slick-next uw-carousel-arrow\" aria-label=\"next\">".preg_replace( "/\r|\n/", "", get_svg('uw-symbol-chevron-right') )."<span class=\"show-for-sr\">Next</span></button></div>',
                   dots:false,
                   mobileFirst:true,
                   draggable: false,
                   swipe: false,
-                }).slick('slickFilter', '.uw-hero-enabled');
+                });
               });";
               // WordPress 4.5 feature
               wp_add_inline_script( 'slick-js', $slick_opts );
@@ -64,15 +79,13 @@ if( have_rows('hero_content', $page_id) ) :
           <div class="uw-hero">
           <?php
           while ( have_rows('hero_carousel_repeater') ) : the_row();
+            if (get_sub_field('disable_this_hero') === true)
+              continue;
+
             $hero_layout = get_sub_field('hero_layout');
             $hero_image = get_sub_field('hero_image');
 
-            echo '<div'; // start of slide
-              // check if slide is disabled
-              if(!get_sub_field('disable_this_hero')) :
-                echo ' class="uw-hero-enabled"';
-              endif;
-            echo '>';
+            echo '<div  class="uw-hero-enabled">';
 
             echo wp_get_attachment_image( $hero_image, 'uw-hero');
 

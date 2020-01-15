@@ -26,7 +26,7 @@ $images = get_sub_field('image_gallery');
 if ( $images ) :
 	echo '<div class="image-gallery">';
 	foreach ($images as $image) :
-		$image_attributes = wp_get_attachment_image_src( $image['id'], 'full' ); ?>
+		$image_attributes = wp_get_attachment_image_src( $image['id'], 'medium_large' ); ?>
 		<div class="image-gallery-item">
       <div class="image-gallery-content">
         <div class="image-gallery-content-image">

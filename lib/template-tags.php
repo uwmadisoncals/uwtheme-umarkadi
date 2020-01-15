@@ -254,18 +254,14 @@ endif;
 
 if ( ! function_exists( 'uwmadison_footer_privacy' ) ) :
   /**
-   * Prints privacy statement link based on option
-   * set via the Customizer.
+   * Prints privacy statement link in the footer
    *
    **/
   function uwmadison_footer_privacy() {
-    $uwmadison_privacy_link = get_theme_mod( "uwmadison_privacy_link" );
 
-    // if the link has not been set, use the home page privacy statement
-    if (empty($uwmadison_privacy_link)) {
-        $uwmadison_privacy_link = UW_PRIVACY_STATEMENT_URL;
-    }
-    $output = '<a href="'.$uwmadison_privacy_link.'">Privacy Statement</a>';
+    $uwmadison_privacy_link = apply_filters('uwmadison_privacy_link', UW_PRIVACY_STATEMENT_URL);
+
+    $output = '<a href="'.$uwmadison_privacy_link.'">Privacy Notice</a>';
     return $output;
   }
 endif;
@@ -348,4 +344,17 @@ function no_social_links($uwmadison_social) {
     }
     return true;
   }
+}
+
+/**
+* Helper function to prevent svg from being orphaned at end of link when
+* window size changes
+*/
+function uw_prevent_link_orphan($link) {
+  $link_parts = explode(' <svg', $link);
+  if(count($link_parts) > 1) {
+    $link_parts[0] = trim(preg_replace('/(\s+\w+?)$/', '<span class="uw-nowrap">$1', ' '.$link_parts[0]));
+    $link = implode('<svg', $link_parts).'</span>';
+  }
+  return $link;
 }

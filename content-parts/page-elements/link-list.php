@@ -13,8 +13,6 @@ if ( $use_menu != 'Yes' ) {
       <?php while ( have_rows('links_group') ) : the_row();
         $kind_of_link = get_sub_field('kind_of_link');
         $link_name = get_sub_field('link_display_name');
-
-
         if ($kind_of_link == 'External Link'){
           $link_location = get_sub_field('external_link_location');
         }else if($kind_of_link == 'Internal Link') {
@@ -26,7 +24,7 @@ if ( $use_menu != 'Yes' ) {
 
         <li>
           <a href="<?php echo $link_location; ?>">
-            <?php echo $link_name . ' ' . get_svg('uw-symbol-more', array("aria-hidden" => "true")); ?>
+            <?php echo uw_prevent_link_orphan($link_name . ' ' . get_svg('uw-symbol-more', array("aria-hidden" => "true"))); ?>
           </a>
         </li>
       <?php endwhile; ?>
@@ -42,6 +40,7 @@ if ( $use_menu != 'Yes' ) {
 
   $menu = get_sub_field('select_menu');
   $arrows = ' ' . get_svg('uw-symbol-more', array("aria-hidden" => "true", "no_title_id" => true));
+  add_filter('uw_nav_link_text', 'uw_prevent_link_orphan');
   wp_nav_menu(
     array(
       'menu' => $menu->name,
@@ -53,4 +52,5 @@ if ( $use_menu != 'Yes' ) {
       'fallback_cb' => false
     )
   );
+  remove_filter('uw_nav_link_text', 'uw_prevent_link_orphan');
 }

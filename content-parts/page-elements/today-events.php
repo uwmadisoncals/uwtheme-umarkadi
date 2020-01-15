@@ -14,7 +14,7 @@ if ( ! function_exists( 'my_uw_events_group_by' ) ) :
 	 * @return String PHP strftime format string (http://php.net/manual/en/function.strftime.php)
 	 */
 	function my_uw_events_group_by($group_by) {
-		return "%B";
+		return "%B %Y";
 	}
 	add_filter('uwmadison_events_group_by', 'my_uw_events_group_by');
 endif;
@@ -27,10 +27,20 @@ if (!empty($header))
 
 // loop through events; events will be grouped by month
 if (!empty(array_filter($event_feed->data))) {
+
+	// check first and last group; if years differ, show year in group label
+	$keys = array_keys($event_feed->data['grouped']);
+	$firstGroup = $keys[0];
+	$lastGroup = $keys[count($keys)-1];
+	$start_year = substr($firstGroup, -4);
+	$end_year = substr($lastGroup, -4);
+	$showYear = ($start_year == $end_year) ? false : true;
+
 	echo '<ul class="uw-events">';
-	foreach ($event_feed->data['grouped'] as $month => $events) {
+	foreach ($event_feed->data['grouped'] as $monthYear => $events) {
+		$groupLabel = ($showYear) ? $monthYear : substr_replace($monthYear, '', -5) ;
 		if ( !empty($events) ) {
-			echo '<li><span class="uw-event-month">' . $month . '</span>';
+			echo '<li><span class="uw-event-month">' . $groupLabel . '</span>';
 				echo '<ul class="uw-events">';
 
 				foreach ($events as $event) {

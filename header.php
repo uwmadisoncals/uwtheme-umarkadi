@@ -37,6 +37,7 @@
 		// get theme mods
 	  $uwmadison_title_style = get_theme_mod('uwmadison_main_title_color','uw-red-title');
 		$uwmadison_header_style = get_theme_mod('uwmadison_header_style','uw-white-top-bar');
+		$uwmadison_tagline_url = get_theme_mod('uwmadison_tagline_url', null);
 	?>
 </head>
 
@@ -70,7 +71,14 @@
 					<<?php echo $title_tag; ?> id="site-title" class="uw-site-title <?php echo $uwmadison_title_style;?> ">
 						<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php echo get_bloginfo( 'name', 'display' ); ?></a>
 					</<?php echo $title_tag; ?>>
-					<?php $tagline = get_bloginfo( 'description', 'display' ); ?>
+
+					<?php 
+						$tagline = get_bloginfo( 'description', 'display' ); 
+						if ( !empty($tagline) && !empty($uwmadison_tagline_url) ) {
+						 	$tagline = '<a href="' . esc_url($uwmadison_tagline_url) . '">' . $tagline . '</a>';
+						 } 
+					?>
+
 					<?php if (!empty($tagline)) { ?>
 						<div id="site-description" class="uw-site-tagline"><?php echo $tagline ?></div>
 					<?php } ?>

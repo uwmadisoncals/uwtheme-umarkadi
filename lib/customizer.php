@@ -52,11 +52,18 @@ function uwmadison_customize_register( $wp_customize ) {
 		'title'       => __( 'Custom 404 Page', 'uw-theme' ),
 		'priority'    => 165
   ) );
-  $wp_customize->add_section( 'uwmadison_privacy_statement' , array(
-		'title'       => __( 'Custom Privacy Statement', 'uw-theme' ),
-		'priority'    => 160
-  ) );
 
+
+  // Add colors and typography settings and controls
+  $wp_customize->add_setting( 'uwmadison_tagline_url', array(
+    'default'           => $defaults['uwmadison_tagline_url'],
+    'sanitize_callback' => 'esc_url_raw'
+  ) );
+  $wp_customize->add_control( 'uwmadison_tagline_url', array(
+    'section'    => 'title_tagline',
+    'label' => 'Tagline URL',
+    'capability'        => 'edit_theme_options',
+  ) );
 
   // Add colors and typography settings and controls
   $wp_customize->add_setting( 'uwmadison_main_title_color', array(
@@ -305,17 +312,7 @@ function uwmadison_customize_register( $wp_customize ) {
     'label'      => 'Use breadcrumbs on this site',
     'type'       => 'checkbox'
   ) );
-  // adds privacy link section
-  $wp_customize->add_setting( 'uwmadison_privacy_link', array(
-    'sanitize_callback' => 'validate_privacy_url',
-    'transport' => 'postMessage'
-  ) );
-  $wp_customize->add_control( 'uwmadison_privacy_link', array(
-    'section'    => 'uwmadison_privacy_statement',
-    'label' => 'Custom Privacy Statement URL',
-    'type' => 'url',
-    'description' => 'Enter the URL to the custom privacy statement for your website, which will be displayed in the footer. Leave blank to display the link to the <a href="'.UW_PRIVACY_STATEMENT_URL.'">privacy statement</a> on the main UW–Madison website.'
-  ) );
+
 
 	// add custom 404 page options
 	$wp_customize->add_setting( 'uwmadison_404_page_id' );
@@ -330,22 +327,6 @@ function uwmadison_customize_register( $wp_customize ) {
 }
 add_action( 'customize_register', 'uwmadison_customize_register' );
 
-/**
-* Validates a URL entered in the custom privacy URL field.
-* If not empty and valid, the value is escaped before saving to db
-*/
-function validate_privacy_url($value) {
-  $value = trim($value);
-  if(empty($value)) {
-    return $value;
-  }
-  else if(filter_var($value, FILTER_VALIDATE_URL)) {
-    return esc_url_raw($value);
-  }
-  else  {
-    return new WP_Error('invalidurl', __('Enter a valid URL', 'uw-theme'));
-  }
-}
 
 /**
  * Returns the default options for UW-Madison.
@@ -355,6 +336,7 @@ function validate_privacy_url($value) {
  */
 function uwmadison_get_default_theme_mods() {
   $default_theme_mods = array(
+    'uwmadison_tagline_url' => null,
     'uwmadison_header_style' => 'uw-white-top-bar',
     'uwmadison_main_title_color' => 'uw-red-title',
     'uwmadison_body_bg' => 'uw-white-bg',

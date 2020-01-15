@@ -24,7 +24,7 @@ if(get_sub_field('alternating_content_area_headline')) {
     </div>
     <div class="alternating-content-box">
       <?php if($image):?>
-        <img src="<?php echo $image['sizes']['uw-3x2']; ?>" alt="<?php echo $image['alt'] ?>" />
+        <img src="<?php echo $image['sizes']['uw-2panel-slider']; ?>" alt="<?php echo $image['alt'] ?>" />
       <?php endif; ?>
     </div>
   </div>

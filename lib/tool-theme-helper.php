@@ -6,7 +6,9 @@
  * @return void
  **/
 function add_migration_helper_menu(){
-    if( uw_has_acf_posts() || uw_has_templates_set() ){
+		$permission = ( ( is_multisite() && is_super_admin() ) || ( !is_multisite() && current_user_can('administrator') ) );
+		$permission = apply_filters( 'uw_add_theme_helper_permission_filter', $permission );
+    if( $permission ){
         add_theme_page( 'Theme Helper', 'Theme Helper', 'manage_options', 'uw-theme-helper', 'theme_helper_page' );
     }
 }
